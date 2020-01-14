@@ -1,0 +1,72 @@
+$gold : #FFB143;
+$white: #EFEBE4;
+$lightgrey: #D9D2C6;
+$montserrat: 'Montserrat', sans-serif;
+
+
+body {
+    background-color: #344652;
+    .loginWrapper{
+        
+        .loginBlock {
+            width: 300px;
+            height: 190px;
+            background-color: $lightgrey;
+            margin: 100px auto 0px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: auto;
+            form {
+                // margin: auto;
+                .info-line {
+                    margin-top: 15px;
+                    label {
+                        font-family: $montserrat;
+                        font-size: 12px;
+                        line-height: 12px;
+                        color: rgba(52, 70, 82, 0.5);
+                        padding-left: 3px;
+                    }
+                    
+                    input {
+                        font-family: $montserrat;
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: #101F2A;
+                        background: none;
+                        border: none;
+                        border-bottom: 1px solid rgba(52, 70, 82, 0.5);
+                        padding-left: 3px;
+                        width: 100%;
+                        outline: none;
+                    }
+
+                    input:focus, input:active {
+                        background-color: rgb(219, 188, 134);
+                    }
+
+                }
+
+                .loginButtons {
+                    margin-top: 10px;
+                    display: flex;
+                    justify-content: space-between;
+                    button {
+                        background: #344652;
+                        border: none;
+                        padding: 5px;
+                        color: $white;
+                        font-size: 16px;
+                        border-radius: 3px;
+                        a {
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

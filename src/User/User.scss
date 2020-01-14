@@ -1,0 +1,128 @@
+$gold : #FFB143;
+$text-color: #101F2A;
+$white: #EFEBE4;
+$lightgrey: #D9D2C6;
+$montserrat: 'Montserrat', sans-serif;
+
+.User {
+
+    display: flex;
+    background-image: linear-gradient(0deg, #344652 0%, #101F2A 100%);
+    @media (max-width: 767px) {
+        display: block;
+        position: relative;
+    }
+
+    .module {
+        margin: 0 auto;
+        width: 100%;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        font-display: column;
+        transition: 0.5s;
+        .header {
+            background-color: $gold;
+            height: 60px;
+            padding: 10px 16px;
+            font-family: $montserrat;
+            font-size: 24px;
+            line-height: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #101F2A;
+            box-shadow: 0px 2px 4px rgba(20, 34, 44, 0.498019);
+            .burger {
+                width: 24px;
+                button {
+                    background: none;
+                    border: none;
+                    font-size: 20px;
+                    line-height: 28px;
+                    cursor: pointer;
+                }
+            }
+            .center {
+                text-align: center;
+                width: calc(100% - 48px);
+            }
+            .option {
+                width: 24px;
+                button {
+                    background: none;
+                    border: none;
+                    font-size: 20px;
+                    line-height: 28px;
+                    cursor: pointer;
+                    a {
+                        color: #000;
+                    }
+                }
+            }
+        }
+        .user-info {
+            background-color: #EFEBE4;
+            padding: 0px 16px 30px 16px;
+            display: flex;
+            flex-direction: column;
+            .photo {
+                display: flex;
+                justify-content: center;
+                padding: 17px 0px 17px 0px;
+                img {
+                    width: 128px;
+                    height: 128px;
+                    border-radius: 50%;
+                }
+            }
+            .title {
+                .name {
+                    font-family: $montserrat;
+                    font-size: 24px;
+                    line-height: 24px;
+                    color: $text-color;
+                    text-align: center;
+                }
+                .info {
+                    font-family: $montserrat;
+                    font-size: 16px;
+                    line-height: 16px;
+                    color: $text-color;
+                    text-align: center;
+                    width: 70%;
+                    margin: 0 auto;
+                }
+            }
+            .phone, .email, .birthday, .position, .name, .surname {
+                .tag {
+                    font-family: $montserrat;
+                    font-size: 12px;
+                    line-height: 12px;
+                    color: rgba(52, 70, 82, 0.5);
+                }
+                .data {
+                    font-family: $montserrat;
+                    font-size: 16px;
+                    line-height: 24px;
+                    color: $text-color;
+                }
+            }
+        }
+    }
+}
+
+// .Contacts.open {
+//     .Sidebar {
+//         @media (max-width: 767px) {
+//             transform: translateX(-100%);
+//             transition: 0.5s;
+//         }   
+//     }
+//     .module {
+//         @media (max-width: 767px) {
+//             display: block;
+//             transition: 0.5s;
+//         }   
+//     }
+// }

@@ -1,0 +1,185 @@
+$gold : #FFB143;
+$white: #EFEBE4;
+$lightgrey: #D9D2C6;
+$montserrat: 'Montserrat', sans-serif;
+
+body {
+    
+    .Contacts {
+        background-color: #344652 ;
+        display: flex;
+        background-image: linear-gradient(0deg, #344652 0%, #101F2A 100%);
+        @media (max-width: 767px) {
+            display: block;
+            position: relative;
+        }
+    
+        .module {
+            width: calc(100% - 320px);
+            min-height: 100vh;
+            height: auto;
+            background-color: #EFEBE4;
+            display: flex;
+            flex-direction: column;
+            transition: 0.5s;
+            @media (max-width: 767px) {
+                display: none;
+                position: absolute;
+                width: 100%;
+                z-index: 5;
+                transition: 0.5s;
+            }
+            .header {
+                background-color: $gold;
+                height: 60px;
+                padding: 0px 16px;
+                font-family: $montserrat;
+                font-size: 20px;
+                line-height: 28px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: #101F2A;
+                box-shadow: 0px 2px 4px rgba(20, 34, 44, 0.498019);
+                .burger {
+                    display: none;
+                    width: 24px;
+                    @media (max-width: 767px) {
+                        display: block;
+                    } 
+                    button {
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        line-height: 28px;
+                        cursor: pointer;
+                    }
+                }
+                .center {
+                    text-align: center;
+                    width: calc(100% - 48px);
+                }
+                .option {
+                    width: 24px;
+                    button {
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        line-height: 28px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .content {
+                background-color: #EFEBE4;
+                padding: 0px 16px;
+                // height: calc(100vh - 60px);
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: flex-start;
+                .contact {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin: 16px 0px 8px 0px;
+                    width: 30%;
+                    padding-bottom: 40px;
+                    @media (max-width: 1023px) {
+                        width: 100%;
+                    }
+                    .photo {
+                        width: 48px;
+                        img {
+                            width: 48px;
+                            height: 48px;
+                            border-radius: 50%;
+                            border: 2px solid $gold;
+                            box-sizing: border-box;
+                        }
+                    }
+                    .data {
+                        width: calc(100% - 68px);
+                        margin-left: 5px;
+                        cursor: pointer;
+                        .name{
+                            font-family: $montserrat;
+                            font-size: 16px;
+                            line-height: 16px;
+                            text-decoration: none;
+                            color: #000;
+                        }
+                        .age {
+                            font-size: 12px;
+                            line-height: 15px;
+                            color: #747E85;
+                        }
+                    }
+                    .menu {
+                        position: relative;
+                        width: 20px;
+                        .drop-down {
+                            color: #747E85;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                        }
+                        .drop-down-content {
+                            display: none;
+                            position: absolute;
+                            left: -20px;
+                            background: rgb(180, 190, 197);
+                            
+                            .block {
+                                cursor: pointer;
+                            }
+                            .block:hover {
+                                color: green;
+                            }
+                            a {
+                                color: #101F2A;
+                                text-decoration: none;
+                                text-align: center;
+                            }
+                            
+                        }
+
+                        .drop-down-content:hover {
+                            display: block;
+                        }
+
+                        .drop-down:hover + .drop-down-content{
+                            display: block;
+                        }
+                    }
+    
+                    // .menu.active {
+                    //     .drop-down-content {
+                    //         display: flex;
+                    //         flex-direction: column;
+                    //         justify-content: center;
+                    //     }
+                    // }
+                }
+            }
+        }
+    }
+    
+    .Contacts.open {
+        .Sidebar {
+            @media (max-width: 767px) {
+                transform: translateX(-100%);
+                transition: 0.5s;
+            }   
+        }
+        .module {
+            @media (max-width: 767px) {
+                display: block;
+                transition: 0.5s;
+            }   
+        }
+    }
+
+
+}
+
