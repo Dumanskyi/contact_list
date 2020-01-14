@@ -46,9 +46,12 @@ class Login extends Component {
         console.log(login_data.message);
 
         // проверить если ошибка в первом запросе, if не делаьть
-        const rowData = await fetch_request(urlContacts, "GET");
-        console.log(rowData);
-        prop.addUsers(rowData);
+
+        // const rowData = await fetch_request(urlContacts, "GET");
+        // console.log(rowData);
+        // prop.addUsers(rowData);
+
+        
         prop.history.push("/contacts");
       }
     } catch (e) {
@@ -111,8 +114,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addUsers: allContacts =>
-      dispatch({ type: "ALL_CONTACTS", payload: allContacts }),
+    addUsers: allContacts => dispatch({ type: "ALL_CONTACTS", payload: allContacts }),
     addUser: newUser => dispatch({ type: "ADD_USER", payload: newUser })
   };
 }
