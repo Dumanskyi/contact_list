@@ -93,7 +93,7 @@ class Login extends Component {
                   Registration
                 </NavLink>
               </button>
-              <button type="submit">Loginn</button>
+              <button type="submit">Login</button>
             </div>
           </form>
         </div>
