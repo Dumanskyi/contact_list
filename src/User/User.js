@@ -10,9 +10,7 @@ const User = (props) => {
   const usersData = props.myFullContacts;
 
   const userData = usersData.find(user => user._id === userId);
-  console.log(props);
-  console.log(props.myFullContacts);
-  console.log(userData);
+  
   return (
     <div className="User">
     

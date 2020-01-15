@@ -238,8 +238,8 @@ class Add extends Component {
                         />
                       </div>
 
-
                   </div>
+                  
 
                   <div className='info-line'>
                     <label htmlFor="position">Position</label><br />

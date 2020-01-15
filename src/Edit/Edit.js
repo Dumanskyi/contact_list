@@ -12,14 +12,25 @@ class Edit extends Component {
     const usersData = this.props.myFullContacts;
     const userData = usersData.find(user => user._id === userId);
 
+    console.log(userId)
+    console.log(usersData)
+    console.log(userData)
+
     this.state = userData;
+    
+
+    this.state.year = userData.bornDate.slice(0,4);
+    this.state.month = userData.bornDate.slice(5,7);
+    this.state.date = userData.bornDate.slice(8,10);
 
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeSurname = this.onChangeSurname.bind(this);
     this.onChangePhone = this.onChangePhone.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
 
-    this.onChangeBornDate = this.onChangeBornDate.bind(this);
+    this.onChangeYear = this.onChangeYear.bind(this);
+    this.onChangeMonth = this.onChangeMonth.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangePosition = this.onChangePosition.bind(this);
     this.onChangeInformation = this.onChangeInformation.bind(this);
 
@@ -46,8 +57,16 @@ class Edit extends Component {
     this.setState({ email: event.target.value });
   }
 
-  onChangeBornDate(event) {
-    this.setState({ bornDate: event.target.value });
+  onChangeYear(event) {
+    this.setState({ year: event.target.value });
+  }
+
+  onChangeMonth(event) {
+    this.setState({ month: event.target.value });
+  }
+
+  onChangeDate(event) {
+    this.setState({ date: event.target.value });
   }
 
   onChangePosition(event) {
@@ -69,13 +88,15 @@ class Edit extends Component {
       surname: this.state.surname,
       phone: this.state.phone,
       email: this.state.email,
-      bornDate: this.state.bornDate.slice(0,10),
+      bornDate: `${this.state.year}-${this.state.month}-${this.state.date}`, 
       position: this.state.position,
-      information: this.state.information
+      information: this.state.information,
+      // date: this.state.date,
+      // month: this.state.month,
+      // year: this.state.year,
     };
 
     user._id = userID;
-
     fetch_request(urlUser, "PUT", user).then(function(data) {
 
       let obj = {
@@ -170,18 +191,51 @@ class Edit extends Component {
                   />
                 </div>
 
-                <div className="info-line">
-                  <label htmlFor="bornDate">Birthday</label>
-                  <br />
-                  <input
-                    type="text"
-                    id="bornDate"
-                    name="bornDate"
-                    placeholder="Type birthday"
-                    value={this.state.bornDate.slice(0, 10)}
-                    onChange={this.onChangeBornDate}
-                  />
-                </div>
+                <div className='info-line'>Birthday date</div>
+                  <div className='info-birthday'>
+                     <div className='date-block'>
+                    
+                        <input
+                          required
+                          maxLength="4"
+                          type="text" 
+                          id="year" 
+                          name="year" 
+                          placeholder="yyyy"
+                          value={this.state.year}
+                          onChange={this.onChangeYear}
+                        />
+                      </div>
+
+                      <div className='date-block'>
+                        
+                        <input
+                          required
+                          maxLength="2"  
+                          type="text" 
+                          id="month" 
+                          name="month" 
+                          placeholder="mm"
+                          value={this.state.month}
+                          onChange={this.onChangeMonth}
+                        />
+                      </div>
+
+                      <div className='date-block'>
+                        
+                        <input
+                          required
+                          maxLength="2" 
+                          type="text" 
+                          id="date" 
+                          name="date" 
+                          placeholder="dd"
+                          value={this.state.date}
+                          onChange={this.onChangeDate}
+                        />
+                      </div>
+
+                  </div>
 
                 <div className="info-line">
                   <label htmlFor="position">Position</label>
