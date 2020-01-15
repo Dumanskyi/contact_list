@@ -44,12 +44,8 @@ class Login extends Component {
           document.cookie = `${login_data.cookie.name}=${login_data.cookie.value};path=/`;
         }
         console.log(login_data.message);
-
-        // проверить если ошибка в первом запросе, if не делаьть
-        const rowData = await fetch_request(urlContacts, "GET");
-        console.log(rowData);
-        prop.addUsers(rowData);
         prop.history.push("/contacts");
+        
       }
     } catch (e) {
       console.error(e);
@@ -93,7 +89,7 @@ class Login extends Component {
                   Registration
                 </NavLink>
               </button>
-              <button type="submit">Loginn</button>
+              <button type="submit">Login</button>
             </div>
           </form>
         </div>
@@ -111,42 +107,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addUsers: allContacts =>
-      dispatch({ type: "ALL_CONTACTS", payload: allContacts }),
     addUser: newUser => dispatch({ type: "ADD_USER", payload: newUser })
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
-// axios.post(urlLogin, loginData, {
-//   headers: {
-//     "Content-Type": "application/json"
-//   }
-// }).then(response => {
-//   console.log(response)
-
-//   if (response.cookie) {
-//       document.cookie = `${response.cookie.name}=${response.cookie.value};path=/`;
-//   }
-
-//   alert(response.data.message);
-//   // this.props.history.push('/contacts');
-// })
-
-// let users = [
-//   {
-//   _id: "5e021829204dbd15b86e5911", name: "User_6wsex", surname: "Test"
-//   },
-//   {
-//     _id: "5e01f54f204dbd15b86e5910", name: "User_2m4p3q", surname: "Test"
-//   }
-// ];
-
-// function mapDispatchToProps(dispatch){
-//   return {
-//     openSideBar: () => dispatch({type: 'OPEN'}),
-//     closeSideBar: () => dispatch({type: 'CLOSE'}),
-//     addUser: (newUser) => dispatch({type: 'ADD_USER', payload: newUser})
-//   }
-// }

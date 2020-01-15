@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Contacts.scss";
 import { connect } from "react-redux";
 import Sidebar from "../SideBar/Sidebar";
+import { fetch_request } from "../common/helpers";
 
 class Contacts extends Component {
   constructor(props) {
@@ -14,6 +15,17 @@ class Contacts extends Component {
 
     this.delete = this.delete.bind(this);
     this.readContact = this.readContact.bind(this);
+  }
+
+  componentWillMount() {
+
+    const prop = this.props;
+
+    const urlContacts = "phonebook";
+    fetch_request(urlContacts, "GET").then(function(data) {
+      console.log(data);
+      prop.addUsers(data);
+    });
   }
 
   delete(userID) {
@@ -40,8 +52,6 @@ class Contacts extends Component {
     const urlRead = "phonebook/" + userID;
     const prop = this.props;
 
-    // let index = prop.myFullContacts.findIndex(el => el._id === userID);
-    // if (index === -1) {
       fetch(urlRead, {
         method: "GET",
         headers: {
@@ -56,18 +66,12 @@ class Contacts extends Component {
           prop.history.push(`/user/${userID}`);
           console.log(prop);
         });
-    // } else {
-    //   prop.history.push(`/user/${userID}`);
-    //   console.log(prop);
-    // }
   }
 
   editContact(userID) {
     const urlRead = "/phonebook/" + userID;
     const prop = this.props;
 
-    // let index = prop.myFullContacts.findIndex(el => el._id === userID);
-    // if (index === -1) {
       fetch(urlRead, {
         method: "GET",
         headers: {
@@ -82,10 +86,7 @@ class Contacts extends Component {
           prop.history.push(`/edit/${userID}`);
           console.log(prop);
         });
-    // } else {
-    //   prop.history.push(`/edit/${userID}`);
-    //   console.log(prop);
-    // }
+    
   }
 
   render() {
@@ -176,11 +177,9 @@ function mapDispatchToProps(dispatch) {
     openSideBar: () => dispatch({ type: "OPEN" }),
     closeSideBar: () => dispatch({ type: "CLOSE" }),
     deleteUser: userID => dispatch({ type: "DELETE_USER", payload: userID }),
-    getUserFullInfo: userData =>
-      dispatch({ type: "GET_USER_FULL_INFO", payload: userData })
+    getUserFullInfo: userData => dispatch({ type: "GET_USER_FULL_INFO", payload: userData }),
+    addUsers: allContacts => dispatch({ type: "ALL_CONTACTS", payload: allContacts }),
   };
 }
-
-// addUser: (newUser) => dispatch({type: 'ADD_USER', payload: newUser})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

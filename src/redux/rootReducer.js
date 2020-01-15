@@ -45,9 +45,8 @@ export default function rootReducer(state = initialState, action) {
       return { ...state, myContacts: contacts };
 
     case "ALL_CONTACTS":
-      let allContacts = [...state.myContacts, ...action.payload];
+      let allContacts = [...action.payload];
       return { ...state, myContacts: allContacts };
-  
 
     default:
       return state;

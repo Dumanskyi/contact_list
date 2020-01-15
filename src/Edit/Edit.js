@@ -76,12 +76,7 @@ class Edit extends Component {
 
     user._id = userID;
 
-    console.log(userID);
-    console.log(urlUser);
-    console.log(user);
-
     fetch_request(urlUser, "PUT", user).then(function(data) {
-      console.log(data);
 
       let obj = {
         data,

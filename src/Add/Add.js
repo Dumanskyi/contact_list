@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Add.scss';
 import Sidebar from '../SideBar/Sidebar';
 import {connect} from 'react-redux';
+import { fetch_request } from "../common/helpers";
 
 class Add extends Component {
 
@@ -81,24 +82,26 @@ class Add extends Component {
       information: this.state.information,
     };
 
-    fetch(urlUser, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        let userObject = user;
-        userObject._id = data.id
-        prop.addUser(userObject);
-      });
+
+
+    fetch_request(urlUser, "POST", user).then(function(data) {
+      console.log(data);
+
+      // let obj = {
+      //   data,
+      //   Id : userID
+      // }
+
+      let userObject = user;
+      userObject._id = data.id;
+
+      prop.addUser(userObject);
+      prop.history.push("/contacts");
+    });
+
+
     
-    console.log(this.props);
-    this.props.history.push('/contacts');    
+
   }
 
   
