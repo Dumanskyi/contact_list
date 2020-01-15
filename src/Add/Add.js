@@ -15,7 +15,10 @@ class Add extends Component {
       email: '', 
       bornDate: '', 
       position: '', 
-      information: ''
+      information: '',
+      date: '',
+      month: '',
+      year: ''
     };
 
     
@@ -24,7 +27,10 @@ class Add extends Component {
     this.onChangePhone = this.onChangePhone.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
 
-    this.onChangeBornDate = this.onChangeBornDate.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeMonth = this.onChangeMonth.bind(this);
+    this.onChangeYear = this.onChangeYear.bind(this);
+
     this.onChangePosition = this.onChangePosition.bind(this);
     this.onChangeInformation = this.onChangeInformation.bind(this);
 
@@ -50,17 +56,24 @@ class Add extends Component {
     this.setState({email: event.target.value});
   }
 
-
-  onChangeBornDate(event){
-    this.setState({bornDate: event.target.value});
-  }
-
   onChangePosition(event){
     this.setState({position: event.target.value});
   }
 
   onChangeInformation(event){
     this.setState({information: event.target.value});
+  }
+
+  onChangeDate(event){
+    this.setState({date: event.target.value});
+  }
+
+  onChangeMonth(event){
+    this.setState({month: event.target.value});
+  }
+
+  onChangeYear(event){
+    this.setState({year: event.target.value});
   }
   
   submitFunction(event){
@@ -77,7 +90,7 @@ class Add extends Component {
         }
       ], 
       email: [this.state.email],
-      bornDate: this.state.bornDate, 
+      bornDate: `${this.state.year}-${this.state.month}-${this.state.date}`, 
       position: this.state.position, 
       information: this.state.information,
     };
@@ -86,11 +99,6 @@ class Add extends Component {
 
     fetch_request(urlUser, "POST", user).then(function(data) {
       console.log(data);
-
-      // let obj = {
-      //   data,
-      //   Id : userID
-      // }
 
       let userObject = user;
       userObject._id = data.id;
@@ -175,8 +183,9 @@ class Add extends Component {
 
                   <div className='info-line'>
                     <label htmlFor="email">Email</label><br />
-                    <input 
-                      type="text" 
+                    <input
+                    required 
+                      type="email" 
                       id="email" 
                       name="email" 
                       placeholder="Type Email"
@@ -185,16 +194,51 @@ class Add extends Component {
                     />
                   </div>
 
-                  <div className='info-line'>
-                    <label htmlFor="bornDate">Birthday</label><br />
-                    <input 
-                      type="text" 
-                      id="bornDate" 
-                      name="bornDate" 
-                      placeholder="Type birthday"
-                      value={this.state.bornDate}
-                      onChange={this.onChangeBornDate}
-                    />
+                  <div className='info-line'>Birthday date</div>
+                  <div className='info-birthday'>
+                     <div className='date-block'>
+                        {/* <label htmlFor="year">Year</label><br /> */}
+                        <input
+                          required
+                          maxLength="4"
+                          type="text" 
+                          id="year" 
+                          name="year" 
+                          placeholder="yyyy"
+                          value={this.state.year}
+                          onChange={this.onChangeYear}
+                        />
+                      </div>
+
+                      <div className='date-block'>
+                        {/* <label htmlFor="month">Month</label><br /> */}
+                        <input
+                          required
+                          maxLength="2"  
+                          type="text" 
+                          id="month" 
+                          name="month" 
+                          placeholder="mm"
+                          value={this.state.month}
+                          onChange={this.onChangeMonth}
+                        />
+                      </div>
+
+                      <div className='date-block'>
+                        {/* <label htmlFor="date">Date</label><br /> */}
+                        <input
+                          required
+                          maxLength="2" 
+                          type="text" 
+                          id="date" 
+                          name="date" 
+                          placeholder="dd"
+                          value={this.state.date}
+                          onChange={this.onChangeDate}
+                        />
+                      </div>
+
+
                   </div>
 
                   <div className='info-line'>
