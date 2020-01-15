@@ -18,10 +18,9 @@ class Contacts extends Component {
   }
 
   componentWillMount() {
-
     const prop = this.props;
-
     const urlContacts = "phonebook";
+
     fetch_request(urlContacts, "GET").then(function(data) {
       console.log(data);
       prop.addUsers(data);
@@ -86,10 +85,10 @@ class Contacts extends Component {
           prop.history.push(`/edit/${userID}`);
           console.log(prop);
         });
-    
   }
 
   render() {
+
     return (
       <div className={this.props.sideBarIsOpen ? "Contacts open" : "Contacts"}>
         <Sidebar />
