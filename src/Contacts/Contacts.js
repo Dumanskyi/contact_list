@@ -27,60 +27,36 @@ class Contacts extends Component {
   }
 
   delete(userID) {
+    
     const urlDelete = "phonebook/" + userID;
     const prop = this.props;
 
-    fetch(urlDelete, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
+    fetch_request(urlDelete, "DELETE").then(function(data) {
         prop.deleteUser(userID);
         alert(data.message);
-      });
+    });
   }
 
   readContact(userID) {
+
     const urlRead = "phonebook/" + userID;
     const prop = this.props;
 
-      fetch(urlRead, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          prop.getUserFullInfo(data);
-          prop.history.push(`/user/${userID}`);
-        });
+    fetch_request(urlRead, "GET").then(function(data) {
+      prop.getUserFullInfo(data);
+      prop.history.push(`/user/${userID}`);
+    });
   }
 
   editContact(userID) {
+
     const urlRead = "/phonebook/" + userID;
     const prop = this.props;
 
-      fetch(urlRead, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          prop.getUserFullInfo(data);
-          prop.history.push(`/edit/${userID}`);
-        });
+    fetch_request(urlRead, "GET").then(function(data) {
+      prop.getUserFullInfo(data);
+      prop.history.push(`/edit/${userID}`);
+    });
   }
 
   render() {
