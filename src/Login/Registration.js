@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Registration.scss";
+import {NavLink} from 'react-router-dom';
 
 class Registration extends Component {
     constructor(props) {
@@ -45,7 +46,6 @@ class Registration extends Component {
   
     registrationFunction(event) {
       event.preventDefault();
-      // const domain = "http://phonebook.hillel.it";
       const urlRegistration = "users/register";
   
       let registrationData = {
@@ -159,7 +159,11 @@ class Registration extends Component {
               </div>
   
               <div className="loginButtons">
-                <button>Cancel</button>
+                <button>
+                  <NavLink to="/">
+                    Cancel
+                  </NavLink>
+                </button>
                 <button type="submit">Create account</button>
               </div>
             </form>
@@ -168,8 +172,6 @@ class Registration extends Component {
       );
     }
   }
-  
-  // export default User;
   
   export default Registration;
   

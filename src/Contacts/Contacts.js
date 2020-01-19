@@ -22,7 +22,6 @@ class Contacts extends Component {
     const urlContacts = "phonebook";
 
     fetch_request(urlContacts, "GET").then(function(data) {
-      console.log(data);
       prop.addUsers(data);
     });
   }
@@ -38,7 +37,6 @@ class Contacts extends Component {
       }
     })
       .then(function(response) {
-        console.log(response);
         return response.json();
       })
       .then(function(data) {
@@ -63,7 +61,6 @@ class Contacts extends Component {
         .then(function(data) {
           prop.getUserFullInfo(data);
           prop.history.push(`/user/${userID}`);
-          console.log(prop);
         });
   }
 
@@ -83,7 +80,6 @@ class Contacts extends Component {
         .then(function(data) {
           prop.getUserFullInfo(data);
           prop.history.push(`/edit/${userID}`);
-          console.log(prop);
         });
   }
 
@@ -105,7 +101,6 @@ class Contacts extends Component {
             </div>
             <div className="center">All contacts</div>
             <div className="option">
-              {/* <button><i className="fas fa-ellipsis-h"></i></button> */}
             </div>
           </div>
 

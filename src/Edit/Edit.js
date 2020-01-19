@@ -3,6 +3,7 @@ import "./Edit.scss";
 import Sidebar from "../SideBar/Sidebar";
 import { connect } from "react-redux";
 import { fetch_request } from "../common/helpers";
+import {NavLink} from 'react-router-dom';
 
 class Edit extends Component {
   constructor(props) {
@@ -12,13 +13,8 @@ class Edit extends Component {
     const usersData = this.props.myFullContacts;
     const userData = usersData.find(user => user._id === userId);
 
-    console.log(userId)
-    console.log(usersData)
-    console.log(userData)
-
     this.state = userData;
     
-
     this.state.year = userData.bornDate.slice(0,4);
     this.state.month = userData.bornDate.slice(5,7);
     this.state.date = userData.bornDate.slice(8,10);
@@ -91,9 +87,6 @@ class Edit extends Component {
       bornDate: `${this.state.year}-${this.state.month}-${this.state.date}`, 
       position: this.state.position,
       information: this.state.information,
-      // date: this.state.date,
-      // month: this.state.month,
-      // year: this.state.year,
     };
 
     user._id = userID;
@@ -117,18 +110,12 @@ class Edit extends Component {
         <div className="module">
           <div className="header">
             <div className="burger">
-              <button>
-                <i
-                  className="fas fa-bars"
-                  onClick={this.props.closeSideBar}
-                ></i>
-              </button>
             </div>
             <div className="center">Edit contact</div>
             <div className="option">
-              <button>
-                <i className="fas fa-ellipsis-h"></i>
-              </button>
+                <NavLink to="/contacts">
+                  <i className="fas fa-times"></i>
+                </NavLink>
             </div>
           </div>
 
