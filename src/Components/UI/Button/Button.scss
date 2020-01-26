@@ -1,0 +1,14 @@
+$gold : #FFB143;
+$montserrat: 'Montserrat', sans-serif;
+
+.Button {
+    background: $gold;
+    padding: 6px 47px;
+    font-family: $montserrat;
+    font-size: 16px;
+    line-height: 20px;
+    color: #101F2A;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 56px;
+}

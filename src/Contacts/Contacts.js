@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Sidebar from "../SideBar/Sidebar";
 import { fetch_request } from "../common/helpers";
 
+
 class Contacts extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,7 @@ class Contacts extends Component {
     this.readContact = this.readContact.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const prop = this.props;
     const urlContacts = "phonebook";
 
@@ -50,14 +51,18 @@ class Contacts extends Component {
 
   editContact(userID) {
 
-    const urlRead = "/phonebook/" + userID;
+    // const urlRead = "/phonebook/" + userID;
     const prop = this.props;
 
-    fetch_request(urlRead, "GET").then(function(data) {
-      prop.getUserFullInfo(data);
-      prop.history.push(`/edit/${userID}`);
-    });
+    // fetch_request(urlRead, "GET").then(function(data) {
+    //   prop.getUserFullInfo(data);
+    //   prop.history.push(`/edit/${userID}`);
+    // });
+
+    prop.history.push(`/edit/${userID}`);
   }
+
+  
 
   render() {
 

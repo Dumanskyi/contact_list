@@ -29,7 +29,7 @@ class Login extends Component {
   async loginFunction(event) {
     event.preventDefault();
     const urlLogin = "users/login";
-    const urlContacts = "phonebook";
+    // const urlContacts = "phonebook";
     const prop = this.props;
 
     let loginData = {

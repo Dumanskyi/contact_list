@@ -3,6 +3,7 @@ import './Add.scss';
 import Sidebar from '../SideBar/Sidebar';
 import {connect} from 'react-redux';
 import { fetch_request } from "../common/helpers";
+import Button from '../Components/UI/Button/Button.js'
 
 
 class Add extends Component {
@@ -266,8 +267,9 @@ class Add extends Component {
                     />
                   </div>
 
-                  <div className="submit">
-                      <input className="submit-button" type="submit" value="Save"/>
+                  <div className="submit-wrapper">
+                      {/* <input className="submit-button" type="submit" value="Save"/> */}  
+                      <Button purpose="form-submit" type="submit">Save</Button>    
 
                   </div>
 

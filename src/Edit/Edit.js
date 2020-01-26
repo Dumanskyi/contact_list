@@ -4,20 +4,13 @@ import Sidebar from "../SideBar/Sidebar";
 import { connect } from "react-redux";
 import { fetch_request } from "../common/helpers";
 import {NavLink} from 'react-router-dom';
+import axios from 'axios'
 
 class Edit extends Component {
   constructor(props) {
     super(props);
 
-    const userId = this.props.match.params.id;
-    const usersData = this.props.myFullContacts;
-    const userData = usersData.find(user => user._id === userId);
-
-    this.state = userData;
-    
-    this.state.year = userData.bornDate.slice(0,4);
-    this.state.month = userData.bornDate.slice(5,7);
-    this.state.date = userData.bornDate.slice(8,10);
+    this.state = {};
 
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeSurname = this.onChangeSurname.bind(this);
@@ -46,7 +39,7 @@ class Edit extends Component {
     let obj = {};
     obj = { ...obj, value: event.target.value };
     phoneArr = [...phoneArr, obj];
-    this.setState({ phone: phoneArr });
+    this.setState({ phone: phoneArr, phoneNumber: event.target.value});
   }
 
   onChangeEmail(event) {
@@ -100,6 +93,31 @@ class Edit extends Component {
       prop.editUserFull(obj);
       prop.history.push("/contacts");
     });
+  }
+
+  async componentDidMount() {
+
+    let prop = this.props;
+    let userID = prop.match.params.id;
+
+    const urlRead = "/phonebook/" + userID;
+
+    try {
+      const response = await axios.get(urlRead)
+      console.log(response.data);
+      console.log(response.data.phone[0].value)
+
+      response.data.phoneNumber = response.data.phone[0].value;
+      response.data.year = response.data.bornDate.slice(0,4);
+      response.data.month = response.data.bornDate.slice(5,7);
+      response.data.date = response.data.bornDate.slice(8,10);
+
+      this.setState({
+        ...response.data
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   render() {
@@ -160,7 +178,7 @@ class Edit extends Component {
                     id="phone"
                     name="phone"
                     placeholder="+38(XXX)-XXX-XX-XX"
-                    value={this.state.phone[0].value}
+                    value={this.state.phoneNumber}
                     onChange={this.onChangePhone}
                   />
                 </div>
@@ -279,7 +297,8 @@ function mapDispatchToProps(dispatch) {
     openSideBar: () => dispatch({ type: "OPEN" }),
     closeSideBar: () => dispatch({ type: "CLOSE" }),
     editUser: editedUser => dispatch({ type: "EDIT_USER", payload: editedUser }),
-    editUserFull: editedUserFull => dispatch({ type: "EDIT_USER_FULL_INFO", payload: editedUserFull })
+    editUserFull: editedUserFull => dispatch({ type: "EDIT_USER_FULL_INFO", payload: editedUserFull }),
+    getUserFullInfo: userData => dispatch({ type: "GET_USER_FULL_INFO", payload: userData }),
   };
 }
 
