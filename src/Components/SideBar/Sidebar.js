@@ -16,7 +16,7 @@ class Sidebar extends Component {
         
         <div className="user">
           <div className="icon">
-            <img src={ require('../img/photo.jpg') } alt="user-some" />;
+            <img src={ require('../../img/photo.jpg') } alt="user-some" />;
           </div>
           <div className="user-name">
             <div className="name">Warhol Andy</div>

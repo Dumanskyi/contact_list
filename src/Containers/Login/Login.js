@@ -2,7 +2,7 @@
 import { NavLink } from "react-router-dom";
 import "./Login.scss";
 import { connect } from "react-redux";
-import { fetch_request } from "../common/helpers";
+import { fetch_request } from "../../common/helpers";
 
 class Login extends Component {
   constructor(props) {

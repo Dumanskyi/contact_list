@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './Add.scss';
-import Sidebar from '../SideBar/Sidebar';
+import Sidebar from '../../Components/SideBar/Sidebar';
 import {connect} from 'react-redux';
-import { fetch_request } from "../common/helpers";
-import Button from '../Components/UI/Button/Button.js'
+import { fetch_request } from "../../common/helpers";
+import Button from '../../Components/UI/Button/Button.js'
 
 
 class Add extends Component {
@@ -141,7 +141,7 @@ class Add extends Component {
 
           <div className="content">
               <div className="photo">
-                <img src={ require('../img/picture.jpg') } alt="user-some-alt" />
+                <img src={ require('../../img/picture.jpg') } alt="user-some-alt" />
               </div>
 
               <div className='add-form'>

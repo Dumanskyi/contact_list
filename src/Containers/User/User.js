@@ -70,7 +70,7 @@ class User extends Component {
 
             <div className="user-info">
                 <div className="photo">
-                    <img src={ require('../img/photo.jpg') } alt="some-alt" />
+                    <img src={ require('../../img/photo.jpg') } alt="some-alt" />
                 </div>
 
                 <div className="title">

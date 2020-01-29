@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./Contacts.scss";
 import { connect } from "react-redux";
-import Sidebar from "../SideBar/Sidebar";
-import { fetch_request } from "../common/helpers";
+import Sidebar from "../../Components/SideBar/Sidebar";
+import { fetch_request } from "../../common/helpers";
 
 
 class Contacts extends Component {
@@ -51,13 +51,7 @@ class Contacts extends Component {
 
   editContact(userID) {
 
-    // const urlRead = "/phonebook/" + userID;
     const prop = this.props;
-
-    // fetch_request(urlRead, "GET").then(function(data) {
-    //   prop.getUserFullInfo(data);
-    //   prop.history.push(`/edit/${userID}`);
-    // });
 
     prop.history.push(`/edit/${userID}`);
   }

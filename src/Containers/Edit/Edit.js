@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./Edit.scss";
-import Sidebar from "../SideBar/Sidebar";
+import Sidebar from "../../Components/SideBar/Sidebar";
 import { connect } from "react-redux";
-import { fetch_request } from "../common/helpers";
+import { fetch_request } from "../../common/helpers";
 import {NavLink} from 'react-router-dom';
 import axios from 'axios'
 
@@ -139,7 +139,7 @@ class Edit extends Component {
 
           <div className="content">
             <div className="photo">
-              <img src={require("../img/picture.jpg")} alt="user-some-alt" />
+              <img src={require("../../img/picture.jpg")} alt="user-some-alt" />
             </div>
 
             <div className="add-form">
