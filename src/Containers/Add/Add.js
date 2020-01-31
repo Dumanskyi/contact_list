@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Add.scss';
-import Sidebar from '../../Components/SideBar/Sidebar';
 import {connect} from 'react-redux';
 import { fetch_request } from "../../common/helpers";
 import Button from '../../Components/UI/Button/Button.js'
@@ -106,181 +105,168 @@ class Add extends Component {
       userObject._id = data.id;
 
       prop.addUser(userObject);
-      prop.history.push("/contacts");
+      prop.history.push("/layout/contacts");
     });
-
-
-    
 
   }
 
   
-  render(){
-    console.log(this.props);
+  render() {
     return (
-      <div className={this.props.sideBarIsOpen ? "Add open" : "Add"}>
 
-        <Sidebar/>
+        <div className="add">
 
-        <div className="module">
-
-          <div className="header">
-          
-            <div className="burger">
-              <button>
-                <i className="fas fa-bars" onClick={this.props.closeSideBar}></i>
-              </button>
-            </div>
-            <div className="center">
-              Add new contact
-            </div>
-            <div className="option">
-              <button><i className="fas fa-ellipsis-h"></i></button>
-            </div>
-          </div>
-
-          <div className="content">
-              <div className="photo">
-                <img src={ require('../../img/picture.jpg') } alt="user-some-alt" />
+              <div className="header">
+              
+                <div className="burger">
+                  <button>
+                    <i className="fas fa-bars" onClick={this.props.closeSideBar}></i>
+                  </button>
+                </div>
+                <div className="center">
+                  Add new contact
+                </div>  
               </div>
 
-              <div className='add-form'>
-                <form onSubmit={this.submitFunction}>
-
-                  <div className='info-line'>
-                    <label htmlFor="user-name">Name</label><br />
-                    <input 
-                      type="text" 
-                      id="user-name" 
-                      name="user-name" 
-                      placeholder="Type name" 
-                      value={this.state.name}
-                      onChange={this.onChangeName}
-                    />
+              <div className="content">
+                  <div className="photo">
+                    <img src={ require('../../img/picture.jpg') } alt="user-some-alt" />
                   </div>
 
-                  <div className='info-line'>
-                    <label htmlFor="user-surname">Surname</label><br />
-                    <input 
-                      type="text" 
-                      id="user-surname" 
-                      name="user-surname" 
-                      placeholder="Type surname"
-                      value={this.state.surname}
-                      onChange={this.onChangeSurname}
-                    />
-                  </div>
+                  <div className='add-form'>
+                    <form onSubmit={this.submitFunction}>
 
-                  <div className='info-line'>
-                    <label htmlFor="user-phone">Phone</label><br />
-                    <input 
-                      type="text" 
-                      id="user-phone" 
-                      name="phone" 
-                      placeholder="+38(XXX)-XXX-XX-XX"
-                      value={this.state.phone}
-                      onChange={this.onChangePhone}
-                    />
-                  </div>
-
-                  <div className='info-line'>
-                    <label htmlFor="email">Email</label><br />
-                    <input
-                    required 
-                      type="email" 
-                      id="email" 
-                      name="email" 
-                      placeholder="Type Email"
-                      value={this.state.email}
-                      onChange={this.onChangeEmail}
-                    />
-                  </div>
-
-                  <div className='info-line'>Birthday date</div>
-                  <div className='info-birthday'>
-                     <div className='date-block'>
-                        {/* <label htmlFor="year">Year</label><br /> */}
-                        <input
-                          required
-                          maxLength="4"
+                      <div className='info-line'>
+                        <label htmlFor="user-name">Name</label><br />
+                        <input 
                           type="text" 
-                          id="year" 
-                          name="year" 
-                          placeholder="yyyy"
-                          value={this.state.year}
-                          onChange={this.onChangeYear}
+                          id="user-name" 
+                          name="user-name" 
+                          placeholder="Type name" 
+                          value={this.state.name}
+                          onChange={this.onChangeName}
                         />
                       </div>
 
-                      <div className='date-block'>
-                        {/* <label htmlFor="month">Month</label><br /> */}
-                        <input
-                          required
-                          maxLength="2"  
+                      <div className='info-line'>
+                        <label htmlFor="user-surname">Surname</label><br />
+                        <input 
                           type="text" 
-                          id="month" 
-                          name="month" 
-                          placeholder="mm"
-                          value={this.state.month}
-                          onChange={this.onChangeMonth}
+                          id="user-surname" 
+                          name="user-surname" 
+                          placeholder="Type surname"
+                          value={this.state.surname}
+                          onChange={this.onChangeSurname}
                         />
                       </div>
 
-                      <div className='date-block'>
-                        {/* <label htmlFor="date">Date</label><br /> */}
-                        <input
-                          required
-                          maxLength="2" 
+                      <div className='info-line'>
+                        <label htmlFor="user-phone">Phone</label><br />
+                        <input 
                           type="text" 
-                          id="date" 
-                          name="date" 
-                          placeholder="dd"
-                          value={this.state.date}
-                          onChange={this.onChangeDate}
+                          id="user-phone" 
+                          name="phone" 
+                          placeholder="+38(XXX)-XXX-XX-XX"
+                          value={this.state.phone}
+                          onChange={this.onChangePhone}
                         />
                       </div>
 
+                      <div className='info-line'>
+                        <label htmlFor="email">Email</label><br />
+                        <input
+                        required 
+                          type="email" 
+                          id="email" 
+                          name="email" 
+                          placeholder="Type Email"
+                          value={this.state.email}
+                          onChange={this.onChangeEmail}
+                        />
+                      </div>
+
+                      <div className='info-line'>Birthday date</div>
+                      <div className='info-birthday'>
+                        <div className='date-block'>
+                            {/* <label htmlFor="year">Year</label><br /> */}
+                            <input
+                              required
+                              maxLength="4"
+                              type="text" 
+                              id="year" 
+                              name="year" 
+                              placeholder="yyyy"
+                              value={this.state.year}
+                              onChange={this.onChangeYear}
+                            />
+                          </div>
+
+                          <div className='date-block'>
+                            {/* <label htmlFor="month">Month</label><br /> */}
+                            <input
+                              required
+                              maxLength="2"  
+                              type="text" 
+                              id="month" 
+                              name="month" 
+                              placeholder="mm"
+                              value={this.state.month}
+                              onChange={this.onChangeMonth}
+                            />
+                          </div>
+
+                          <div className='date-block'>
+                            {/* <label htmlFor="date">Date</label><br /> */}
+                            <input
+                              required
+                              maxLength="2" 
+                              type="text" 
+                              id="date" 
+                              name="date" 
+                              placeholder="dd"
+                              value={this.state.date}
+                              onChange={this.onChangeDate}
+                            />
+                          </div>
+
+                      </div>
+                      
+
+                      <div className='info-line'>
+                        <label htmlFor="position">Position</label><br />
+                        <input 
+                          type="text" 
+                          id="position" 
+                          name="position" 
+                          placeholder="Type position"
+                          value={this.state.position}
+                          onChange={this.onChangePosition}
+                        />
+                      </div>
+
+                      <div className='info-line'>
+                        <label htmlFor="information">Information</label><br />
+                        <textarea 
+                          id="information" 
+                          name="information" 
+                          placeholder="Type some notes" 
+                          rows="4"
+                          value={this.state.information}
+                          onChange={this.onChangeInformation}
+                        />
+                      </div>
+
+                      <div className="submit-wrapper">
+                          <Button purpose="form-submit" type="submit">Save</Button>    
+                      </div>
+
+                    </form>
                   </div>
-                  
 
-                  <div className='info-line'>
-                    <label htmlFor="position">Position</label><br />
-                    <input 
-                      type="text" 
-                      id="position" 
-                      name="position" 
-                      placeholder="Type position"
-                      value={this.state.position}
-                      onChange={this.onChangePosition}
-                    />
-                  </div>
-
-                  <div className='info-line'>
-                    <label htmlFor="information">Information</label><br />
-                    <textarea 
-                      id="information" 
-                      name="information" 
-                      placeholder="Type some notes" 
-                      rows="4"
-                      value={this.state.information}
-                      onChange={this.onChangeInformation}
-                    />
-                  </div>
-
-                  <div className="submit-wrapper">
-                      {/* <input className="submit-button" type="submit" value="Save"/> */}  
-                      <Button purpose="form-submit" type="submit">Save</Button>    
-
-                  </div>
-
-                </form>
               </div>
-
-          </div>
         </div>
-
-      </div>
-    )}
+      )
+    }
 };
 
 function mapStateToProps(state) {

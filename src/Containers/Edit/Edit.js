@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./Edit.scss";
-import Sidebar from "../../Components/SideBar/Sidebar";
 import { connect } from "react-redux";
 import { fetch_request } from "../../common/helpers";
 import {NavLink} from 'react-router-dom';
@@ -91,11 +90,13 @@ class Edit extends Component {
       }
       prop.editUser(obj);
       prop.editUserFull(obj);
-      prop.history.push("/contacts");
+      prop.history.push("/layout/contacts");
     });
   }
 
   async componentDidMount() {
+
+    console.log(this.props)
 
     let prop = this.props;
     let userID = prop.match.params.id;
@@ -104,8 +105,6 @@ class Edit extends Component {
 
     try {
       const response = await axios.get(urlRead)
-      console.log(response.data);
-      console.log(response.data.phone[0].value)
 
       response.data.phoneNumber = response.data.phone[0].value;
       response.data.year = response.data.bornDate.slice(0,4);
@@ -122,16 +121,14 @@ class Edit extends Component {
 
   render() {
     return (
-      <div className={this.props.sideBarIsOpen ? "Add open" : "Add"}>
-        <Sidebar />
 
-        <div className="module">
+        <div className="Edit">
           <div className="header">
             <div className="burger">
             </div>
             <div className="center">Edit contact</div>
             <div className="option">
-                <NavLink to="/contacts">
+                <NavLink to="/layout/contacts">
                   <i className="fas fa-times"></i>
                 </NavLink>
             </div>
@@ -279,7 +276,7 @@ class Edit extends Component {
             </div>
           </div>
         </div>
-      </div>
+  
     );
   }
 }

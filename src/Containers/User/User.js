@@ -4,32 +4,24 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios'
 
-
 class User extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {};
-
   }
-
-  // const userId = props.match.params.id;
-  // const usersData = props.myFullContacts;
-
-  // const userData = usersData.find(user => user._id === userId);
 
   async componentDidMount() {
 
+    console.log(this.props)
     let prop = this.props;
     let userID = prop.match.params.id;
 
+    console.log(userID);
     const urlRead = "/phonebook/" + userID;
 
     try {
       const response = await axios.get(urlRead)
-      console.log(response.data);
-      console.log(response.data.phone[0].value)
 
       response.data.phoneNumber = response.data.phone[0].value;
       response.data.year = response.data.bornDate.slice(0,4);
@@ -49,8 +41,7 @@ class User extends Component {
   render() {
     return (
       <div className="User">
-      
-        <div className="module">
+    
             <div className="header">
             
               <div className="burger">
@@ -61,7 +52,10 @@ class User extends Component {
               </div>
               <div className="option">
                 <button>
-                  <NavLink to="/contacts">
+                  <NavLink 
+                    to="/layout/contacts"
+                    onClick={this.props.openSideBar}
+                  >
                     <i className="fas fa-times"></i>
                   </NavLink>
                 </button>
@@ -108,15 +102,13 @@ class User extends Component {
                   <p className="data">{this.state.position}</p>
                 </div>   
             </div>
-      </div>
+      
     </div>
 
     )
   }
 }
 
-
-// export default User;
 
 function mapStateToProps(state) {
   return {
@@ -126,4 +118,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(User);
+function mapDispatchToProps(dispatch) {
+  return {
+    closeSideBar: () => dispatch({type: 'CLOSE'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

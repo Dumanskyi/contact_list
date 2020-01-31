@@ -1,0 +1,26 @@
+.Layout {
+    background-color: #344652 ;
+    display: flex;
+    background-image: linear-gradient(0deg, #344652 0%, #101F2A 100%);
+    height: 100%;
+    .Contacts {
+        display: flex;
+        @media (max-width: 767px) {
+            display: none;
+        } 
+    }
+}
+
+.Layout.open {
+    .Sidebar {
+        @media (max-width: 767px) {
+            display: none;
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }   
+    }
+    .Contacts {
+        display: flex;
+    }
+}
+

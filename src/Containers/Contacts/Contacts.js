@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Contacts.scss";
 import { connect } from "react-redux";
-import Sidebar from "../../Components/SideBar/Sidebar";
 import { fetch_request } from "../../common/helpers";
 
 
@@ -40,20 +39,15 @@ class Contacts extends Component {
 
   readContact(userID) {
 
-    const urlRead = "phonebook/" + userID;
+    console.log(userID)
     const prop = this.props;
-
-    fetch_request(urlRead, "GET").then(function(data) {
-      prop.getUserFullInfo(data);
-      prop.history.push(`/user/${userID}`);
-    });
+    prop.history.push(`/layout/user/${userID}`);
   }
 
   editContact(userID) {
-
+    console.log(userID)
     const prop = this.props;
-
-    prop.history.push(`/edit/${userID}`);
+    prop.history.push(`/layout/edit/${userID}`);
   }
 
   
@@ -61,74 +55,72 @@ class Contacts extends Component {
   render() {
 
     return (
-      <div className={this.props.sideBarIsOpen ? "Contacts open" : "Contacts"}>
-        <Sidebar />
+        <div className="Contacts">
 
-        <div className="module">
-          <div className="header">
-            <div className="burger">
-              <button>
-                <i
-                  className="fas fa-bars"
-                  onClick={this.props.closeSideBar}
-                ></i>
-              </button>
+            <div className="header">
+              <div className="burger">
+                <button>
+                  <i
+                    className="fas fa-bars"
+                    onClick={this.props.closeSideBar}
+                  ></i>
+                </button>
+              </div>
+              <div className="center">All contacts</div>
+              <div className="option">
+              </div>
             </div>
-            <div className="center">All contacts</div>
-            <div className="option">
-            </div>
-          </div>
 
-          <div className="content">
-            {this.props.myContacts.map(contact => {
-              return (
-                <div key={contact._id} className="contact">
-                  <div className="photo">
-                    <img alt=""></img>
-                  </div>
-                  <div
-                    className="data"
-                    onClick={() => this.readContact(contact._id)}
-                  >
-                    {contact.name} {contact.surname}
-                    <br></br>
-                  </div>
+            <div className="content">
+              {this.props.myContacts.map(contact => {
+                return (
+                  <div key={contact._id} className="contact">
+                    <div className="photo">
+                      <img alt=""></img>
+                    </div>
+                    <div
+                      className="data"
+                      onClick={() => this.readContact(contact._id)}
+                    >
+                      {contact.name} {contact.surname}
+                      <br></br>
+                    </div>
 
-                  <div className="menu active">
-                    <button className="drop-down">
-                      <i className="fas fa-ellipsis-h"></i>
-                    </button>
-                    <div className="drop-down-content">
-                      <div className="Read">
+                    <div className="menu active">
+                      <button className="drop-down">
+                        <i className="fas fa-ellipsis-h"></i>
+                      </button>
+                      <div className="drop-down-content">
+                        <div className="Read">
+                          <div
+                            className="block"
+                            onClick={() => this.readContact(contact._id)}
+                          >
+                            Read
+                          </div>
+                        </div>
+                        <div className="name">
+                          <div
+                            className="block"
+                            onClick={() => this.editContact(contact._id)}
+                          >
+                            Edit
+                          </div>
+                        </div>
                         <div
                           className="block"
-                          onClick={() => this.readContact(contact._id)}
+                          onClick={() => this.delete(contact._id)}
                         >
-                          Read
+                          Delete
                         </div>
-                      </div>
-                      <div className="name">
-                        <div
-                          className="block"
-                          onClick={() => this.editContact(contact._id)}
-                        >
-                          Edit
-                        </div>
-                      </div>
-                      <div
-                        className="block"
-                        onClick={() => this.delete(contact._id)}
-                      >
-                        Delete
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+
         </div>
-      </div>
     );
   }
 }
@@ -137,7 +129,6 @@ function mapStateToProps(state) {
   return {
     myContacts: state.myContacts,
     myFullContacts: state.myFullContacts,
-    sideBarIsOpen: state.sideBarIsOpen
   };
 }
 

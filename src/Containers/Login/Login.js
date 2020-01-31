@@ -29,7 +29,6 @@ class Login extends Component {
   async loginFunction(event) {
     event.preventDefault();
     const urlLogin = "users/login";
-    // const urlContacts = "phonebook";
     const prop = this.props;
 
     let loginData = {
@@ -44,11 +43,12 @@ class Login extends Component {
           document.cookie = `${login_data.cookie.name}=${login_data.cookie.value};path=/`;
         }
         console.log(login_data.message);
-        prop.history.push("/contacts");
+        prop.history.push("/layout/contacts");
         
       }
     } catch (e) {
       console.error(e);
+      prop.history.push("/");
     }
   }
 

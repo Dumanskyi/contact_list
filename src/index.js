@@ -7,13 +7,15 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import rootReducer from './store/redux/rootReducer';
 
-// import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 
 const store = createStore(rootReducer);
 
 const app = (
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   )
 

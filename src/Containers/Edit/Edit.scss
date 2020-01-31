@@ -2,174 +2,141 @@ $gold : #FFB143;
 $white: #EFEBE4;
 $lightgrey: #D9D2C6;
 $montserrat: 'Montserrat', sans-serif;
-
-
-
-body {
-    background-color: #344652;
-    
-    .Add {
+     
+.Edit {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-display: column;
+    transition: 0.5s;
+    .header {
+        background-color: $gold;
+        height: 60px;
+        padding: 10px 16px;
+        font-family: $montserrat;
+        font-size: 20px;
+        line-height: 28px;
         display: flex;
-        align-items: stretch;
-        background-image: linear-gradient(0deg, #344652 0%, #101F2A 100%);
-        height: 100%;
-        @media (max-width: 767px) {
-            display: flex;
-            align-items: stretch;
-            position: relative;
-        }
-        
-        .module {
-            width: calc(100% - 320px);
-            height: 100vh;
-            background-color: #EFEBE4;
-            display: flex;
-            flex-direction: column;
-            transition: 0.5s;
-            @media (max-width: 767px) {
+        justify-content: space-between;
+        align-items: center;
+        color: #101F2A;
+        box-shadow: 0px 2px 4px rgba(20, 34, 44, 0.498019);
+        .burger {
+            width: 24px;
+            @media (min-width: 768px) {
                 display: none;
-                position: absolute;
-                width: 100%;
-                z-index: 5;
-            }
-            .header {
-                background-color: $gold;
-                height: 60px;
-                padding: 10px 16px;
-                font-family: $montserrat;
-                font-size: 20px;
+            } 
+            button {
+                background: none;
+                border: none;
+                font-size: 24px;
                 line-height: 28px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                color: #101F2A;
-                box-shadow: 0px 2px 4px rgba(20, 34, 44, 0.498019);
-                .burger {
-                    width: 24px;
-                    @media (min-width: 768px) {
-                        display: none;
-                    } 
-                    button {
-                        background: none;
-                        border: none;
-                        font-size: 24px;
-                        line-height: 28px;
-                        cursor: pointer;
-                    }
-                }
-                .center {
-                    text-align: center;
-                    width: calc(100% - 48px);
-                }
-                .option {
-                    width: 24px;
-                    button {
-                        background: none;
-                        border: none;
-                        font-size: 24px;
-                        line-height: 28px;
-                        cursor: pointer;
-                    }
-                }
+                cursor: pointer;
             }
-            .content {
-                background-color: #EFEBE4;
-                padding: 0px 16px;
-                // min-height: 440px;
-                .photo {
+        }
+        .center {
+            text-align: center;
+            width: calc(100% - 48px);
+        }
+        .option {
+            width: 24px;
+            button {
+                background: none;
+                border: none;
+                font-size: 24px;
+                line-height: 28px;
+                cursor: pointer;
+            }
+        }
+    }
+    .content {
+        background-color: #EFEBE4;
+        padding: 0px 16px;
+        .photo {
+            display: flex;
+            justify-content: center;
+            padding: 17px 0px 17px 0px;
+            img {
+                width: 128px;
+                height: 128px;
+                border-radius: 50%;
+            }
+        }
+
+        .add-form {
+            form {
+                .info-line {
+                    margin-top: 28px;
+                    label {
+                        font-family: $montserrat;
+                        font-size: 12px;
+                        line-height: 12px;
+                        color: rgba(52, 70, 82, 0.5);
+                        padding-left: 3px;
+                    }
+                    
+                    input {
+                        font-family: $montserrat;
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: #101F2A;
+                        background: none;
+                        border: none;
+                        border-bottom: 1px solid rgba(52, 70, 82, 0.5);
+                        padding-left: 3px;
+                        width: 100%;
+                        outline: none;
+                    }
+                    input:focus, textarea:focus {
+                        background-color: rgb(219, 188, 134);
+                    }
+
+                    textarea {
+                        font-family: $montserrat;
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: #101F2A;
+                        background: none;
+                        border: none;
+                        border-bottom: 1px solid rgba(52, 70, 82, 0.5);
+                        padding-left: 3px;
+                        width: 100%;
+                        resize: none;
+                        outline: none;
+                    }
+                }
+
+                .submit {
+                    padding: 32px 0px;
                     display: flex;
                     justify-content: center;
-                    padding: 17px 0px 17px 0px;
-                    img {
-                        width: 128px;
-                        height: 128px;
-                        border-radius: 50%;
+                    .submit-button {
+                        background: $gold;
+                        padding: 6px 47px;
+                        font-family: $montserrat;
+                        font-size: 16px;
+                        line-height: 20px;
+                        color: #101F2A;
+                        box-sizing: border-box;
+                        border: 1px solid black;
+                        border-radius: 56px;
                     }
-                }
-        
-                .add-form {
-                    form {
-                        .info-line {
-                            margin-top: 28px;
-                            label {
-                                font-family: $montserrat;
-                                font-size: 12px;
-                                line-height: 12px;
-                                color: rgba(52, 70, 82, 0.5);
-                                padding-left: 3px;
-                            }
-                            
-                            input {
-                                font-family: $montserrat;
-                                font-size: 16px;
-                                line-height: 24px;
-                                color: #101F2A;
-                                background: none;
-                                border: none;
-                                border-bottom: 1px solid rgba(52, 70, 82, 0.5);
-                                padding-left: 3px;
-                                width: 100%;
-                                outline: none;
-                            }
-    
-                            input:focus, textarea:focus {
-                                background-color: rgb(219, 188, 134);
-                            }
-        
-                            textarea {
-                                font-family: $montserrat;
-                                font-size: 16px;
-                                line-height: 24px;
-                                color: #101F2A;
-                                background: none;
-                                border: none;
-                                border-bottom: 1px solid rgba(52, 70, 82, 0.5);
-                                padding-left: 3px;
-                                width: 100%;
-                                resize: none;
-                                outline: none;
-                            }
-                        }
-        
-                        .submit {
-                            padding: 32px 0px;
-                            display: flex;
-                            justify-content: center;
-                            .submit-button {
-                                background: $gold;
-                                padding: 6px 47px;
-                                font-family: $montserrat;
-                                font-size: 16px;
-                                line-height: 20px;
-                                color: #101F2A;
-                                box-sizing: border-box;
-                                border: 1px solid black;
-                                border-radius: 56px;
-                            }
-                        } 
-                    }
-                }
+                } 
             }
         }
     }
+}
     
-    .Add.open {
-        height: 100%;
-        .Sidebar {
-            @media (max-width: 767px) {
-                transform: translateX(-100%);
-                transition: 0.5s;
-            }   
-        }
-        .module {
-            @media (max-width: 767px) {
-                display: block;
-                transition: 0.5s;
-            }   
-        }
-    }
     
-}  
+.Edit {
+    @media (max-width: 767px) {
+        display: block;
+        transition: 0.5s;
+    }   
+}
+    
+    
+  
 
 
 

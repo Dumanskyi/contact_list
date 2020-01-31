@@ -1,10 +1,8 @@
 
-
 const initialState = {
+  loading: false,
   sideBarIsOpen: false,
-
   myContacts: [],
-
   myFullContacts: []
 };
 
@@ -52,71 +50,5 @@ export default function rootReducer(state = initialState, action) {
       return state;
   }
 }
-
-
-
-
-
-// {
-//   name: 'Alexandra', 
-//   surname: "Breus",
-//   age: 20, 
-//   birthday: '27-12-1995',
-//   phone: '+38 (067) 187 1839',
-//   email: 'someMail_01@gmail.com',
-//   instagram: '@misterGreen',
-//   _id: shortID(),
-// },
-// {
-//   name: 'Alexandr', 
-//   surname: "Teus", 
-//   age: 21,
-//   birthday: '27-12-1995',
-//   phone: '+38 (067) 322 1839',
-//   email: 'someMail_02@gmail.com',
-//   instagram: '@misterWhite',
-//   _id: shortID()
-// },
-// {
-//   name: 'Arthur', 
-//   surname: "Fomes", 
-//   age: 22,
-//   birthday: '27-07-1995',
-//   phone: '+38 (067) 777 1839',
-//   email: 'someMail_03@gmail.com',
-//   instagram: '@misterBrown',
-//   _id: shortID()
-// },
-// {
-//   name: 'Boris', 
-//   surname: "Ramiras", 
-//   age: 21,
-//   birthday: '14-01-1995',
-//   phone: '+38 (067) 152 1839',
-//   email: 'someMail_04@gmail.com',
-//   instagram: '@misterRed',
-//   _id: shortID()
-// },
-// {
-//   name: 'Bogdan', 
-//   surname: "Radriges", 
-//   age: 22,
-//   birthday: '12-07-1995',
-//   phone: '+38 (067) 369 1839',
-//   email: 'someMail_05@gmail.com',
-//   instagram: '@misterPink',
-//   _id: shortID()
-// },
-// {
-//   name: 'Vladimir', 
-//   surname: "Mahitas", 
-//   age: 21,
-//   birthday: '14-08-1995',
-//   phone: '+38 (067) 285 1839',
-//   email: 'someMail_06@gmail.com',
-//   instagram: '@misterOrange',
-//   _id: shortID()
-// },
-
 
 
