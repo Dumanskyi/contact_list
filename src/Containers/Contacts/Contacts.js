@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "./Contacts.scss";
 import { connect } from "react-redux";
-import { fetch_request } from "../../common/helpers";
+import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts'
+import Loader from '../../Components/UI/Loader/Loader'
+
 
 
 class Contacts extends Component {
@@ -18,39 +20,71 @@ class Contacts extends Component {
   }
 
   componentDidMount() {
-    const prop = this.props;
-    const urlContacts = "phonebook";
-
-    fetch_request(urlContacts, "GET").then(function(data) {
-      prop.addUsers(data);
-    });
+    this.props.fetchContacts()
   }
 
   delete(userID) {
-    
-    const urlDelete = "phonebook/" + userID;
-    const prop = this.props;
-
-    fetch_request(urlDelete, "DELETE").then(function(data) {
-        prop.deleteUser(userID);
-        alert(data.message);
-    });
+    this.props.fetchDeleteContact(userID)
   }
 
   readContact(userID) {
-
-    console.log(userID)
     const prop = this.props;
     prop.history.push(`/layout/user/${userID}`);
   }
 
   editContact(userID) {
-    console.log(userID)
     const prop = this.props;
     prop.history.push(`/layout/edit/${userID}`);
   }
 
-  
+  renderContacts() {
+    return this.props.myContacts.map(contact => {
+        return (
+          <div key={contact._id} className="contact">
+            <div className="photo">
+              <img alt=""></img>
+            </div>
+            <div
+              className="data"
+              onClick={() => this.readContact(contact._id)}
+            >
+              {contact.name} {contact.surname}
+              <br></br>
+            </div>
+
+            <div className="menu active">
+              <button className="drop-down">
+                <i className="fas fa-ellipsis-h"></i>
+              </button>
+              <div className="drop-down-content">
+                <div className="Read">
+                  <div
+                    className="block"
+                    onClick={() => this.readContact(contact._id)}
+                  >
+                    Read
+                  </div>
+                </div>
+                <div className="name">
+                  <div
+                    className="block"
+                    onClick={() => this.editContact(contact._id)}
+                  >
+                    Edit
+                  </div>
+                </div>
+                <div
+                  className="block"
+                  onClick={() => this.delete(contact._id)}
+                >
+                  Delete
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })
+  }
 
   render() {
 
@@ -72,54 +106,13 @@ class Contacts extends Component {
             </div>
 
             <div className="content">
-              {this.props.myContacts.map(contact => {
-                return (
-                  <div key={contact._id} className="contact">
-                    <div className="photo">
-                      <img alt=""></img>
-                    </div>
-                    <div
-                      className="data"
-                      onClick={() => this.readContact(contact._id)}
-                    >
-                      {contact.name} {contact.surname}
-                      <br></br>
-                    </div>
-
-                    <div className="menu active">
-                      <button className="drop-down">
-                        <i className="fas fa-ellipsis-h"></i>
-                      </button>
-                      <div className="drop-down-content">
-                        <div className="Read">
-                          <div
-                            className="block"
-                            onClick={() => this.readContact(contact._id)}
-                          >
-                            Read
-                          </div>
-                        </div>
-                        <div className="name">
-                          <div
-                            className="block"
-                            onClick={() => this.editContact(contact._id)}
-                          >
-                            Edit
-                          </div>
-                        </div>
-                        <div
-                          className="block"
-                          onClick={() => this.delete(contact._id)}
-                        >
-                          Delete
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                      {
+                        this.props.loading && this.props.myContacts2 !== 0
+                        ? <Loader />
+                        :  this.renderContacts()      
+                      }              
+                      
             </div>
-
         </div>
     );
   }
@@ -127,8 +120,8 @@ class Contacts extends Component {
 
 function mapStateToProps(state) {
   return {
-    myContacts: state.myContacts,
-    myFullContacts: state.myFullContacts,
+    loading: state.contacts.loading,
+    myContacts: state.contacts.myContacts,
   };
 }
 
@@ -136,9 +129,8 @@ function mapDispatchToProps(dispatch) {
   return {
     openSideBar: () => dispatch({ type: "OPEN" }),
     closeSideBar: () => dispatch({ type: "CLOSE" }),
-    deleteUser: userID => dispatch({ type: "DELETE_USER", payload: userID }),
-    getUserFullInfo: userData => dispatch({ type: "GET_USER_FULL_INFO", payload: userData }),
-    addUsers: allContacts => dispatch({ type: "ALL_CONTACTS", payload: allContacts }),
+    fetchContacts: () => dispatch(fetchContacts()),
+    fetchDeleteContact: userID => dispatch(fetchDeleteContact(userID)), 
   };
 }
 

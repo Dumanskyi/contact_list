@@ -105,8 +105,8 @@ class Sidebar extends Component {
 
 function mapStateToProps(state) {
   return {
-    myContacts: state.myContacts,
-    sideBarIsOpen: state.sideBarIsOpen,
+    myContacts: state.other.myContacts,
+    sideBarIsOpen: state.other.sideBarIsOpen,
   }
 }
 

@@ -1,4 +1,4 @@
-export const fetch_request = async function(url, method, data = undefined) {
+export const fetch_request = async function(url, method, data = undefined, start, success, error) {
   try {
     const request = await fetch(`http://localhost:3000/${url}`, {
       method,
@@ -11,9 +11,12 @@ export const fetch_request = async function(url, method, data = undefined) {
     if (response.code === 401) {
       // TODO: route -> /login
     } else {
+      console.log(response)
       return response;
     }
   } catch (e) {
     console.error(e);
   }
 };
+
+
