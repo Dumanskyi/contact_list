@@ -97,8 +97,6 @@ class Add extends Component {
       information: this.state.information,
     };
 
-    console.log('adddd')
-
     this.props.fetchAddContact(user)
 
     this.props.history.push("/layout/contacts")

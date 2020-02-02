@@ -3,11 +3,12 @@ import {
     FETCH_CONTACTS_SUCCESS, 
     FETCH_CONTACTS_ERROR,
     FETCH_DELETE_SUCCESS,
-    FETCH_ADD_SUCCESS
+    FETCH_ADD_SUCCESS,
+    FETCH_READ_SUCCESS
 } from './actionTypes'
 import axios from 'axios'
 
-import {helper, helper_ID} from './helper'
+// import {helper, helper_ID} from './helper'
 
 export function fetchContacts() {
     return async dispatch => {
@@ -45,6 +46,8 @@ export function fetchAddContact(newUser) {
             const response = await axios.post(`http://localhost:3000/phonebook/`, newUser)
             newUser._id = response.data.id
             dispatch(fetchAddSuccess(newUser))
+
+            
         } catch (e) {
             dispatch(fetchContactsError(e))
         }    
@@ -85,10 +88,4 @@ export function fetchContactsError(e) {
    } 
 }
 
-// export function fetchContacts() {
-//     return helper("phonebook", "GET", fetchContactsStart, fetchContactsSuccess, fetchContactsError)
-// }
 
-// export function fetchDeleteContact(userID) {
-//     return helper_ID(`phonebook/${userID}`, "DELETE", fetchContactsStart, fetchDeleteSuccess, fetchContactsError, userID)
-// }

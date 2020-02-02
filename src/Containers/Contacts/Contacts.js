@@ -38,7 +38,6 @@ class Contacts extends Component {
   }
 
   renderContacts() {
-    console.log(this.props.myContacts)
     return this.props.myContacts.map(contact => {
         return (
           <div key={contact._id} className="contact">
