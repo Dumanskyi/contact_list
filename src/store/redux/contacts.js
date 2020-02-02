@@ -3,7 +3,7 @@ import {
     FETCH_CONTACTS_SUCCESS, 
     FETCH_CONTACTS_ERROR,
     FETCH_DELETE_SUCCESS,
-    FETCH_ADD_USER 
+    FETCH_ADD_SUCCESS 
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -36,8 +36,8 @@ const initialState = {
             );
             return { ...state, loading: false, myContacts: contacts };
 
-        case FETCH_ADD_USER:
-            let usersList = [...state.myContacts, action.payload];
+        case FETCH_ADD_SUCCESS:
+            let usersList = [...state.myContacts, action.newUser];
             return { ...state, myContacts: usersList };
         
         default: 

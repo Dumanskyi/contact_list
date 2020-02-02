@@ -3,19 +3,53 @@ import {
     FETCH_CONTACTS_SUCCESS, 
     FETCH_CONTACTS_ERROR,
     FETCH_DELETE_SUCCESS,
-    FETCH_ADD_USER
+    FETCH_ADD_SUCCESS
 } from './actionTypes'
+import axios from 'axios'
 
 import {helper, helper_ID} from './helper'
 
 export function fetchContacts() {
-    return helper("phonebook", "GET", fetchContactsStart, fetchContactsSuccess, fetchContactsError)
+    return async dispatch => {
+        dispatch(fetchContactsStart())
+
+        try {
+            const response = await axios.get("http://localhost:3000/phonebook")
+            dispatch(fetchContactsSuccess(response.data))
+
+        } catch (e) {
+            dispatch(fetchContactsError(e))
+        }    
+    }
 }
 
 export function fetchDeleteContact(userID) {
-    return helper_ID(`phonebook/${userID}`, "DELETE", fetchContactsStart, fetchDeleteSuccess, fetchContactsError, userID)
+    return async dispatch => {
+        dispatch(fetchContactsStart())
+
+        try {
+            const response = await axios.delete(`http://localhost:3000/phonebook/${userID}`)
+            dispatch(fetchDeleteSuccess(userID))
+
+        } catch (e) {
+            dispatch(fetchContactsError(e))
+        }    
+    }
 }
 
+export function fetchAddContact(newUser) {
+    return async dispatch => {
+        dispatch(fetchContactsStart())
+
+        try {
+            const response = await axios.post(`http://localhost:3000/phonebook/`, newUser)
+            newUser._id = response.data.id
+            dispatch(fetchAddSuccess(newUser))
+        } catch (e) {
+            dispatch(fetchContactsError(e))
+        }    
+    }
+}
 
 export function fetchContactsStart() {
     return {
@@ -37,9 +71,24 @@ export function fetchDeleteSuccess(userID) {
    } 
 }
 
+export function fetchAddSuccess(newUser) {
+    return {
+        type: FETCH_ADD_SUCCESS,
+        newUser: newUser
+   } 
+}
+
 export function fetchContactsError(e) {
     return {
         type: FETCH_CONTACTS_ERROR,
         error: e
    } 
 }
+
+// export function fetchContacts() {
+//     return helper("phonebook", "GET", fetchContactsStart, fetchContactsSuccess, fetchContactsError)
+// }
+
+// export function fetchDeleteContact(userID) {
+//     return helper_ID(`phonebook/${userID}`, "DELETE", fetchContactsStart, fetchDeleteSuccess, fetchContactsError, userID)
+// }

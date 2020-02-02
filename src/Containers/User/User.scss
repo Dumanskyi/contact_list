@@ -10,6 +10,7 @@ $montserrat: 'Montserrat', sans-serif;
         flex-direction: column;
         font-display: column;
         transition: 0.5s;
+        height: 100vh;
         .header {
             background-color: $gold;
             height: 60px;
@@ -55,6 +56,7 @@ $montserrat: 'Montserrat', sans-serif;
             padding: 0px 16px 30px 16px;
             display: flex;
             flex-direction: column;
+            height: 100%;
             .photo {
                 display: flex;
                 justify-content: center;

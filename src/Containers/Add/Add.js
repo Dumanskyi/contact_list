@@ -3,6 +3,7 @@ import './Add.scss';
 import {connect} from 'react-redux';
 import { fetch_request } from "../../common/helpers";
 import Button from '../../Components/UI/Button/Button.js'
+import { fetchAddContact } from '../../store/actions/contacts'
 
 
 class Add extends Component {
@@ -96,17 +97,11 @@ class Add extends Component {
       information: this.state.information,
     };
 
+    console.log('adddd')
 
+    this.props.fetchAddContact(user)
 
-    fetch_request(urlUser, "POST", user).then(function(data) {
-      console.log(data);
-
-      let userObject = user;
-      userObject._id = data.id;
-
-      prop.addUser(userObject);
-      prop.history.push("/layout/contacts");
-    });
+    this.props.history.push("/layout/contacts")
 
   }
 
@@ -280,7 +275,7 @@ function mapDispatchToProps(dispatch){
   return {
     openSideBar: () => dispatch({type: 'OPEN'}),
     closeSideBar: () => dispatch({type: 'CLOSE'}),
-    addUser: (newUser) => dispatch({type: 'ADD_USER', payload: newUser})
+    fetchAddContact: (newUser) => dispatch(fetchAddContact(newUser))
   }
 }
 

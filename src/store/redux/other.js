@@ -1,12 +1,9 @@
 import {
     OPEN, 
     CLOSE, 
-    ADD_USER, 
     GET_USER_FULL_INFO,
     EDIT_USER,
     EDIT_USER_FULL_INFO,
-    DELETE_USER,
-    ALL_CONTACTS
 } from '../actions/actionTypes.js'
 
 const initialState = {
@@ -23,10 +20,6 @@ export default function other(state = initialState, action) {
   
       case CLOSE:
         return { ...state, sideBarIsOpen: false };
-  
-      case ADD_USER:
-        let usersList = [...state.myContacts, action.payload];
-        return { ...state, myContacts: usersList };
   
       case GET_USER_FULL_INFO:
         let fullUsersList = [...state.myFullContacts, action.payload];
@@ -45,16 +38,6 @@ export default function other(state = initialState, action) {
         );
         fullUsersListEdit = [...fullUsersListEdit, action.payload.data];
         return {...state, myFullContacts : fullUsersListEdit};
-  
-      case DELETE_USER:
-        let contacts = state.myContacts.filter(
-          user => user._id !== action.payload
-        );
-        return { ...state, myContacts: contacts };
-  
-      case ALL_CONTACTS:
-        let allContacts = [...action.payload];
-        return { ...state, myContacts: allContacts };
   
       default:
         return state;

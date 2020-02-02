@@ -12,12 +12,14 @@ export function helper(url, method, start, success, error, data = undefined) {
                 ...(data ? { body: JSON.stringify(data) } : {})
               });
               const response = await request.json();
-              if (response.code === 401) {
-                // TODO: route -> /login
-              } else {
-                console.log(response)
-                dispatch(success(response))
-              }
+              dispatch(success(response))
+
+              // if (response.code === 401) {
+              //   // TODO: route -> /login
+              // } else {
+              //   console.log(response)
+              //   dispatch(success(response))
+              // }
         } catch (e) {
             dispatch(error(e))
         }    
