@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './User.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import axios from 'axios';
 import Loader from '../../Components/UI/Loader/Loader'
 
 
@@ -52,7 +51,7 @@ class User extends Component {
 
   }
 
-  renderContacts() {
+  renderUser() {
         return (
           <>
             <div className="photo">
@@ -123,7 +122,7 @@ class User extends Component {
 
             <div className="user-info">
                 {
-                  this.state.isLoading ? <Loader />:  this.renderContacts()      
+                  this.state.isLoading ? <Loader />:  this.renderUser()      
                 } 
             </div>
       

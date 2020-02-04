@@ -4,11 +4,8 @@ import {
     FETCH_CONTACTS_ERROR,
     FETCH_DELETE_SUCCESS,
     FETCH_ADD_SUCCESS,
-    FETCH_READ_SUCCESS
 } from './actionTypes'
 import axios from 'axios'
-
-// import {helper, helper_ID} from './helper'
 
 export function fetchContacts() {
     return async dispatch => {
@@ -29,7 +26,8 @@ export function fetchDeleteContact(userID) {
         dispatch(fetchContactsStart())
 
         try {
-            const response = await axios.delete(`http://localhost:3000/phonebook/${userID}`)
+            // const response = await axios.delete(`http://localhost:3000/phonebook/${userID}`)
+            await axios.delete(`http://localhost:3000/phonebook/${userID}`)
             dispatch(fetchDeleteSuccess(userID))
 
         } catch (e) {

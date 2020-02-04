@@ -3,13 +3,18 @@ import "./Edit.scss";
 import { connect } from "react-redux";
 import { fetch_request } from "../../common/helpers";
 import {NavLink} from 'react-router-dom';
-import axios from 'axios'
+import Loader from '../../Components/UI/Loader/Loader'
 
 class Edit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      hasErrored: false,
+      isLoading: false,
+      userInfo: {
+      }
+    };
 
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeSurname = this.onChangeSurname.bind(this);
@@ -26,97 +31,286 @@ class Edit extends Component {
   }
 
   onChangeName(event) {
-    this.setState({ name: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.name = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangeSurname(event) {
-    this.setState({ surname: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.surname = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangePhone(event) {
-    let phoneArr = [];
-    let obj = {};
-    obj = { ...obj, value: event.target.value };
-    phoneArr = [...phoneArr, obj];
-    this.setState({ phone: phoneArr, phoneNumber: event.target.value});
+    let changedUser = this.state.userInfo;
+    changedUser.phone = [{value: event.target.value}];
+    changedUser.phoneNumber = event.target.value;
+    this.setState( {userInfo : changedUser });
   }
 
   onChangeEmail(event) {
-    this.setState({ email: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.email = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangeYear(event) {
-    this.setState({ year: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.year = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangeMonth(event) {
-    this.setState({ month: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.month = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangeDate(event) {
-    this.setState({ date: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.date = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangePosition(event) {
-    this.setState({ position: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.position = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
   onChangeInformation(event) {
-    this.setState({ information: event.target.value });
+    let changedUser = this.state.userInfo;
+    changedUser.information = event.target.value
+    this.setState( {userInfo : changedUser });
   }
 
+  // fetchPut(url, user) {
+  //   let prop = this.props
+  //   // this.setState({ isLoading: true });
+  //   console.log(url)
+  //   fetch(url, {
+  //     method: "PUT",
+  //     // headers: {
+  //     //           "Content-Type": "application/json"
+  //     //         },
+  //     body: JSON.stringify(user)
+  //   }).then((response) => {
+  //           console.log(response)
+  //           if (!response.ok) {
+  //               throw Error(response.statusText);
+  //           }
+  //           // this.setState({ isLoading: false });
+  //           // prop.history.push("/layout/contacts");
+  //           return response;
+  //       })
+        
+  //       .catch(() => this.setState({ hasErrored: true }));
+  // }
+
+  
   submitFunction(event) {
     event.preventDefault();
     let prop = this.props;
     let userID = prop.match.params.id;
-    let urlUser = "phonebook/" + userID;
+
 
     const user = {
-      name: this.state.name,
-      surname: this.state.surname,
-      phone: this.state.phone,
-      email: this.state.email,
-      bornDate: `${this.state.year}-${this.state.month}-${this.state.date}`, 
-      position: this.state.position,
-      information: this.state.information,
+      name: this.state.userInfo.name,
+      surname: this.state.userInfo.surname,
+      phone: this.state.userInfo.phone,
+      email: [this.state.userInfo.email],
+      bornDate: `${this.state.userInfo.year}-${this.state.userInfo.month}-${this.state.userInfo.date}`, 
+      position: this.state.userInfo.position,
+      information: this.state.userInfo.information,
     };
 
     user._id = userID;
-    fetch_request(urlUser, "PUT", user).then(function(data) {
 
-      let obj = {
-        data,
-        Id : userID
-      }
-      prop.editUser(obj);
-      prop.editUserFull(obj);
+    fetch_request(`phonebook/${userID}`, "PUT", user).then(function(data) {
       prop.history.push("/layout/contacts");
     });
+
+    // this.fetchPut(`http://localhost:3000/phonebook/${userID}`, user)
   }
 
-  async componentDidMount() {
 
-    console.log(this.props)
 
-    let prop = this.props;
-    let userID = prop.match.params.id;
+  fetchData(url) {
+    this.setState({ isLoading: true });
 
-    const urlRead = "/phonebook/" + userID;
+    fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            this.setState({ isLoading: false });
 
-    try {
-      const response = await axios.get(urlRead)
+            return response;
+        })
+        .then((response) => response.json())
+        .then((userInfo) => {
+          userInfo.phoneNumber = userInfo.phone[0].value;
+          userInfo.year = userInfo.bornDate.slice(0,4);
+          userInfo.month = userInfo.bornDate.slice(5,7);
+          userInfo.date = userInfo.bornDate.slice(8,10);
+          userInfo.email = userInfo.email[0];
+          userInfo.bornDate = userInfo.bornDate.slice(0,10)
+          this.setState({ userInfo: userInfo }) 
+        })
+        .catch(() => this.setState({ hasErrored: true }));
+  }
 
-      response.data.phoneNumber = response.data.phone[0].value;
-      response.data.year = response.data.bornDate.slice(0,4);
-      response.data.month = response.data.bornDate.slice(5,7);
-      response.data.date = response.data.bornDate.slice(8,10);
+  componentDidMount() {
+    const userID = this.props.match.params.id
 
-      this.setState({
-        ...response.data
-      })
-    } catch (e) {
-      console.log(e)
-    }
+    this.fetchData(`http://localhost:3000/phonebook/${userID}`)
+  }
+
+  renderUser(){
+    return (
+      <>
+      <div className="photo">
+      <img src={require("../../img/picture.jpg")} alt="user-some-alt" />
+      </div>
+
+        <div className="add-form">
+          <form onSubmit={this.submitFunction}>
+            <div className="info-line">
+              <label htmlFor="user-name">Name</label>
+              <br />
+              <input
+                type="text"
+                id="user-name"
+                name="user-name"
+                placeholder="Type name"
+                value={this.state.userInfo.name}
+                onChange={this.onChangeName}
+              />
+            </div>
+
+            <div className="info-line">
+              <label htmlFor="user-surname">Surname</label>
+              <br />
+              <input
+                type="text"
+                id="user-surname"
+                name="user-surname"
+                placeholder="Type surname"
+                value={this.state.userInfo.surname}
+                onChange={this.onChangeSurname}
+              />
+            </div>
+
+            <div className="info-line">
+              <label htmlFor="phone">Phone</label>
+              <br />
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="+38(XXX)-XXX-XX-XX"
+                value={this.state.userInfo.phoneNumber}
+                onChange={this.onChangePhone}
+              />
+            </div>
+
+            <div className="info-line">
+              <label htmlFor="email">Email</label>
+              <br />
+              <input
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Type Email"
+                value={this.state.userInfo.email}
+                onChange={this.onChangeEmail}
+              />
+            </div>
+
+            <div className='info-line'>Birthday date</div>
+              <div className='info-birthday'>
+                 <div className='date-block'>
+
+                    <input
+                      required
+                      maxLength="4"
+                      type="text" 
+                      id="year" 
+                      name="year" 
+                      placeholder="yyyy"
+                      value={this.state.userInfo.year}
+                      onChange={this.onChangeYear}
+                    />
+                  </div>
+
+                  <div className='date-block'>
+
+                    <input
+                      required
+                      maxLength="2"  
+                      type="text" 
+                      id="month" 
+                      name="month" 
+                      placeholder="mm"
+                      value={this.state.userInfo.month}
+                      onChange={this.onChangeMonth}
+                    />
+                  </div>
+
+                  <div className='date-block'>
+
+                    <input
+                      required
+                      maxLength="2" 
+                      type="text" 
+                      id="date" 
+                      name="date" 
+                      placeholder="dd"
+                      value={this.state.userInfo.date}
+                      onChange={this.onChangeDate}
+                    />
+                  </div>
+
+              </div>
+
+            <div className="info-line">
+              <label htmlFor="position">Position</label>
+              <br />
+              <input
+                type="text"
+                id="position"
+                name="position"
+                placeholder="Type position"
+                value={this.state.userInfo.position}
+                onChange={this.onChangePosition}
+              />
+            </div>
+
+            <div className="info-line">
+              <label htmlFor="information">Information</label>
+              <br />
+              <textarea
+                id="information"
+                name="information"
+                placeholder="Type some notes"
+                rows="4"
+                value={this.state.userInfo.information}
+                onChange={this.onChangeInformation}
+              />
+            </div>
+
+            <div className="submit">
+              <input
+                className="submit-button"
+                type="submit"
+                value="Change"
+              />
+            </div>
+          </form>
+        </div>
+    </>
+    )
   }
 
   render() {
@@ -135,145 +329,9 @@ class Edit extends Component {
           </div>
 
           <div className="content">
-            <div className="photo">
-              <img src={require("../../img/picture.jpg")} alt="user-some-alt" />
-            </div>
-
-            <div className="add-form">
-              <form onSubmit={this.submitFunction}>
-                <div className="info-line">
-                  <label htmlFor="user-name">Name</label>
-                  <br />
-                  <input
-                    type="text"
-                    id="user-name"
-                    name="user-name"
-                    placeholder="Type name"
-                    value={this.state.name}
-                    onChange={this.onChangeName}
-                  />
-                </div>
-
-                <div className="info-line">
-                  <label htmlFor="user-surname">Surname</label>
-                  <br />
-                  <input
-                    type="text"
-                    id="user-surname"
-                    name="user-surname"
-                    placeholder="Type surname"
-                    value={this.state.surname}
-                    onChange={this.onChangeSurname}
-                  />
-                </div>
-
-                <div className="info-line">
-                  <label htmlFor="phone">Phone</label>
-                  <br />
-                  <input
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    placeholder="+38(XXX)-XXX-XX-XX"
-                    value={this.state.phoneNumber}
-                    onChange={this.onChangePhone}
-                  />
-                </div>
-
-                <div className="info-line">
-                  <label htmlFor="email">Email</label>
-                  <br />
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="Type Email"
-                    value={this.state.email}
-                    onChange={this.onChangeEmail}
-                  />
-                </div>
-
-                <div className='info-line'>Birthday date</div>
-                  <div className='info-birthday'>
-                     <div className='date-block'>
-                    
-                        <input
-                          required
-                          maxLength="4"
-                          type="text" 
-                          id="year" 
-                          name="year" 
-                          placeholder="yyyy"
-                          value={this.state.year}
-                          onChange={this.onChangeYear}
-                        />
-                      </div>
-
-                      <div className='date-block'>
-                        
-                        <input
-                          required
-                          maxLength="2"  
-                          type="text" 
-                          id="month" 
-                          name="month" 
-                          placeholder="mm"
-                          value={this.state.month}
-                          onChange={this.onChangeMonth}
-                        />
-                      </div>
-
-                      <div className='date-block'>
-                        
-                        <input
-                          required
-                          maxLength="2" 
-                          type="text" 
-                          id="date" 
-                          name="date" 
-                          placeholder="dd"
-                          value={this.state.date}
-                          onChange={this.onChangeDate}
-                        />
-                      </div>
-
-                  </div>
-
-                <div className="info-line">
-                  <label htmlFor="position">Position</label>
-                  <br />
-                  <input
-                    type="text"
-                    id="position"
-                    name="position"
-                    placeholder="Type position"
-                    value={this.state.position}
-                    onChange={this.onChangePosition}
-                  />
-                </div>
-
-                <div className="info-line">
-                  <label htmlFor="information">Information</label>
-                  <br />
-                  <textarea
-                    id="information"
-                    name="information"
-                    placeholder="Type some notes"
-                    rows="4"
-                    value={this.state.information}
-                    onChange={this.onChangeInformation}
-                  />
-                </div>
-
-                <div className="submit">
-                  <input
-                    className="submit-button"
-                    type="submit"
-                    value="Change"
-                  />
-                </div>
-              </form>
-            </div>
+              {
+                this.state.isLoading ? <Loader />:  this.renderUser()      
+              } 
           </div>
         </div>
   
@@ -293,8 +351,6 @@ function mapDispatchToProps(dispatch) {
   return {
     openSideBar: () => dispatch({ type: "OPEN" }),
     closeSideBar: () => dispatch({ type: "CLOSE" }),
-    editUser: editedUser => dispatch({ type: "EDIT_USER", payload: editedUser }),
-    editUserFull: editedUserFull => dispatch({ type: "EDIT_USER_FULL_INFO", payload: editedUserFull }),
     getUserFullInfo: userData => dispatch({ type: "GET_USER_FULL_INFO", payload: userData }),
   };
 }

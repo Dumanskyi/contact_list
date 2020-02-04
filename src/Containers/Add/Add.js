@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './Add.scss';
 import {connect} from 'react-redux';
-import { fetch_request } from "../../common/helpers";
 import Button from '../../Components/UI/Button/Button.js'
 import { fetchAddContact } from '../../store/actions/contacts'
 
@@ -80,9 +79,7 @@ class Add extends Component {
   
   submitFunction(event){
     event.preventDefault();
-    let prop = this.props;
-
-    let urlUser = "phonebook";
+    
     const user = {
       name: this.state.name, 
       surname: this.state.surname, 

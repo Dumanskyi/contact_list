@@ -47,7 +47,7 @@ class Layout extends Component {
 
   function mapStateToProps(state) {
     return {
-      sideBarIsOpen: state.sideBarIsOpen
+      sideBarIsOpen: state.other.sideBarIsOpen
     };
   }
   

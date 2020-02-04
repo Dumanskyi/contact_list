@@ -3,11 +3,7 @@ import './App.scss';
 import {Route, Switch} from 'react-router-dom';
 import Login from './Containers/Login/Login';
 import Registration from './Containers/Login/Registration';
-import {BrowserRouter} from 'react-router-dom';
 import Layout from './Containers/Layout/Layout';
-import Sidebar from "./Components/SideBar/Sidebar";
-import Contacts from './Containers/Contacts/Contacts';
-import Add from './Containers/Add/Add';
 import User from './Containers/User/User';
 import Edit from './Containers/Edit/Edit';;
 

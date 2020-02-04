@@ -28,7 +28,7 @@ class Sidebar extends Component {
                 <div className="name">Warhol Andy</div>
                 <div className="log-out">
                   <button>
-                    <NavLink to="/"  onClick={this.logout}>All contacts</NavLink>
+                    <NavLink to="/"  onClick={this.logout}>Log out</NavLink>
                   </button>
                 </div>   
               </div>

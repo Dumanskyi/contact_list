@@ -4,7 +4,6 @@ import {
     FETCH_CONTACTS_ERROR,
     FETCH_DELETE_SUCCESS,
     FETCH_ADD_SUCCESS,
-    FETCH_READ_SUCCESS
 } from '../actions/actionTypes'
 
 const initialState = {

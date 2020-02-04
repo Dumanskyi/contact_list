@@ -8,9 +8,6 @@ export const FETCH_ADD_SUCCESS = 'FETCH_ADD_SUCCESS'
 export const OPEN = 'OPEN'
 export const CLOSE = 'CLOSE'
 
-export const GET_USER_FULL_INFO = 'GET_USER_FULL_INFO'
-export const EDIT_USER = 'EDIT_USER'
-export const EDIT_USER_FULL_INFO = 'EDIT_USER_FULL_INFO'
 
 
 

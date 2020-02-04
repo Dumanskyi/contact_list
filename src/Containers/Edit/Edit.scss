@@ -52,6 +52,7 @@ $montserrat: 'Montserrat', sans-serif;
     .content {
         background-color: #EFEBE4;
         padding: 0px 16px;
+        min-height: 100vh;
         .photo {
             display: flex;
             justify-content: center;
