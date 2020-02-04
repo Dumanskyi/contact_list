@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Edit.scss";
 import { connect } from "react-redux";
-import { fetch_request } from "../../common/helpers";
 import {NavLink} from 'react-router-dom';
 import Loader from '../../Components/UI/Loader/Loader'
 
@@ -85,28 +84,27 @@ class Edit extends Component {
     this.setState( {userInfo : changedUser });
   }
 
-  // fetchPut(url, user) {
-  //   let prop = this.props
-  //   // this.setState({ isLoading: true });
-  //   console.log(url)
-  //   fetch(url, {
-  //     method: "PUT",
-  //     // headers: {
-  //     //           "Content-Type": "application/json"
-  //     //         },
-  //     body: JSON.stringify(user)
-  //   }).then((response) => {
-  //           console.log(response)
-  //           if (!response.ok) {
-  //               throw Error(response.statusText);
-  //           }
-  //           // this.setState({ isLoading: false });
-  //           // prop.history.push("/layout/contacts");
-  //           return response;
-  //       })
+  fetchPut(url, user) {
+    let prop = this.props
+    this.setState({ isLoading: true });
+    fetch(url, {
+      method: "PUT",
+      headers: {
+                "Content-Type": "application/json"
+              },
+      body: JSON.stringify(user)
+    }).then((response) => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            this.setState({ isLoading: false });
+            prop.history.push("/layout/contacts");
+      
+            return response;
+        })
         
-  //       .catch(() => this.setState({ hasErrored: true }));
-  // }
+        .catch(() => this.setState({ hasErrored: true }));
+  }
 
   
   submitFunction(event) {
@@ -126,12 +124,8 @@ class Edit extends Component {
     };
 
     user._id = userID;
-
-    fetch_request(`phonebook/${userID}`, "PUT", user).then(function(data) {
-      prop.history.push("/layout/contacts");
-    });
-
-    // this.fetchPut(`http://localhost:3000/phonebook/${userID}`, user)
+    this.fetchPut(`http://localhost:3000/phonebook/${userID}`, user)
+    
   }
 
 
