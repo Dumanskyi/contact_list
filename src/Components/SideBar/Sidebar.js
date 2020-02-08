@@ -2,17 +2,60 @@ import React, { Component } from 'react';
 import './Sidebar.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import moment from 'moment';
+import { fetchAddCategory, fetchCategories, fetchDeleteCategory } from '../../store/actions/categories';
+import Loader from '../../Components/UI/Loader/Loader'
 
 
 class Sidebar extends Component {
-  
-  logout() {
-    console.log(document.cookie)
-    document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-    console.log(document.cookie)
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: ''
+    }
+
+    this.onChangeName = this.onChangeName.bind(this);
+    this.addCategory = this.addCategory.bind(this);
+
   }
 
+  componentDidMount() {
+    this.props.fetchCategories()
+  }
+
+  onChangeName(event){
+    this.setState({name: event.target.value});
+    console.log(this.state.name)
+  }
+   
+  addCategory(event) {
+    event.preventDefault();
+    let category = {
+      name: this.state.name
+    };
+    console.log(category)
+    this.props.fetchAddCategory(category)
+  }
+
+  logout() {
+    document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+  }
+
+  renderCategories() {
+      return this.props.myCategories.map(category => {
+          // console.log(category._id)
+          return (
+            <li key={category._id}>
+              <NavLink to="/layout/contacts" onClick={this.props.openSideBar}>{category.name}</NavLink>
+              <button onClick={() => this.props.fetchDeleteCategory(category._id)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </li>
+          )
+    })
+  }
+
+ 
   render(){
     return (
         <div className="Sidebar">
@@ -49,51 +92,43 @@ class Sidebar extends Component {
                 <li>
                   <NavLink to="/layout/contacts" onClick={this.props.openSideBar}>All contacts</NavLink>
                 </li>
-                <li>
-                  <NavLink to="/">Family</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/">Job</NavLink>
-                </li> 
-                
+                      {
+                        this.props.loading && this.props.myCategories !== 0
+                        ? <Loader />
+                        :  this.renderCategories()      
+                      }  
               </ul>
-            </div>
-
-        <div className="upcoming">
-          <span>UPCOMING BIRTHDAY</span>
-
-          {
-            this.props.myContacts.map( contact => {
-              if ( (moment(contact.birthday, "YYYY-MM-DD").format("DDD") - (moment().dayOfYear())) < 10 ) {
-            
-                return (
-                  <div key={contact._id} className="person">
-                  <div className="data">
-                    <NavLink 
-                      className="contact" 
-                      to={`/layout/user/${contact._id}`}>
-                        {contact.name} {contact.surname}<br />
-                        {moment(contact.birthday, "YYYY-MM-DD").format("DD-MMM")}
-                    </NavLink>
-                    
-                  </div>
-                  
-                </div>
-                )
-              } else {
-                return undefined
-              }
               
-            })
-          }
+              <form onSubmit={this.addCategory}>
+                      <div className='add-category'>
+                        <label htmlFor="category">Add category</label><br />
+                        <input 
+                          type="text" 
+                          id="category" 
+                          name="category" 
+                          placeholder="Category"
+                          value={this.state.name}
+                          onChange={this.onChangeName}
+                        />
+                      </div>
 
-        </div>
+                      <div className="submit-wrapper">
+                          <button 
+                          purpose="form-submit" 
+                          type="submit" 
+                          
+                          >Save
+                          </button>    
+                      </div>
+              </form>
+            </div>
 
         <div className="add-user">
           <button className="add-button">
             <NavLink to="/layout/add" onClick={this.props.openSideBar}>
               <i className="fas fa-plus-circle"></i> Add contact
             </NavLink>
+            
           </button>
         </div>
 
@@ -102,11 +137,12 @@ class Sidebar extends Component {
     )}
 };
 
-
 function mapStateToProps(state) {
   return {
-    myContacts: state.other.myContacts,
     sideBarIsOpen: state.other.sideBarIsOpen,
+    loading: state.categories.categoreisIsLoading,
+    myCategories: state.categories.myCategories,
+    error: state.categories.error
   }
 }
 
@@ -114,6 +150,9 @@ function mapDispatchToProps(dispatch){
   return {
     openSideBar: () => dispatch({type: 'OPEN'}),
     closeSideBar: () => dispatch({type: 'CLOSE'}),
+    fetchCategories: () => dispatch(fetchCategories()),
+    fetchAddCategory: (category) => dispatch(fetchAddCategory(category)),
+    fetchDeleteCategory: (categoryID) => dispatch(fetchDeleteCategory(categoryID))
   }
 }
 

@@ -1,180 +1,211 @@
 $gold : #FFB143;
 $white: #EFEBE4;
 $lightgrey: #D9D2C6;
-$montserrat: 'Montserrat', sans-serif;
+$montserrat: 'Montserrat',
+sans-serif;
 
-    .Sidebar {
-        min-height: 100vh; 
-        width: 320px;
-        display: flex;
-        flex-direction: column;
-        padding: 0px 16px;
-        background-image: linear-gradient(0deg, #344652 0%, #101F2A 100%);
+.Sidebar {
+    min-height: 100vh;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 16px;
+    background-image: linear-gradient(0deg, #344652 0%, #101F2A 100%);
+    transition: 0.5s;
+
+    @media (max-width: 767px) {
+        position: fixed;
+        width: calc(100% - 32px);
+        z-index: 50;
+        
         transition: 0.5s;
-        @media (max-width: 767px) {
-            position: absolute;
-            width: calc(100% - 32px);
-            z-index: 50;
-            transition: 0.5s;
+    }
+
+    .header {
+        color: $white;
+        text-align: center;
+        font-family: $montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 24px;
+        margin: 16px auto;
+
+    }
+
+    .user {
+        display: flex;
+        justify-content: space-between;
+
+        .icon {
+            img {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                border: 2px solid $gold;
+                box-sizing: border-box;
+            }
         }
 
-        .header {
-            color: $white;
-            text-align: center;
-            font-family: $montserrat;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 24px;
-            line-height: 24px;
-            margin: 16px auto;
-            
-        }
-    
-        .user {
+        .user-name {
             display: flex;
-            justify-content: space-between;
-            .icon {
-                img {
-                    width: 48px;
-                    height: 48px;
-                    border-radius: 50%;
-                    border: 2px solid $gold;
-                    box-sizing: border-box;
-                }
-            }
-            .user-name {
-                display: flex;
-                flex-direction: column;
-                width: calc(100% - 90px);
-                justify-content: center;
-                .name {
-                    color: $white;
-                    font-family: $montserrat;
-                    font-size: 16px;
-                    line-height: 16px;
-                }
-                .log-out {
-                    font-family: $montserrat;
-                    font-size: 12px;
-                    line-height: 15px;
-                    color: $gold;
-                    cursor: pointer;
-                }
-            }
-            .dotes-menu {
-                display: flex;
-                align-items: center;
-                button {
-                    cursor: pointer;
-                    background: none;
-                    border: none;
-                    color: $gold;
-                    font-size: 14px;
-                }
-            }
-        }
-    
-        .search {
-            margin: 24px 0px;
-            form {
-                input {
-                    width: 100%;
-                    font-family: $montserrat;
-                    font-size: 16px;
-                    line-height: 16px;
-                    color: $lightgrey;
-                    border: none;
-                    background: none;
-                    padding: 4px;
-                    border-bottom: 1px solid $lightgrey;
-                    outline: none;
-                }
+            flex-direction: column;
+            width: calc(100% - 90px);
+            justify-content: center;
 
-                input:focus {
-                    background-color: #c5ce71;
-                    color: grey;
-                }
-            }
-        }
-    
-        .categories {
-            .list-name {
+            .name {
+                color: $white;
                 font-family: $montserrat;
                 font-size: 16px;
                 line-height: 16px;
-                letter-spacing: 1.86667px;
-                color: #D9D2C6;
-                margin-bottom: 24px;
             }
-    
-            ul {
-                padding: 0px;
-                li {
-                    a {
-                        font-family: $montserrat;
-                        font-size: 16px;
-                        line-height: 16px;
-                        color: $white;
-                        transition: 0.5s;
-                        text-decoration: none;
-                    }
-                    padding: 12px 0px 12px 12px;
-                    list-style-type: none;
-                    
-                }
-    
-                li:hover{
-                    background-image: linear-gradient(90deg, #D9D2C6 0%, rgba(255, 255, 255, 0.0001) 91.48%);
-                    border-left: 2px solid $gold;
-                    transition: 0.5s;
-    
-                }
+
+            .log-out {
+                font-family: $montserrat;
+                font-size: 12px;
+                line-height: 15px;
+                color: $gold;
+                cursor: pointer;
             }
         }
-    
-        .upcoming {
+
+        .dotes-menu {
             display: flex;
-            flex-direction: column;
-            color: $lightgrey;
+            align-items: center;
+
+            button {
+                cursor: pointer;
+                background: none;
+                border: none;
+                color: $gold;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .search {
+        margin: 24px 0px;
+
+        form {
+            input {
+                width: 100%;
+                font-family: $montserrat;
+                font-size: 16px;
+                line-height: 16px;
+                color: $lightgrey;
+                border: none;
+                background: none;
+                padding: 4px;
+                border-bottom: 1px solid $lightgrey;
+                outline: none;
+            }
+
+            input:focus {
+                background-color: #c5ce71;
+                color: grey;
+            }
+        }
+    }
+
+    .categories {
+        padding: 10px 0;
+        padding-bottom: 30px;
+        .list-name {
             font-family: $montserrat;
             font-size: 16px;
             line-height: 16px;
-            padding-bottom: 26px;
-            opacity: 0.5;
-            border-bottom: 1px solid rgba(217, 210, 198, 0.5);
-            .person {
+            letter-spacing: 1.86667px;
+            color: #D9D2C6;
+            margin-bottom: 24px;
+            
+        }
+
+        ul {
+            padding: 0px;
+
+            li {
+                position: relative;
+                a {
+                    font-family: $montserrat;
+                    font-size: 16px;
+                    line-height: 16px;
+                    color: $white;
+                    transition: 0.5s;
+                    text-decoration: none;
+                }
+                button {
+                    display: none;
+                    position: absolute;
+                    right: 10px;
+                    bottom: 10px;
+                    background: none;
+                    color: $lightgrey;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+                padding: 12px 0px 12px 12px;
+                list-style-type: none;
+
+            }
+
+            li:hover {
+                background-image: linear-gradient(90deg, #D9D2C6 0%, rgba(255, 255, 255, 0.0001) 91.48%);
+                border-left: 2px solid $gold;
+                transition: 0.5s;
+                button {
+                    display: block;
+                }
+
+            }
+        }
+    }
+
+    .upcoming {
+        display: flex;
+        flex-direction: column;
+        color: $lightgrey;
+        font-family: $montserrat;
+        font-size: 16px;
+        line-height: 16px;
+        padding-bottom: 26px;
+        opacity: 0.5;
+        border-bottom: 1px solid rgba(217, 210, 198, 0.5);
+
+        .person {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+
+            .data {
                 display: flex;
-                justify-content: space-between;
-                margin-top: 20px;
-                .data {
-                    display: flex;
-                    flex-direction: column;
-                    a {
-                        font-size: 14px;
-                        line-height: 20px;
-                        color: $white;
-                        text-decoration: none;
-                        margin-left: 10px;
-                    }
+                flex-direction: column;
+
+                a {
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: $white;
+                    text-decoration: none;
+                    margin-left: 10px;
                 }
             }
         }
-    
-        .add-user {
-            padding: 16px 0px;
-            .add-button {
-                background: none;
-                border: none;
-                font-family: $montserrat;
-                font-size: 16px;
-                line-height: 16px;
-                a { 
-                    text-decoration: none;
-                    color: $white;
-                }
-            }
-        }   
     }
-    
 
+    .add-user {
+        padding: 16px 0px;
 
+        .add-button {
+            background: none;
+            border: none;
+            font-family: $montserrat;
+            font-size: 16px;
+            line-height: 16px;
+
+            a {
+                text-decoration: none;
+                color: $white;
+            }
+        }
+    }
+}

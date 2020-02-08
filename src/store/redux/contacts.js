@@ -9,6 +9,8 @@ import {
 const initialState = {
     loading: false,
     myContacts: [],
+    myContactsFull: [],
+    error: null
   };
 
   export default function contacts(state = initialState, action) {
@@ -38,7 +40,8 @@ const initialState = {
 
         case FETCH_ADD_SUCCESS:
             let usersList = [...state.myContacts, action.newUser];
-            return { ...state, myContacts: usersList };
+            let usersListFull = [...state.myContacts, action.newUser]
+            return { ...state, loading: false, myContacts: usersList, myContactsFull: usersListFull };
   
         default: 
             return state

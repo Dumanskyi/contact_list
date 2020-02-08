@@ -26,7 +26,6 @@ export function fetchDeleteContact(userID) {
         dispatch(fetchContactsStart())
 
         try {
-            // const response = await axios.delete(`http://localhost:3000/phonebook/${userID}`)
             await axios.delete(`http://localhost:3000/phonebook/${userID}`)
             dispatch(fetchDeleteSuccess(userID))
 

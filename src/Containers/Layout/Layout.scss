@@ -6,7 +6,7 @@
     .Contacts {
         display: flex;
         @media (max-width: 767px) {
-            display: none;
+            display: flex;
         } 
     }
 }
@@ -14,7 +14,7 @@
 .Layout.open {
     .Sidebar {
         @media (max-width: 767px) {
-            display: none;
+            height: 100vh;
             transform: translateX(-100%);
             transition: 0.5s;
         }   
@@ -22,5 +22,8 @@
     .Contacts {
         display: flex;
     }
+
 }
+
+
 

@@ -45,6 +45,8 @@ class User extends Component {
 
   componentDidMount() {
 
+    console.log(this.props.myContactsFull)
+
     const userID = this.props.match.params.id
 
     this.fetchData(`http://localhost:3000/phonebook/${userID}`)
@@ -132,6 +134,12 @@ class User extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    myContactsFull: state.contacts.myContactsFull,
+  };
+}
+
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -140,4 +148,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(null, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(User);

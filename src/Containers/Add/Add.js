@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import './Add.scss';
 import {connect} from 'react-redux';
 import Button from '../../Components/UI/Button/Button.js'
-import { fetchAddContact } from '../../store/actions/contacts'
+import { fetchAddContact } from '../../store/actions/contacts';
+
+import moment from 'moment';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 class Add extends Component {
@@ -17,69 +21,27 @@ class Add extends Component {
       bornDate: '', 
       position: '', 
       information: '',
-      date: '',
       month: '',
-      year: ''
+      year: '',
+      date: new Date()
     };
 
-    
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeSurname = this.onChangeSurname.bind(this);
-    this.onChangePhone = this.onChangePhone.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-
-    this.onChangeDate = this.onChangeDate.bind(this);
-    this.onChangeMonth = this.onChangeMonth.bind(this);
-    this.onChangeYear = this.onChangeYear.bind(this);
-
-    this.onChangePosition = this.onChangePosition.bind(this);
-    this.onChangeInformation = this.onChangeInformation.bind(this);
-
+    this.onChangeParameter = this.onChangeParameter.bind(this);
+    this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.submitFunction = this.submitFunction.bind(this);
-
   };
 
-  
-
-  onChangeName(event){
-    this.setState({name: event.target.value});
+  onChangeDatePicker(date){
+    this.setState({date: date});
   }
 
-  onChangeSurname(event){
-    this.setState({surname: event.target.value});
+  onChangeParameter(event){
+    this.setState({[event.target.name]: event.target.value});
   }
 
-  onChangePhone(event){
-    this.setState({phone: event.target.value});
-  }
-
-  onChangeEmail(event){
-    this.setState({email: event.target.value});
-  }
-
-  onChangePosition(event){
-    this.setState({position: event.target.value});
-  }
-
-  onChangeInformation(event){
-    this.setState({information: event.target.value});
-  }
-
-  onChangeDate(event){
-    this.setState({date: event.target.value});
-  }
-
-  onChangeMonth(event){
-    this.setState({month: event.target.value});
-  }
-
-  onChangeYear(event){
-    this.setState({year: event.target.value});
-  }
-  
   submitFunction(event){
     event.preventDefault();
-    
+  
     const user = {
       name: this.state.name, 
       surname: this.state.surname, 
@@ -89,13 +51,12 @@ class Add extends Component {
         }
       ], 
       email: [this.state.email],
-      bornDate: `${this.state.year}-${this.state.month}-${this.state.date}`, 
+      bornDate: (moment(this.state.date).format('YYYY-MM-DD')), 
       position: this.state.position, 
       information: this.state.information,
     };
 
     this.props.fetchAddContact(user)
-
     this.props.history.push("/layout/contacts")
 
   }
@@ -127,38 +88,38 @@ class Add extends Component {
                     <form onSubmit={this.submitFunction}>
 
                       <div className='info-line'>
-                        <label htmlFor="user-name">Name</label><br />
+                        <label htmlFor="name">Name</label><br />
                         <input 
                           type="text" 
-                          id="user-name" 
-                          name="user-name" 
+                          id="name" 
+                          name="name" 
                           placeholder="Type name" 
                           value={this.state.name}
-                          onChange={this.onChangeName}
+                          onChange={this.onChangeParameter}
                         />
                       </div>
 
                       <div className='info-line'>
-                        <label htmlFor="user-surname">Surname</label><br />
+                        <label htmlFor="surname">Surname</label><br />
                         <input 
                           type="text" 
-                          id="user-surname" 
-                          name="user-surname" 
+                          id="surname" 
+                          name="surname" 
                           placeholder="Type surname"
                           value={this.state.surname}
-                          onChange={this.onChangeSurname}
+                          onChange={this.onChangeParameter}
                         />
                       </div>
 
                       <div className='info-line'>
-                        <label htmlFor="user-phone">Phone</label><br />
+                        <label htmlFor="phone">Phone</label><br />
                         <input 
                           type="text" 
-                          id="user-phone" 
+                          id="phone" 
                           name="phone" 
                           placeholder="+38(XXX)-XXX-XX-XX"
                           value={this.state.phone}
-                          onChange={this.onChangePhone}
+                          onChange={this.onChangeParameter}
                         />
                       </div>
 
@@ -171,53 +132,16 @@ class Add extends Component {
                           name="email" 
                           placeholder="Type Email"
                           value={this.state.email}
-                          onChange={this.onChangeEmail}
+                          onChange={this.onChangeParameter}
                         />
                       </div>
 
                       <div className='info-line'>Birthday date</div>
                       <div className='info-birthday'>
-                        <div className='date-block'>
-                            {/* <label htmlFor="year">Year</label><br /> */}
-                            <input
-                              required
-                              maxLength="4"
-                              type="text" 
-                              id="year" 
-                              name="year" 
-                              placeholder="yyyy"
-                              value={this.state.year}
-                              onChange={this.onChangeYear}
-                            />
-                          </div>
-
-                          <div className='date-block'>
-                            {/* <label htmlFor="month">Month</label><br /> */}
-                            <input
-                              required
-                              maxLength="2"  
-                              type="text" 
-                              id="month" 
-                              name="month" 
-                              placeholder="mm"
-                              value={this.state.month}
-                              onChange={this.onChangeMonth}
-                            />
-                          </div>
-
-                          <div className='date-block'>
-                            {/* <label htmlFor="date">Date</label><br /> */}
-                            <input
-                              required
-                              maxLength="2" 
-                              type="text" 
-                              id="date" 
-                              name="date" 
-                              placeholder="dd"
-                              value={this.state.date}
-                              onChange={this.onChangeDate}
-                            />
-                          </div>
+                        <DatePicker 
+                          selected={this.state.date}
+                          onChange={this.onChangeDatePicker}
+                        />
 
                       </div>
                       
@@ -230,7 +154,7 @@ class Add extends Component {
                           name="position" 
                           placeholder="Type position"
                           value={this.state.position}
-                          onChange={this.onChangePosition}
+                          onChange={this.onChangeParameter}
                         />
                       </div>
 
@@ -242,7 +166,7 @@ class Add extends Component {
                           placeholder="Type some notes" 
                           rows="4"
                           value={this.state.information}
-                          onChange={this.onChangeInformation}
+                          onChange={this.onChangeParameter}
                         />
                       </div>
 

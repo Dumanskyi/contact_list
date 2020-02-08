@@ -5,7 +5,6 @@ import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts'
 import Loader from '../../Components/UI/Loader/Loader'
 
 
-
 class Contacts extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +19,10 @@ class Contacts extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchContacts()
+    if (this.props.myContacts.length === 0){
+      this.props.fetchContacts()
+    }
+    
   }
 
   delete(userID) {
@@ -106,11 +108,12 @@ class Contacts extends Component {
             </div>
 
             <div className="content">
-                      {
-                        this.props.loading && this.props.myContacts2 !== 0
-                        ? <Loader />
-                        :  this.renderContacts()      
-                      }              
+                {
+                  this.props.loading
+                  ? 
+                  <Loader />
+                  :  this.renderContacts()      
+                }              
                       
             </div>
         </div>
