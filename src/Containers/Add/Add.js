@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import './Add.scss';
 import {connect} from 'react-redux';
-import Button from '../../Components/UI/Button/Button.js'
+import Button from '../../Components/UI/button/button.js'
 import { fetchAddContact } from '../../store/actions/contacts';
 
 import moment from 'moment';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Input from '../../Components/UI/input/input';
 
 
 class Add extends Component {
@@ -45,11 +46,7 @@ class Add extends Component {
     const user = {
       name: this.state.name, 
       surname: this.state.surname, 
-      phone: [
-        {
-          value: this.state.phone
-        }
-      ], 
+      phone: [{ value: this.state.phone }], 
       email: [this.state.email],
       bornDate: (moment(this.state.date).format('YYYY-MM-DD')), 
       position: this.state.position, 
@@ -61,7 +58,6 @@ class Add extends Component {
 
   }
 
-  
   render() {
     return (
 
@@ -87,54 +83,37 @@ class Add extends Component {
                   <div className='add-form'>
                     <form onSubmit={this.submitFunction}>
 
-                      <div className='info-line'>
-                        <label htmlFor="name">Name</label><br />
-                        <input 
-                          type="text" 
-                          id="name" 
-                          name="name" 
-                          placeholder="Type name" 
-                          value={this.state.name}
-                          onChange={this.onChangeParameter}
-                        />
-                      </div>
+                      <Input
+                        type="text"
+                        parameter="name"
+                        value={this.state.name}
+                        onChange={this.onChangeParameter}
+                      >
+                      </Input>
 
-                      <div className='info-line'>
-                        <label htmlFor="surname">Surname</label><br />
-                        <input 
-                          type="text" 
-                          id="surname" 
-                          name="surname" 
-                          placeholder="Type surname"
-                          value={this.state.surname}
-                          onChange={this.onChangeParameter}
-                        />
-                      </div>
+                      <Input
+                        type="text"
+                        parameter="surname"
+                        value={this.state.surname}
+                        onChange={this.onChangeParameter}
+                      >
+                      </Input>
 
-                      <div className='info-line'>
-                        <label htmlFor="phone">Phone</label><br />
-                        <input 
-                          type="text" 
-                          id="phone" 
-                          name="phone" 
-                          placeholder="+38(XXX)-XXX-XX-XX"
-                          value={this.state.phone}
-                          onChange={this.onChangeParameter}
-                        />
-                      </div>
+                      <Input
+                        type="text"
+                        parameter="phone"
+                        value={this.state.phone}
+                        onChange={this.onChangeParameter}
+                      >
+                      </Input>
 
-                      <div className='info-line'>
-                        <label htmlFor="email">Email</label><br />
-                        <input
-                        required 
-                          type="email" 
-                          id="email" 
-                          name="email" 
-                          placeholder="Type Email"
-                          value={this.state.email}
-                          onChange={this.onChangeParameter}
-                        />
-                      </div>
+                      <Input
+                        type="email"
+                        parameter="email"
+                        value={this.state.email}
+                        onChange={this.onChangeParameter}
+                      >
+                      </Input>
 
                       <div className='info-line'>Birthday date</div>
                       <div className='info-birthday'>
@@ -146,17 +125,22 @@ class Add extends Component {
                       </div>
                       
 
-                      <div className='info-line'>
-                        <label htmlFor="position">Position</label><br />
-                        <input 
-                          type="text" 
-                          id="position" 
-                          name="position" 
-                          placeholder="Type position"
-                          value={this.state.position}
-                          onChange={this.onChangeParameter}
-                        />
-                      </div>
+                      <Input
+                        type="text"
+                        parameter="position"
+                        value={this.state.position}
+                        onChange={this.onChangeParameter}
+                      >
+                      </Input>
+
+                      {/* <Input
+                        type="textarea"
+                        parameter="information"
+                        value={this.state.information}
+                        rows="4"
+                        onChange={this.onChangeParameter}
+                      >
+                      </Input> */}
 
                       <div className='info-line'>
                         <label htmlFor="information">Information</label><br />

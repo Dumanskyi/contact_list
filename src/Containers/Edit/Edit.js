@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Edit.scss";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import Loader from "../../Components/UI/Loader/Loader";
+import Loader from "../../Components/UI/loader/loader";
 
 class Edit extends Component {
   constructor(props) {

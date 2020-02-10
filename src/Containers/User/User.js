@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './User.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import Loader from '../../Components/UI/Loader/Loader'
+import Loader from '../../Components/UI/loader/loader'
 
 
 class User extends Component {

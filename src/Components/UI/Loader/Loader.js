@@ -1,5 +1,5 @@
 import React from 'react';
-import './Loader.scss'
+import './loader.scss'
 
 const Loader = props => (
     <div className='loader-wrapper'>
@@ -17,10 +17,7 @@ const Loader = props => (
             <div />
             <div />
         </div>
-    </div>
-
-
-    
+    </div>    
 )
 
 export default Loader

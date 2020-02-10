@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Contacts.scss";
 import { connect } from "react-redux";
 import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts'
-import Loader from '../../Components/UI/Loader/Loader'
+import Loader from '../../Components/UI/loader/loader'
 
 
 class Contacts extends Component {

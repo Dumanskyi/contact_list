@@ -3,7 +3,8 @@ import './Sidebar.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { fetchAddCategory, fetchCategories, fetchDeleteCategory } from '../../store/actions/categories';
-import Loader from '../../Components/UI/Loader/Loader'
+import Loader from '../../Components/UI/loader/loader'
+
 
 
 class Sidebar extends Component {
@@ -15,7 +16,7 @@ class Sidebar extends Component {
     }
 
     this.onChangeName = this.onChangeName.bind(this);
-    this.addCategory = this.addCategory.bind(this);
+    // this.addCategory = this.addCategory.bind(this);
 
   }
 
@@ -28,14 +29,14 @@ class Sidebar extends Component {
     console.log(this.state.name)
   }
    
-  addCategory(event) {
-    event.preventDefault();
-    let category = {
-      name: this.state.name
-    };
-    console.log(category)
-    this.props.fetchAddCategory(category)
-  }
+  // addCategory(event) {
+  //   event.preventDefault();
+  //   let category = {
+  //     name: this.state.name
+  //   };
+  //   console.log(category)
+  //   this.props.fetchAddCategory(category)
+  // }
 
   logout() {
     document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
@@ -98,29 +99,6 @@ class Sidebar extends Component {
                         :  this.renderCategories()      
                       }  
               </ul>
-              
-              <form onSubmit={this.addCategory}>
-                      <div className='add-category'>
-                        <label htmlFor="category">Add category</label><br />
-                        <input 
-                          type="text" 
-                          id="category" 
-                          name="category" 
-                          placeholder="Category"
-                          value={this.state.name}
-                          onChange={this.onChangeName}
-                        />
-                      </div>
-
-                      <div className="submit-wrapper">
-                          <button 
-                          purpose="form-submit" 
-                          type="submit" 
-                          
-                          >Save
-                          </button>    
-                      </div>
-              </form>
             </div>
 
         <div className="add-user">
