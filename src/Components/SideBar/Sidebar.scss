@@ -61,24 +61,19 @@ sans-serif;
             }
 
             .log-out {
-                font-family: $montserrat;
-                font-size: 12px;
-                line-height: 15px;
-                color: $gold;
-                cursor: pointer;
-            }
-        }
-
-        .dotes-menu {
-            display: flex;
-            align-items: center;
-
-            button {
-                cursor: pointer;
-                background: none;
-                border: none;
-                color: $gold;
-                font-size: 14px;
+                button {
+                    background: none;
+                    border: none;
+                    a {
+                        font-family: $montserrat;
+                        font-size: 14px;
+                        line-height: 17px;
+                        color: $gold;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+                }
+                
             }
         }
     }
@@ -132,17 +127,6 @@ sans-serif;
                     color: $white;
                     transition: 0.5s;
                     text-decoration: none;
-                }
-                button {
-                    display: none;
-                    position: absolute;
-                    right: 10px;
-                    bottom: 10px;
-                    background: none;
-                    color: $lightgrey;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 14px;
                 }
                 padding: 12px 0px 12px 12px;
                 list-style-type: none;

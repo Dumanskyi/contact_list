@@ -2,8 +2,6 @@ import {
     FETCH_CATEGORIES_START, 
     FETCH_CATEGORIES_SUCCESS, 
     FETCH_CATEGORIES_ERROR,
-    FETCH_ADD_CATEGORY_SUCCESS,
-    FETCH_DELETE_CATEGORY_SUCCESS,
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -31,15 +29,15 @@ export default function contacts(state = initialState, action) {
                 ...state, categoreisIsLoading: false, error: action.error
             }
 
-        case FETCH_DELETE_CATEGORY_SUCCESS:
-            let categoriesD = state.myCategories.filter(
-                category => category._id !== action.categoryID
-            );
-            return { ...state, categoreisIsLoading: false, myCategories: categoriesD };
+        // case FETCH_DELETE_CATEGORY_SUCCESS:
+        //     let categoriesD = state.myCategories.filter(
+        //         category => category._id !== action.categoryID
+        //     );
+        //     return { ...state, categoreisIsLoading: false, myCategories: categoriesD };
 
-        case FETCH_ADD_CATEGORY_SUCCESS:
-            let categories = [...state.myCategories, action.category];
-            return { ...state, myCategories: categories };
+        // case FETCH_ADD_CATEGORY_SUCCESS:
+        //     let categories = [...state.myCategories, action.category];
+        //     return { ...state, myCategories: categories };
   
         default: 
             return state

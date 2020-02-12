@@ -4,6 +4,8 @@ import {
     FETCH_CONTACTS_ERROR,
     FETCH_DELETE_SUCCESS,
     FETCH_ADD_SUCCESS,
+    FETCH_READ_SUCCESS,
+    FETCH_EDIT_SUCCESS
 } from './actionTypes'
 import axios from 'axios'
 
@@ -42,6 +44,7 @@ export function fetchAddContact(newUser) {
         try {
             const response = await axios.post(`http://localhost:3000/phonebook/`, newUser)
             newUser._id = response.data.id
+            console.log(newUser)
             dispatch(fetchAddSuccess(newUser))
 
             
@@ -82,6 +85,20 @@ export function fetchContactsError(e) {
     return {
         type: FETCH_CONTACTS_ERROR,
         error: e
+   } 
+}
+
+export function fetchReadSuccess(user) {
+    return {
+        type: FETCH_READ_SUCCESS,
+        user: user
+   } 
+}
+
+export function fetchEditSuccess(user) {
+    return {
+        type: FETCH_EDIT_SUCCESS,
+        user: user
    } 
 }
 

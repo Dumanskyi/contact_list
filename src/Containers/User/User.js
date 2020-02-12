@@ -3,14 +3,14 @@ import './User.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from '../../Components/UI/loader/loader'
-
+import moment from 'moment';
+import { fetchReadSuccess } from '../../store/actions/contacts'
 
 class User extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      hasErrored: false,
       isLoading: false,
       userInfo: {}
     };
@@ -25,35 +25,33 @@ class User extends Component {
                 throw Error(response.statusText);
             }
             this.setState({ isLoading: false });
-
             return response;
         })
         .then((response) => response.json())
         .then((userInfo) => {
           
-          console.log(userInfo)
           userInfo.phoneNumber = userInfo.phone[0].value;
-          userInfo.year = userInfo.bornDate.slice(0,4);
-          userInfo.month = userInfo.bornDate.slice(5,7);
-          userInfo.date = userInfo.bornDate.slice(8,10);
           userInfo.email = userInfo.email[0];
-          userInfo.bornDate = userInfo.bornDate.slice(0,10)
-          this.setState({ userInfo: userInfo }) 
+          userInfo.bornDate = moment(userInfo.bornDate).format('DD-MM-YYYY')
+          this.setState({ userInfo: userInfo })
+          this.props.fetchReadSuccess(userInfo) 
         })
         .catch(() => this.setState({ hasErrored: true }));
   }
 
   componentDidMount() {
-
-    console.log(this.props.myContactsFull)
-
-    const userID = this.props.match.params.id
-
-    this.fetchData(`http://localhost:3000/phonebook/${userID}`)
-
+    const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
+    if (index !== -1) {
+      this.props.myContactsFull[index].phoneNumber = this.props.myContactsFull[index].phone[0].value
+      this.setState({ userInfo: this.props.myContactsFull[index] })
+    } else {
+      const userID = this.props.match.params.id
+      this.fetchData(`http://localhost:3000/phonebook/${userID}`)
+    }
   }
 
   renderUser() {
+        
         return (
           <>
             <div className="photo">
@@ -65,32 +63,32 @@ class User extends Component {
               <p className="info">{this.state.userInfo.information}</p>
             </div>
 
-            <div className="name">
+            <div className="block">
               <p className="tag">Name</p>
               <p className="data">{this.state.userInfo.name}</p>
             </div>
 
-            <div className="surname">
+            <div className="block">
               <p className="tag">Surname</p>
               <p className="data">{this.state.userInfo.surname}</p>
             </div>
 
-            <div className="phone">
+            <div className="block">
               <p className="tag">Phone</p>
               <p className="data">{this.state.userInfo.phoneNumber}</p>
             </div>
 
-            <div className="email">
+            <div className="block">
               <p className="tag">Email</p>
               <p className="data">{this.state.userInfo.email}</p>
             </div>
 
-            <div className="birthday">
+            <div className="block">
               <p className="tag">Birthday</p>
               <p className="data">{this.state.userInfo.bornDate}</p>
             </div>
 
-            <div className="position">
+            <div className="block">
               <p className="tag">Position</p>
               <p className="data">{this.state.userInfo.position}</p>
             </div>
@@ -136,6 +134,7 @@ class User extends Component {
 
 function mapStateToProps(state) {
   return {
+    myContacts: state.contacts.myContacts,
     myContactsFull: state.contacts.myContactsFull,
   };
 }
@@ -144,6 +143,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     closeSideBar: () => dispatch({type: 'CLOSE'}),
+    fetchReadSuccess: user => dispatch(fetchReadSuccess(user))
   }
 }
 

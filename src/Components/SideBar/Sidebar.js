@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Sidebar.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { fetchAddCategory, fetchCategories, fetchDeleteCategory } from '../../store/actions/categories';
+import { fetchCategories } from '../../store/actions/categories';
 import Loader from '../../Components/UI/loader/loader'
 
 
@@ -16,7 +16,6 @@ class Sidebar extends Component {
     }
 
     this.onChangeName = this.onChangeName.bind(this);
-    // this.addCategory = this.addCategory.bind(this);
 
   }
 
@@ -28,15 +27,6 @@ class Sidebar extends Component {
     this.setState({name: event.target.value});
     console.log(this.state.name)
   }
-   
-  // addCategory(event) {
-  //   event.preventDefault();
-  //   let category = {
-  //     name: this.state.name
-  //   };
-  //   console.log(category)
-  //   this.props.fetchAddCategory(category)
-  // }
 
   logout() {
     document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
@@ -44,13 +34,9 @@ class Sidebar extends Component {
 
   renderCategories() {
       return this.props.myCategories.map(category => {
-          // console.log(category._id)
           return (
             <li key={category._id}>
               <NavLink to="/layout/contacts" onClick={this.props.openSideBar}>{category.name}</NavLink>
-              <button onClick={() => this.props.fetchDeleteCategory(category._id)}>
-                <i className="fas fa-times"></i>
-              </button>
             </li>
           )
     })
@@ -75,9 +61,6 @@ class Sidebar extends Component {
                     <NavLink to="/"  onClick={this.logout}>Log out</NavLink>
                   </button>
                 </div>   
-              </div>
-              <div className="dotes-menu">
-                <button><i className="fas fa-ellipsis-h"></i></button>
               </div>
             </div>
 
@@ -129,8 +112,6 @@ function mapDispatchToProps(dispatch){
     openSideBar: () => dispatch({type: 'OPEN'}),
     closeSideBar: () => dispatch({type: 'CLOSE'}),
     fetchCategories: () => dispatch(fetchCategories()),
-    fetchAddCategory: (category) => dispatch(fetchAddCategory(category)),
-    fetchDeleteCategory: (categoryID) => dispatch(fetchDeleteCategory(categoryID))
   }
 }
 

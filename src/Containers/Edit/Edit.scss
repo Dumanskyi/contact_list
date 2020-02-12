@@ -76,22 +76,6 @@ $montserrat: 'Montserrat', sans-serif;
                         padding-left: 3px;
                     }
                     
-                    input {
-                        font-family: $montserrat;
-                        font-size: 16px;
-                        line-height: 24px;
-                        color: #101F2A;
-                        background: none;
-                        border: none;
-                        border-bottom: 1px solid rgba(52, 70, 82, 0.5);
-                        padding-left: 3px;
-                        width: 100%;
-                        outline: none;
-                    }
-                    input:focus, textarea:focus {
-                        background-color: rgb(219, 188, 134);
-                    }
-
                     textarea {
                         font-family: $montserrat;
                         font-size: 16px;
@@ -128,13 +112,7 @@ $montserrat: 'Montserrat', sans-serif;
     }
 }
     
-    
-.Edit {
-    @media (max-width: 767px) {
-        display: block;
-        transition: 0.5s;
-    }   
-}
+
     
     
   

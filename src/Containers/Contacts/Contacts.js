@@ -22,7 +22,6 @@ class Contacts extends Component {
     if (this.props.myContacts.length === 0){
       this.props.fetchContacts()
     }
-    
   }
 
   delete(userID) {
@@ -89,7 +88,6 @@ class Contacts extends Component {
   }
 
   render() {
-
     return (
         <div className="Contacts">
 
@@ -125,6 +123,7 @@ function mapStateToProps(state) {
   return {
     loading: state.contacts.loading,
     myContacts: state.contacts.myContacts,
+    myContactsFull: state.contacts.myContactsFull,
   };
 }
 

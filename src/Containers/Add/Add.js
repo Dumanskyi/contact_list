@@ -22,8 +22,6 @@ class Add extends Component {
       bornDate: '', 
       position: '', 
       information: '',
-      month: '',
-      year: '',
       date: new Date()
     };
 
@@ -123,6 +121,17 @@ class Add extends Component {
                         />
 
                       </div>
+
+                      {/* <div className='info-line'>
+                          <select name="category">
+                            <option disabled>Choose category</option>
+                            {this.props.myCategories.map(category => {
+                              return (
+                                <option key={category._id} value={category._id}>{category.name}</option>
+                              )
+                            })}
+                          </select>
+                      </div> */}
                       
 
                       <Input
@@ -132,15 +141,6 @@ class Add extends Component {
                         onChange={this.onChangeParameter}
                       >
                       </Input>
-
-                      {/* <Input
-                        type="textarea"
-                        parameter="information"
-                        value={this.state.information}
-                        rows="4"
-                        onChange={this.onChangeParameter}
-                      >
-                      </Input> */}
 
                       <div className='info-line'>
                         <label htmlFor="information">Information</label><br />
@@ -170,7 +170,12 @@ class Add extends Component {
 function mapStateToProps(state) {
   return {
     sideBarIsOpen: state.sideBarIsOpen,
-    myContacts: state.myContacts,
+    myContacts: state.contacts.myContacts,
+    myContactsFull: state.contacts.myContactsFull,
+
+    loading: state.categories.categoreisIsLoading,
+    myCategories: state.categories.myCategories,
+    error: state.categories.error
   }
 }
 

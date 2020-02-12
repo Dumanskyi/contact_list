@@ -85,23 +85,6 @@ $montserrat: 'Montserrat', sans-serif;
                             color: rgba(52, 70, 82, 0.5);
                             padding-left: 3px;
                         }
-                        
-                        input {
-                            font-family: $montserrat;
-                            font-size: 16px;
-                            line-height: 24px;
-                            color: #101F2A;
-                            background: none;
-                            border: none;
-                            border-bottom: 1px solid rgba(52, 70, 82, 0.5);
-                            padding-left: 3px;
-                            width: 100%;
-                            outline: none;
-                        }
-                        
-                        input:focus, textarea:focus {
-                            background-color: rgb(219, 188, 134);
-                        }
 
                         textarea {
                             font-family: $montserrat;
@@ -116,38 +99,6 @@ $montserrat: 'Montserrat', sans-serif;
                             resize: none;
                             outline: none;
                         }
-                    
-                    .info-birthday {
-                        margin-top: 4px;
-                        display: flex
-                        label {
-                            font-family: $montserrat;
-                            font-size: 12px;
-                            line-height: 12px;
-                            color: rgba(52, 70, 82, 0.5);
-                            padding-left: 3px;
-                        }
-                        
-                        input {
-                            font-family: $montserrat;
-                            font-size: 16px;
-                            line-height: 24px;
-                            color: #101F2A;
-                            background: none;
-                            border: none;
-                            border-bottom: 1px solid rgba(52, 70, 82, 0.5);
-                            padding-left: 3px;
-                            width: 50px;
-                            outline: none;
-                            margin-right: 5px;
-                        }
-                        
-                        input:focus, textarea:focus {
-                            background-color: rgb(219, 188, 134);
-                        }
-                    }
-
-                    
                 }
                 .submit-wrapper {
                     padding: 12px 0px;
@@ -159,14 +110,6 @@ $montserrat: 'Montserrat', sans-serif;
         }
     }
         
-        
-        
-    // .add {
-    //     @media (max-width: 767px) {
-    //         display: block;
-    //         transition: 0.5s;
-    //     }   
-    // }
 
  
 
