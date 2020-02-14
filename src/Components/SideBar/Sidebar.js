@@ -33,9 +33,9 @@ class Sidebar extends Component {
   }
 
   renderCategories() {
-      return this.props.myCategories.map(category => {
+      return this.props.myCategories.map( (category, index) => {
           return (
-            <li key={category._id}>
+            <li key={index}>
               <NavLink to="/layout/contacts" onClick={this.props.openSideBar}>{category.name}</NavLink>
             </li>
           )

@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import Input from '../../Components/UI/input/input';
 import { fetchEditSuccess, fetchReadSuccess } from '../../store/actions/contacts'
+import Select from 'react-select';
 
 class Edit extends Component {
   constructor(props) {
@@ -25,13 +26,19 @@ class Edit extends Component {
         bornDate: "",
         position: "",
         information: "",
+        category: '',
       }
     };
 
     this.onChangeParameter = this.onChangeParameter.bind(this);
     this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.submitFunction = this.submitFunction.bind(this);
+    this.onChangeCategory = this.onChangeCategory.bind(this)
   }
+
+  onChangeCategory = category => {
+    this.setState({ category });
+  };
 
   onChangeParameter(event) {
     let changedUser = this.state.userInfo;
@@ -73,6 +80,7 @@ class Edit extends Component {
       .catch(() => this.setState({ hasErrored: true }));
   }
 
+
   submitFunction(event) {
     event.preventDefault();
     const user = {
@@ -108,11 +116,28 @@ class Edit extends Component {
         userInfo.phoneNumber = userInfo.phone[0].value;
         userInfo.email = userInfo.email[0];
         userInfo.bornDate = moment(userInfo.bornDate).toDate()
+        console.log(userInfo)
+        console.log(userInfo.category)
+        if (userInfo.category) {
+
+          const options = this.props.myCategories.map(el => {
+            return {value: el._id, label: el.name}
+          })
+          console.log(options)
+          const category = options.find(el => el.value === userInfo.category)
+          console.log(category)
+          userInfo.category = category
+        }
+
+        
+
         this.setState({ userInfo: userInfo });
+        console.log(userInfo)
         this.props.fetchReadSuccess(userInfo); 
       })
       .catch(() => this.setState({ hasErrored: true }));
   }
+
 
   componentDidMount() {
     const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
@@ -124,11 +149,15 @@ class Edit extends Component {
     } else {
       const userID = this.props.match.params.id
       this.fetchData(`http://localhost:3000/phonebook/${userID}`)
-    }
-
+    }  
   }
 
   renderUser() {
+
+    const options = this.props.myCategories.map(el => {
+      return {value: el._id, label: el.name}
+    })
+
     return (
       <>
         <div className="photo">
@@ -177,6 +206,14 @@ class Edit extends Component {
               />
             </div>
 
+            <div className='info-line'>Category</div>
+              <Select
+                  value={this.state.userInfo.category}
+                  onChange={this.handleChange}
+                  options={options}
+              />
+                      
+
             <Input
               type="text"
               parameter="position"
@@ -208,6 +245,9 @@ class Edit extends Component {
   }
 
   render() {
+
+    
+
     return (
       <div className="Edit">
         <div className="header">
@@ -232,7 +272,11 @@ function mapStateToProps(state) {
   return {
     sideBarIsOpen: state.sideBarIsOpen,
     myContacts: state.contacts.myContacts,
-    myContactsFull: state.contacts.myContactsFull
+    myContactsFull: state.contacts.myContactsFull,
+
+    loading: state.categories.categoreisIsLoading,
+    myCategories: state.categories.myCategories,
+    error: state.categories.error
   };
 }
 

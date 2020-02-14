@@ -33,6 +33,10 @@ class User extends Component {
           userInfo.phoneNumber = userInfo.phone[0].value;
           userInfo.email = userInfo.email[0];
           userInfo.bornDate = moment(userInfo.bornDate).format('DD-MM-YYYY')
+          if (userInfo.category) {
+            const category = this.props.myCategories.find(el => el._id === userInfo.category)
+            userInfo.category = category.name
+          }
           this.setState({ userInfo: userInfo })
           this.props.fetchReadSuccess(userInfo) 
         })
@@ -51,7 +55,9 @@ class User extends Component {
   }
 
   renderUser() {
+
         
+
         return (
           <>
             <div className="photo">
@@ -89,6 +95,11 @@ class User extends Component {
             </div>
 
             <div className="block">
+              <p className="tag">Category</p>
+              <p className="data">{this.state.userInfo.category}</p>
+            </div>
+
+            <div className="block">
               <p className="tag">Position</p>
               <p className="data">{this.state.userInfo.position}</p>
             </div>
@@ -97,6 +108,7 @@ class User extends Component {
   }
   
   render() {
+
     return (
       <div className="User">
     
@@ -136,6 +148,10 @@ function mapStateToProps(state) {
   return {
     myContacts: state.contacts.myContacts,
     myContactsFull: state.contacts.myContactsFull,
+
+    loading: state.categories.categoreisIsLoading,
+    myCategories: state.categories.myCategories,
+    error: state.categories.error
   };
 }
 
