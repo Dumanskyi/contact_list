@@ -19,6 +19,8 @@ class Contacts extends Component {
   }
 
   componentDidMount() {
+
+    console.log(this.props.myContactsFull)
     if (this.props.myContacts.length === 0){
       this.props.fetchContacts()
     }

@@ -26,19 +26,23 @@ class Edit extends Component {
         bornDate: "",
         position: "",
         information: "",
-        category: '',
-      }
+        category: {},
+      },
+      options: {}
     };
 
     this.onChangeParameter = this.onChangeParameter.bind(this);
     this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.submitFunction = this.submitFunction.bind(this);
-    this.onChangeCategory = this.onChangeCategory.bind(this)
+    this.handleChange = this.handleChange.bind(this);  
   }
 
-  onChangeCategory = category => {
-    this.setState({ category });
-  };
+  handleChange = (category) => {
+    let changedUser = this.state.userInfo;
+    changedUser.category = category;
+    this.setState({ userInfo: changedUser });
+    console.log(this.state.userInfo.category)
+  }
 
   onChangeParameter(event) {
     let changedUser = this.state.userInfo;
@@ -70,6 +74,8 @@ class Edit extends Component {
         if (!response.ok) {
           throw Error(response.statusText);
         }
+
+        console.log(user)
         this.setState({ isLoading: false });
         this.props.fetchEditSuccess(user);
         prop.history.push("/layout/contacts");
@@ -90,8 +96,11 @@ class Edit extends Component {
       email: [this.state.userInfo.email],
       bornDate: moment(this.state.userInfo.bornDate).format('YYYY-MM-DD'),
       position: this.state.userInfo.position,
-      information: this.state.userInfo.information
+      information: this.state.userInfo.information,
+      category: this.state.userInfo.category.value
     };
+
+    console.log(user)
 
     const userID = this.props.match.params.id;
     user._id = userID;
@@ -101,14 +110,12 @@ class Edit extends Component {
 
   fetchData(url) {
     this.setState({ isLoading: true });
-
     fetch(url)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
         }
         this.setState({ isLoading: false });
-
         return response;
       })
       .then(response => response.json())
@@ -116,23 +123,15 @@ class Edit extends Component {
         userInfo.phoneNumber = userInfo.phone[0].value;
         userInfo.email = userInfo.email[0];
         userInfo.bornDate = moment(userInfo.bornDate).toDate()
-        console.log(userInfo)
-        console.log(userInfo.category)
         if (userInfo.category) {
-
           const options = this.props.myCategories.map(el => {
             return {value: el._id, label: el.name}
           })
-          console.log(options)
           const category = options.find(el => el.value === userInfo.category)
-          console.log(category)
           userInfo.category = category
         }
 
-        
-
         this.setState({ userInfo: userInfo });
-        console.log(userInfo)
         this.props.fetchReadSuccess(userInfo); 
       })
       .catch(() => this.setState({ hasErrored: true }));
@@ -143,16 +142,42 @@ class Edit extends Component {
     const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
     if (index !== -1) {
       const userInfo = this.props.myContactsFull[index]
+
       userInfo.bornDate = moment(userInfo).toDate()
       userInfo.email = userInfo.email[0]
+
+      if (userInfo.category) {
+        const options = this.props.myCategories.map(el => {
+          return {value: el._id, label: el.name}
+        })
+        const category = options.find(el => el.value === userInfo.category)
+        userInfo.category = category
+      }
+
       this.setState({ userInfo: userInfo })
     } else {
       const userID = this.props.match.params.id
       this.fetchData(`http://localhost:3000/phonebook/${userID}`)
     }  
+
+    const options = this.props.myCategories.map(el => {
+      return {value: el._id, label: el.name}  
+    })
+    this.setState( {options: options} )
+
+  }
+
+  renderOptions() {
+    return this.state.options.map( (option, index) => {
+      return (
+        <option key={index} value={option.value}>{option.label}</option>
+      )
+    })
   }
 
   renderUser() {
+
+    const category = this.state.userInfo.category
 
     const options = this.props.myCategories.map(el => {
       return {value: el._id, label: el.name}
@@ -207,13 +232,13 @@ class Edit extends Component {
             </div>
 
             <div className='info-line'>Category</div>
-              <Select
-                  value={this.state.userInfo.category}
-                  onChange={this.handleChange}
-                  options={options}
-              />
+            <Select
+                value={category}
+                defaultValue={ this.state.userInfo.category }
+                onChange={this.handleChange}
+                options={options}
+            />
                       
-
             <Input
               type="text"
               parameter="position"
@@ -245,9 +270,6 @@ class Edit extends Component {
   }
 
   render() {
-
-    
-
     return (
       <div className="Edit">
         <div className="header">

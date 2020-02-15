@@ -7,7 +7,6 @@ import moment from 'moment';
 import { fetchReadSuccess } from '../../store/actions/contacts'
 
 class User extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -33,10 +32,13 @@ class User extends Component {
           userInfo.phoneNumber = userInfo.phone[0].value;
           userInfo.email = userInfo.email[0];
           userInfo.bornDate = moment(userInfo.bornDate).format('DD-MM-YYYY')
+          console.log(this.props.myCategories)
+          
           if (userInfo.category) {
             const category = this.props.myCategories.find(el => el._id === userInfo.category)
             userInfo.category = category.name
           }
+          console.log(userInfo)
           this.setState({ userInfo: userInfo })
           this.props.fetchReadSuccess(userInfo) 
         })
@@ -55,9 +57,6 @@ class User extends Component {
   }
 
   renderUser() {
-
-        
-
         return (
           <>
             <div className="photo">
@@ -108,12 +107,10 @@ class User extends Component {
   }
   
   render() {
-
     return (
       <div className="User">
-    
+
             <div className="header">
-            
               <div className="burger">
                 <button></button>
               </div>
@@ -133,13 +130,9 @@ class User extends Component {
             </div>
 
             <div className="user-info">
-                {
-                  this.state.isLoading ? <Loader />:  this.renderUser()      
-                } 
+                { this.state.isLoading ? <Loader /> : this.renderUser() } 
             </div>
-      
     </div>
-
     )
   }
 }
@@ -154,7 +147,6 @@ function mapStateToProps(state) {
     error: state.categories.error
   };
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {

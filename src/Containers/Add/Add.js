@@ -30,25 +30,16 @@ class Add extends Component {
     this.onChangeParameter = this.onChangeParameter.bind(this);
     this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.onChangeCategory = this.onChangeCategory.bind(this);
-    this.submitFunction = this.submitFunction.bind(this);
-    this.handleChange = this.handleChange.bind(this)   
+    this.submitFunction = this.submitFunction.bind(this);   
   };
 
-  handleChange = (category) => {
+  onChangeCategory = (category) => {
     this.setState({ category });
-    console.log(`Category selected:`, category);
   }
 
   onChangeParameter(event){
     this.setState({[event.target.name]: event.target.value})
   }
-
-  onChangeCategory(value){
-    console.log(value)
-    const id = value.value
-    this.setState({ category: id });
-    console.log(`Option selected:`, this.state.category);
-  };
 
   onChangeDatePicker(date){
     this.setState({date: date});
@@ -71,25 +62,13 @@ class Add extends Component {
       user.category = this.state.category.value
     }
 
-    console.log(user)
-
     this.props.fetchAddContact(user)
     this.props.history.push("/layout/contacts")
 
   }
 
   render() {
-
-    
-
     const { category } = this.state.category;
-
-    // const options = [
-    //   { value: 'chocolate', label: 'Chocolate' },
-    //   { value: 'strawberry', label: 'Strawberry' },
-    //   { value: 'vanilla', label: 'Vanilla' }
-    // ];
-
     const options = this.props.myCategories.map(el => {
       return {value: el._id, label: el.name}
     })
@@ -156,24 +135,15 @@ class Add extends Component {
                           selected={this.state.date}
                           onChange={this.onChangeDatePicker}
                         />
-
                       </div>
 
                       <div className='info-line'>Category</div>
-                      {/* <Select
-                          // value={this.state.category}
-                          value = {this.state.category.value}
-                          onChange={this.onChangeCategory}
-                          options={options}
-                      /> */}
-
                       <Select
-                              value={category}
-                              onChange={this.handleChange}
-                              options={options}
+                        value={category}
+                        onChange={this.onChangeCategory}
+                        options={options}
                       />
                       
-
                       <Input
                         type="text"
                         parameter="position"
