@@ -59,7 +59,7 @@ class Add extends Component {
     };
 
     if (this.state.category){
-      user.category = this.state.category.value
+      user.category = this.state.category._id
     }
 
     this.props.fetchAddContact(user)
@@ -69,9 +69,9 @@ class Add extends Component {
 
   render() {
     const { category } = this.state.category;
-    const options = this.props.myCategories.map(el => {
-      return {value: el._id, label: el.name}
-    })
+    
+    const options = this.props.myCategories
+    console.log(options)
   
     return (
 
@@ -139,9 +139,11 @@ class Add extends Component {
 
                       <div className='info-line'>Category</div>
                       <Select
+                        getOptionLabel={option => option.name}
+                        getOptionValue={option => option._id}
                         value={category}
                         onChange={this.onChangeCategory}
-                        options={options}
+                        options={this.props.myCategories}
                       />
                       
                       <Input

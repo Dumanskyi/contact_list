@@ -97,7 +97,7 @@ class Edit extends Component {
       bornDate: moment(this.state.userInfo.bornDate).format('YYYY-MM-DD'),
       position: this.state.userInfo.position,
       information: this.state.userInfo.information,
-      category: this.state.userInfo.category.value
+      category: this.state.userInfo.category._id
     };
 
     console.log(user)
@@ -124,13 +124,11 @@ class Edit extends Component {
         userInfo.email = userInfo.email[0];
         userInfo.bornDate = moment(userInfo.bornDate).toDate()
         if (userInfo.category) {
-          const options = this.props.myCategories.map(el => {
-            return {value: el._id, label: el.name}
-          })
-          const category = options.find(el => el.value === userInfo.category)
+          const options = this.props.myCategories
+          const category = options.find(el => el._id === userInfo.category)
           userInfo.category = category
         }
-
+        console.log(userInfo)
         this.setState({ userInfo: userInfo });
         this.props.fetchReadSuccess(userInfo); 
       })
@@ -147,10 +145,8 @@ class Edit extends Component {
       userInfo.email = userInfo.email[0]
 
       if (userInfo.category) {
-        const options = this.props.myCategories.map(el => {
-          return {value: el._id, label: el.name}
-        })
-        const category = options.find(el => el.value === userInfo.category)
+        const options = this.props.myCategories
+        const category = options.find(el => el._id === userInfo.category)
         userInfo.category = category
       }
 
@@ -178,10 +174,7 @@ class Edit extends Component {
   renderUser() {
 
     const category = this.state.userInfo.category
-
-    const options = this.props.myCategories.map(el => {
-      return {value: el._id, label: el.name}
-    })
+    const options = this.props.myCategories
 
     return (
       <>
@@ -233,6 +226,8 @@ class Edit extends Component {
 
             <div className='info-line'>Category</div>
             <Select
+                getOptionLabel={option => option.name}
+                getOptionValue={option => option._id}
                 value={category}
                 defaultValue={ this.state.userInfo.category }
                 onChange={this.handleChange}
