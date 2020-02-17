@@ -22,7 +22,6 @@ class Add extends Component {
       bornDate: '', 
       position: '', 
       information: '',
-      category: '',
       date: new Date(),
       category: ''
     };

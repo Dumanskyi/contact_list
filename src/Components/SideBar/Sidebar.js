@@ -5,27 +5,15 @@ import {connect} from 'react-redux';
 import { fetchCategories } from '../../store/actions/categories';
 import Loader from '../../Components/UI/loader/loader'
 
-
-
 class Sidebar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      name: ''
-    }
-
-    this.onChangeName = this.onChangeName.bind(this);
-
+    this.state = {}
   }
 
   componentDidMount() {
     this.props.fetchCategories()
-  }
-
-  onChangeName(event){
-    this.setState({name: event.target.value});
-    console.log(this.state.name)
   }
 
   logout() {
@@ -36,7 +24,9 @@ class Sidebar extends Component {
       return this.props.myCategories.map( (category, index) => {
           return (
             <li key={index}>
-              <NavLink to="/layout/contacts" onClick={this.props.openSideBar}>{category.name}</NavLink>
+              <NavLink  
+                to={`/layout/category/${category._id}`}
+              >{category.name}</NavLink>
             </li>
           )
     })
@@ -62,12 +52,6 @@ class Sidebar extends Component {
                   </button>
                 </div>   
               </div>
-            </div>
-
-            <div className="search">
-              <form>
-                <input type="text" placeholder="Search a contact"></input>
-              </form>
             </div>
         
             <div className="categories">

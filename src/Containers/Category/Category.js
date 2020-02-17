@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import "./Contacts.scss";
+import "./Category.scss";
 import { connect } from "react-redux";
 import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts';
 import Contact from '../../Components/contact/contact';
 import Loader from '../../Components/UI/loader/loader'
 
 
-class Contacts extends Component {
+class Category extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
     
     this.delete = this.delete.bind(this);
     this.readContact = this.readContact.bind(this);
@@ -17,8 +16,6 @@ class Contacts extends Component {
   }
 
   componentDidMount() {
-
-    console.log(this.props.myContactsFull)
     if (this.props.myContacts.length === 0){
       this.props.fetchContacts()
     }
@@ -29,26 +26,32 @@ class Contacts extends Component {
   }
 
   readContact(userID) {
-    const prop = this.props;
-    prop.history.push(`/layout/user/${userID}`);
+    this.props.history.push(`/layout/user/${userID}`);
   }
 
   editContact(userID) {
-    const prop = this.props;
-    prop.history.push(`/layout/edit/${userID}`);
+    this.props.history.push(`/layout/edit/${userID}`);
   }
 
   renderContacts() {
     return this.props.myContacts.map(contact => {
-        return (
-          <Contact
-            readContact={this.readContact}
-            editContact={this.editContact}
-            delete={this.delete}
-            contact={contact}
-            key={contact._id}
-          />
-        );
+        if (contact.category.hasOwnProperty('_id')) {
+          contact.category = contact.category._id
+        }
+
+        if (contact.category === this.props.match.params.id) {
+            return (
+                <Contact
+                  readContact={this.readContact}
+                  editContact={this.editContact}
+                  delete={this.delete}
+                  contact={contact}
+                  key={contact._id}
+                />
+              );
+        } else {
+            return null
+        }
       })
   }
 
@@ -73,7 +76,8 @@ class Contacts extends Component {
             <div className="content">
                 {
                   this.props.loading
-                  ? <Loader />
+                  ? 
+                  <Loader />
                   :  this.renderContacts()      
                 }              
                       
@@ -100,4 +104,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

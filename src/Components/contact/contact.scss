@@ -1,0 +1,85 @@
+$gold : #FFB143;
+$white: #EFEBE4;
+$lightgrey: #D9D2C6;
+$montserrat: 'Montserrat', sans-serif;
+
+.contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0px 8px 16px;
+    width: 30%;
+    padding-bottom: 40px;
+    
+    @media (max-width: 1023px) {
+        width: 100%;
+    }
+    .photo {
+        width: 48px;
+        img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid $gold;
+            box-sizing: border-box;
+        }
+    }
+    .data {
+        width: calc(100% - 68px);
+        margin-left: 5px;
+        cursor: pointer;
+        .name{
+            font-family: $montserrat;
+            font-size: 16px;
+            line-height: 16px;
+            text-decoration: none;
+            color: #000;
+        }
+        .age {
+            font-size: 12px;
+            line-height: 15px;
+            color: #747E85;
+        }
+    }
+    .data:hover {
+        color: green;
+    }
+    .menu {
+        position: relative;
+        width: 20px;
+        .drop-down {
+            color: #747E85;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .drop-down-content {
+            display: none;
+            position: absolute;
+            left: -20px;
+            background: rgb(180, 190, 197);
+            
+            .block {
+                cursor: pointer;
+            }
+            .block:hover {
+                color: green;
+            }
+            a {
+                color: #101F2A;
+                text-decoration: none;
+                text-align: center;
+            }
+            
+        }
+
+        .drop-down-content:hover {
+            display: block;
+        }
+
+        .drop-down:hover + .drop-down-content{
+            display: block;
+        }
+    }
+
+}

@@ -28,20 +28,41 @@ class Edit extends Component {
         information: "",
         category: {},
       },
-      options: {}
     };
 
     this.onChangeParameter = this.onChangeParameter.bind(this);
     this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
     this.submitFunction = this.submitFunction.bind(this);
-    this.handleChange = this.handleChange.bind(this);  
+    this.onChangeCategory = this.onChangeCategory.bind(this);  
   }
 
-  handleChange = (category) => {
+  componentDidMount() {
+    const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
+
+    if (index !== -1) {
+      const userInfo = this.props.myContactsFull[index]
+
+      userInfo.bornDate = moment(userInfo).toDate()
+      if (userInfo.category) {
+        if (userInfo.category.hasOwnProperty('_id')){
+          userInfo.category = userInfo.category._id
+        }
+        const options = this.props.myCategories
+        const category = options.find(el => el._id === userInfo.category)
+        userInfo.category = category
+      }
+
+      this.setState({ userInfo: userInfo })
+    } else {
+      const userID = this.props.match.params.id
+      this.fetchData(`http://localhost:3000/phonebook/${userID}`)
+    }  
+  }
+
+  onChangeCategory = (category) => {
     let changedUser = this.state.userInfo;
     changedUser.category = category;
     this.setState({ userInfo: changedUser });
-    console.log(this.state.userInfo.category)
   }
 
   onChangeParameter(event) {
@@ -75,7 +96,6 @@ class Edit extends Component {
           throw Error(response.statusText);
         }
 
-        console.log(user)
         this.setState({ isLoading: false });
         this.props.fetchEditSuccess(user);
         prop.history.push("/layout/contacts");
@@ -99,8 +119,6 @@ class Edit extends Component {
       information: this.state.userInfo.information,
       category: this.state.userInfo.category._id
     };
-
-    console.log(user)
 
     const userID = this.props.match.params.id;
     user._id = userID;
@@ -128,7 +146,6 @@ class Edit extends Component {
           const category = options.find(el => el._id === userInfo.category)
           userInfo.category = category
         }
-        console.log(userInfo)
         this.setState({ userInfo: userInfo });
         this.props.fetchReadSuccess(userInfo); 
       })
@@ -136,40 +153,7 @@ class Edit extends Component {
   }
 
 
-  componentDidMount() {
-    const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
-    if (index !== -1) {
-      const userInfo = this.props.myContactsFull[index]
-
-      userInfo.bornDate = moment(userInfo).toDate()
-      userInfo.email = userInfo.email[0]
-
-      if (userInfo.category) {
-        const options = this.props.myCategories
-        const category = options.find(el => el._id === userInfo.category)
-        userInfo.category = category
-      }
-
-      this.setState({ userInfo: userInfo })
-    } else {
-      const userID = this.props.match.params.id
-      this.fetchData(`http://localhost:3000/phonebook/${userID}`)
-    }  
-
-    const options = this.props.myCategories.map(el => {
-      return {value: el._id, label: el.name}  
-    })
-    this.setState( {options: options} )
-
-  }
-
-  renderOptions() {
-    return this.state.options.map( (option, index) => {
-      return (
-        <option key={index} value={option.value}>{option.label}</option>
-      )
-    })
-  }
+  
 
   renderUser() {
 
@@ -230,7 +214,7 @@ class Edit extends Component {
                 getOptionValue={option => option._id}
                 value={category}
                 defaultValue={ this.state.userInfo.category }
-                onChange={this.handleChange}
+                onChange={this.onChangeCategory}
                 options={options}
             />
                       

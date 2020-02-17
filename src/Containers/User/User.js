@@ -36,7 +36,7 @@ class User extends Component {
           
           if (userInfo.category) {
             const category = this.props.myCategories.find(el => el._id === userInfo.category)
-            userInfo.category = category.name
+            userInfo.category = category
           }
           console.log(userInfo)
           this.setState({ userInfo: userInfo })
@@ -48,8 +48,16 @@ class User extends Component {
   componentDidMount() {
     const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
     if (index !== -1) {
-      this.props.myContactsFull[index].phoneNumber = this.props.myContactsFull[index].phone[0].value
-      this.setState({ userInfo: this.props.myContactsFull[index] })
+      let obj = this.props.myContactsFull[index]
+      obj.phoneNumber = obj.phone[0].value
+
+      if (!obj.category.hasOwnProperty('_id')){
+        const options = this.props.myCategories
+        const category = options.find(el => el._id === obj.category)
+        obj.category = category
+      }
+
+      this.setState({ userInfo: obj })
     } else {
       const userID = this.props.match.params.id
       this.fetchData(`http://localhost:3000/phonebook/${userID}`)
@@ -93,10 +101,16 @@ class User extends Component {
               <p className="data">{this.state.userInfo.bornDate}</p>
             </div>
 
-            <div className="block">
-              <p className="tag">Category</p>
-              <p className="data">{this.state.userInfo.category}</p>
-            </div>
+            {
+              this.state.userInfo.category 
+                  ?
+                  <div className="block">
+                  <p className="tag">Category</p>
+                  <p className="data">{this.state.userInfo.category.name}</p>
+                  </div>
+                  : null
+            }
+            
 
             <div className="block">
               <p className="tag">Position</p>

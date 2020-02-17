@@ -5,8 +5,8 @@ import Login from './Containers/Login/Login';
 import Registration from './Containers/Login/Registration';
 import Layout from './Containers/Layout/Layout';
 import User from './Containers/User/User';
-import Edit from './Containers/Edit/Edit';;
-
+import Edit from './Containers/Edit/Edit';
+import Category from './Containers/Category/Category';
 
 
 function App() {
@@ -18,6 +18,14 @@ function App() {
         <Route path="/registration" exact component={Registration} />
         <Route path="/layout/contacts" exact component={Layout} />
         <Route path="/layout/add" exact component={Layout} />
+
+        <Route 
+            path="/layout/category/:id"
+            component={Layout}
+            render={props =>
+            <Category {...props} />
+            }
+        />
 
         <Route 
             path="/layout/edit/:id"

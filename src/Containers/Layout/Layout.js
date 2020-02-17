@@ -7,6 +7,7 @@ import Contacts from '../Contacts/Contacts';
 import Add from '../Add/Add';
 import User from '../User/User';
 import Edit from '../Edit/Edit';
+import Category from '../Category/Category'
 
 
 class Layout extends Component {
@@ -23,7 +24,15 @@ class Layout extends Component {
                 <Sidebar />
                 
                 <Switch>
-                    <Route path="/layout/contacts" component={Contacts} />                    
+                    <Route path="/layout/contacts" component={Contacts} />
+
+                    <Route 
+                        path="/layout/category/:id"
+                        render={props =>
+                        <Category {...props} />
+                        }
+                    />
+
                     <Route 
                         path="/layout/edit/:id"
                         render={props =>
