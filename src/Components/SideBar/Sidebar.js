@@ -10,42 +10,47 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {}
+
+    this.logout = this.logout.bind(this); 
   }
 
   componentDidMount() {
     this.props.fetchCategories()
   }
 
-  logout() {
+  logout () {
+    this.props.clearContacts()
     document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
   }
 
   renderCategories() {
       return this.props.myCategories.map( (category, index) => {
           return (
-            <li key={index}>
-              <NavLink  
-                to={`/layout/category/${category._id}`}
-              >{category.name}</NavLink>
-            </li>
+            <NavLink
+              key={index}  
+              to={`/layout/category/${category._id}`}
+              onClick={this.props.openSideBar}
+            >
+              <li>{category.name}</li>
+            </NavLink>          
           )
     })
   }
-
  
   render(){
     return (
-        <div className="Sidebar">
+      <div className="Sidebar">
+
             <div className="header">
               Contact book
             </div>
             
             <div className="user">
               <div className="icon">
-                <img src={ require('../../img/photo.jpg') } alt="user-some" />;
+                <i className="fas fa-pencil-alt"></i>
               </div>
               <div className="user-name">
-                <div className="name">Warhol Andy</div>
+                <div className="name">Your contacts</div>
                 <div className="log-out">
                   <button>
                     <NavLink to="/"  onClick={this.logout}>Log out</NavLink>
@@ -57,26 +62,29 @@ class Sidebar extends Component {
             <div className="categories">
               <span className="list-name">CATEGORIES</span>
               <ul>
-                <li>
-                  <NavLink to="/layout/contacts" onClick={this.props.openSideBar}>All contacts</NavLink>
-                </li>
-                      {
-                        this.props.loading && this.props.myCategories !== 0
-                        ? <Loader />
-                        :  this.renderCategories()      
-                      }  
+                  <NavLink 
+                    to="/layout/contacts"
+                    onClick={this.props.openSideBar}
+                  >
+                    <li>All contacts</li>
+                  </NavLink>
+
+                  {
+                    this.props.loading && this.props.myCategories !== 0
+                    ? <Loader />
+                    :  this.renderCategories()      
+                  }  
               </ul>
             </div>
 
-        <div className="add-user">
-          <button className="add-button">
-            <NavLink to="/layout/add" onClick={this.props.openSideBar}>
-              <i className="fas fa-plus-circle"></i> Add contact
-            </NavLink>
-            
-          </button>
-        </div>
-
+            <div className="add-user">
+              <button className="add-button">
+                <NavLink to="/layout/add" onClick={this.props.openSideBar}>
+                  <i className="fas fa-plus-circle"></i> Add contact
+                </NavLink>
+                
+              </button>
+            </div>
 
       </div>
     )}
@@ -95,6 +103,7 @@ function mapDispatchToProps(dispatch){
   return {
     openSideBar: () => dispatch({type: 'OPEN'}),
     closeSideBar: () => dispatch({type: 'CLOSE'}),
+    clearContacts: () => dispatch({type: 'CLEAR_CONTACTS'}),
     fetchCategories: () => dispatch(fetchCategories()),
   }
 }

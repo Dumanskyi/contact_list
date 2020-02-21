@@ -26,6 +26,8 @@ class Layout extends Component {
                 <Switch>
                     <Route path="/layout/contacts" component={Contacts} />
 
+                    <Route path="/layout/add" component={Add} />
+
                     <Route 
                         path="/layout/category/:id"
                         render={props =>
@@ -45,7 +47,6 @@ class Layout extends Component {
                         <User {...props} />
                         }
                     />
-                    <Route path="/layout/add" component={Add} />
                 </Switch>  
 
             </div>

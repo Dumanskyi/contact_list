@@ -6,7 +6,6 @@ import Registration from './Containers/Login/Registration';
 import Layout from './Containers/Layout/Layout';
 import User from './Containers/User/User';
 import Edit from './Containers/Edit/Edit';
-import Category from './Containers/Category/Category';
 
 
 function App() {
@@ -22,9 +21,6 @@ function App() {
         <Route 
             path="/layout/category/:id"
             component={Layout}
-            render={props =>
-            <Category {...props} />
-            }
         />
 
         <Route 

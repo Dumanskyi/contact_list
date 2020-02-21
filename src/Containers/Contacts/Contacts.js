@@ -4,21 +4,20 @@ import { connect } from "react-redux";
 import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts';
 import Contact from '../../Components/contact/contact';
 import Loader from '../../Components/UI/loader/loader'
-
+import Search from '../../Components/UI/search/search'
 
 class Contacts extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    
+    this.state = {
+      text: ''
+    };
     this.delete = this.delete.bind(this);
     this.readContact = this.readContact.bind(this);
     this.editContact = this.editContact.bind(this)
   }
 
   componentDidMount() {
-
-    console.log(this.props.myContactsFull)
     if (this.props.myContacts.length === 0){
       this.props.fetchContacts()
     }
@@ -38,8 +37,24 @@ class Contacts extends Component {
     prop.history.push(`/layout/edit/${userID}`);
   }
 
+  onSearchChange = (text) => {
+    this.setState({ text })
+  }
+
+  search = (users, text) => {
+    if (text.length === 0) {
+      return users
+    }
+
+    return users.filter( (user) => {
+      return ( (user.surname.toLowerCase().includes(text.toLowerCase())) || (user.name.toLowerCase().includes(text.toLowerCase()))   )    
+    })
+  }
+
   renderContacts() {
-    return this.props.myContacts.map(contact => {
+    
+    const visibleUsers = this.search(this.props.myContacts, this.state.text)
+    return visibleUsers.map(contact => {
         return (
           <Contact
             readContact={this.readContact}
@@ -69,15 +84,19 @@ class Contacts extends Component {
               <div className="option">
               </div>
             </div>
-
-            <div className="content">
                 {
                   this.props.loading
                   ? <Loader />
-                  :  this.renderContacts()      
-                }              
-                      
-            </div>
+                  :  
+                    <div className="content">
+                    <Search
+                      onSearchChange={this.onSearchChange}
+                    />
+                    <div className="users">
+                      {this.renderContacts()}
+                    </div>
+                    </div>      
+                }                 
         </div>
     );
   }

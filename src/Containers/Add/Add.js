@@ -68,16 +68,12 @@ class Add extends Component {
 
   render() {
     const { category } = this.state.category;
-    
-    const options = this.props.myCategories
-    console.log(options)
   
     return (
 
         <div className="add">
 
               <div className="header">
-              
                 <div className="burger">
                   <button>
                     <i className="fas fa-bars" onClick={this.props.closeSideBar}></i>
@@ -89,10 +85,7 @@ class Add extends Component {
               </div>
 
               <div className="content">
-                  <div className="photo">
-                    <img src={ require('../../img/picture.jpg') } alt="user-some-alt" />
-                  </div>
-
+  
                   <div className='add-form'>
                     <form onSubmit={this.submitFunction}>
 
@@ -128,7 +121,7 @@ class Add extends Component {
                       >
                       </Input>
 
-                      <div className='info-line'>Birthday date</div>
+                      <div className='info-line elem'>Birthday date</div>
                       <div className='info-birthday'>
                         <DatePicker 
                           selected={this.state.date}
@@ -136,7 +129,7 @@ class Add extends Component {
                         />
                       </div>
 
-                      <div className='info-line'>Category</div>
+                      <div className='info-line elem'>Category</div>
                       <Select
                         getOptionLabel={option => option.name}
                         getOptionValue={option => option._id}
@@ -199,5 +192,3 @@ function mapDispatchToProps(dispatch){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Add);
-
-

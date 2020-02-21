@@ -1,8 +1,8 @@
 ﻿import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "./Login.scss";
-import { connect } from "react-redux";
 import { fetch_request } from "../../common/helpers";
+import Input from '../../Components/UI/input/input';
 
 class Login extends Component {
   constructor(props) {
@@ -12,18 +12,11 @@ class Login extends Component {
       password: "",
       data: ""
     };
-
-    this.onChangeLogin = this.onChangeLogin.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
     this.loginFunction = this.loginFunction.bind(this);
   }
 
-  onChangeLogin(event) {
-    this.setState({ login: event.target.value });
-  }
-
-  onChangePassword(event) {
-    this.setState({ password: event.target.value });
+  onChangeParameter = (event) => {
+    this.setState({[event.target.name]: event.target.value})
   }
 
   async loginFunction(event) {
@@ -57,31 +50,22 @@ class Login extends Component {
       <div className="loginWrapper">
         <div className="loginBlock">
           <form onSubmit={this.loginFunction}>
-            <div className="info-line">
-              <label htmlFor="login">LOGIN</label>
-              <br />
-              <input
-                type="text"
-                id="login"
-                name="login"
-                placeholder="Type login"
-                value={this.state.login}
-                onChange={this.onChangeLogin}
-              />
-            </div>
 
-            <div className="info-line">
-              <label htmlFor="user-surname">PASSWORD</label>
-              <br />
-              <input
-                type="text"
-                id="passowrd"
-                name="user-surname"
-                placeholder="Type surname"
+            <Input
+                type="email"
+                parameter="login"
+                value={this.state.login}
+                onChange={this.onChangeParameter}
+              >
+            </Input>
+
+            <Input
+                type="password"
+                parameter="password"
                 value={this.state.password}
-                onChange={this.onChangePassword}
-              />
-            </div>
+                onChange={this.onChangeParameter}
+              >
+            </Input>
 
             <div className="loginButtons">
               <button>
@@ -98,18 +82,5 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    myContacts: state.myContacts,
-    sideBarIsOpen: state.sideBarIsOpen
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    addUser: newUser => dispatch({ type: "ADD_USER", payload: newUser })
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login
 

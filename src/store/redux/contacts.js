@@ -5,7 +5,8 @@ import {
     FETCH_DELETE_SUCCESS,
     FETCH_ADD_SUCCESS,
     FETCH_READ_SUCCESS,
-    FETCH_EDIT_SUCCESS
+    FETCH_EDIT_SUCCESS,
+    CLEAR_CONTACTS
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -65,6 +66,11 @@ const initialState = {
             usersList = [ ...usersList, action.user];
             usersListFull = [...usersListFull, action.user]
             return { ...state, loading: false, myContacts: usersList, myContactsFull: usersListFull };
+
+        case CLEAR_CONTACTS:
+            console.log(usersList)
+            console.log(usersListFull)
+            return { ...state, myContacts: usersList, myContactsFull: usersListFull}
   
         default: 
             return state

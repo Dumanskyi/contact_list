@@ -14,15 +14,10 @@ $montserrat: 'Montserrat', sans-serif;
     @media (max-width: 1023px) {
         width: 100%;
     }
-    .photo {
+    .icon {
         width: 48px;
-        img {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid $gold;
-            box-sizing: border-box;
-        }
+        font-size: 40px;
+        color: black    
     }
     .data {
         width: calc(100% - 68px);
@@ -30,19 +25,14 @@ $montserrat: 'Montserrat', sans-serif;
         cursor: pointer;
         .name{
             font-family: $montserrat;
-            font-size: 16px;
-            line-height: 16px;
+            font-size: 20px;
+            line-height: 20px;
             text-decoration: none;
             color: #000;
         }
-        .age {
-            font-size: 12px;
-            line-height: 15px;
-            color: #747E85;
-        }
     }
     .data:hover {
-        color: green;
+        color: $gold;
     }
     .menu {
         position: relative;
@@ -57,7 +47,9 @@ $montserrat: 'Montserrat', sans-serif;
             display: none;
             position: absolute;
             left: -20px;
-            background: rgb(180, 190, 197);
+            padding: 3px;
+            border-radius: 5px;
+            background: $gold;
             
             .block {
                 cursor: pointer;

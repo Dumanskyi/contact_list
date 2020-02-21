@@ -3,15 +3,13 @@ $white: #EFEBE4;
 $lightgrey: #D9D2C6;
 $montserrat: 'Montserrat', sans-serif;
 
-
-
 .loginWrapper{
     height: 100vh;
     background-color: #344652;
     padding-top: 100px;
     .loginBlock {
         width: 300px;
-        height: 190px;
+        height: 170px;
         background-color: $lightgrey;
         margin: 0 auto;
         border-radius: 10px;
@@ -19,8 +17,9 @@ $montserrat: 'Montserrat', sans-serif;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        padding: auto;
+        padding: auto 0;
         form {
+            width: 85%;
             .info-line {
                 margin-top: 15px;
                 label {
@@ -45,6 +44,13 @@ $montserrat: 'Montserrat', sans-serif;
                 }
                 input:focus, input:active {
                     background-color: rgb(219, 188, 134);
+                }
+
+                input:-webkit-autofill,
+                input:-webkit-autofill:hover, 
+                input:-webkit-autofill:focus, 
+                input:-webkit-autofill:active  {
+                    -webkit-box-shadow: 0 0 0 30px rgb(219, 188, 134) inset !important;
                 }
             }
             .loginButtons {

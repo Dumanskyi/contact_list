@@ -28,16 +28,6 @@ export default function contacts(state = initialState, action) {
             return {
                 ...state, categoreisIsLoading: false, error: action.error
             }
-
-        // case FETCH_DELETE_CATEGORY_SUCCESS:
-        //     let categoriesD = state.myCategories.filter(
-        //         category => category._id !== action.categoryID
-        //     );
-        //     return { ...state, categoreisIsLoading: false, myCategories: categoriesD };
-
-        // case FETCH_ADD_CATEGORY_SUCCESS:
-        //     let categories = [...state.myCategories, action.category];
-        //     return { ...state, myCategories: categories };
   
         default: 
             return state

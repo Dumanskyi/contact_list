@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Registration.scss";
 import {NavLink} from 'react-router-dom';
+import Input from '../../Components/UI/input/input';
 
 class Registration extends Component {
     constructor(props) {
@@ -13,38 +14,13 @@ class Registration extends Component {
         confirmPassword: "",
         data: "",
       };
-      
-      this.onChangeEmail = this.onChangeEmail.bind(this);
-      this.onChangeName = this.onChangeName.bind(this);
-      this.onChangeSurname = this.onChangeSurname.bind(this);
-      
-      this.onChangePassword = this.onChangePassword.bind(this);
-      this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this);
-  
-      this.registrationFunction = this.registrationFunction.bind(this);
-    }
-  
-    onChangeEmail(event) {
-      this.setState({ email: event.target.value });
-    }
-  
-    onChangeName(event) {
-      this.setState({ name: event.target.value });
     }
 
-    onChangeSurname(event) {
-      this.setState({ surname: event.target.value });
-    }
-
-    onChangePassword(event) {
-      this.setState({ password: event.target.value });
-    }
-
-    onChangeConfirmPassword(event) {
-      this.setState({ confirmPassword: event.target.value });
+    onChangeParameter = (event) => {
+      this.setState({[event.target.name]: event.target.value})
     }
   
-    registrationFunction(event) {
+    registrationFunction = (event) => {
       event.preventDefault();
       const urlRegistration = "users/register";
   
@@ -54,11 +30,9 @@ class Registration extends Component {
         surname: this.state.surname,
         password: this.state.password,
       };
-  
-      console.log(registrationData);
       
       if (this.state.password === this.state.confirmPassword) {
-
+        let prop = this.props
         let registration = function() {
           fetch(urlRegistration, {
             method: "POST",
@@ -77,6 +51,7 @@ class Registration extends Component {
               }
               
               alert(data.message);
+              prop.history.push("/")
             });
         };
     
@@ -84,79 +59,53 @@ class Registration extends Component {
       } else {
         alert ('Input correct password!')
       }
-      
     }
-  
   
     render() {
       return (
         <div className="registrationWrapper">
           <div className="registrationBlock">
             <form onSubmit={this.registrationFunction}>
-              <div className="info-line">
-                <label htmlFor="email">Email</label>
-                <br />
-                <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  placeholder="Type email"
-                  value={this.state.email}
-                  onChange={this.onChangeEmail}
-                />
-              </div>
 
-              <div className="info-line">
-                <label htmlFor="name">Name</label>
-                <br />
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Type name"
-                  value={this.state.name}
-                  onChange={this.onChangeName}
-                />
-              </div>
-  
-              <div className="info-line">
-                <label htmlFor="surname">Surname</label>
-                <br />
-                <input
-                  type="Text"
-                  id="surname"
-                  name="surname"
-                  placeholder="Type surname"
-                  value={this.state.surname}
-                  onChange={this.onChangeSurname}
-                />
-              </div>
+              <Input
+                type="email"
+                parameter="email"
+                value={this.state.email}
+                onChange={this.onChangeParameter}
+              >
+              </Input>
 
-              <div className="info-line">
-                <label htmlFor="password">Password</label>
-                <br />
-                <input
-                  type="Text"
-                  id="password"
-                  name="password"
-                  placeholder="Type password"
-                  value={this.state.password}
-                  onChange={this.onChangePassword}
-                />
-              </div>
+              <Input
+                type="name"
+                parameter="name"
+                value={this.state.name}
+                onChange={this.onChangeParameter}
+              >
+              </Input>
 
-              <div className="info-line">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <br />
-                <input
-                  type="Text"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="Confirm password"
-                  value={this.state.confirmPassword}
-                  onChange={this.onChangeConfirmPassword}
-                />
-              </div>
+              <Input
+                type="surname"
+                parameter="surname"
+                value={this.state.surname}
+                onChange={this.onChangeParameter}
+              >
+              </Input>
+
+              <Input
+                type="password"
+                parameter="password"
+                value={this.state.password}
+                onChange={this.onChangeParameter}
+              >
+              </Input>
+
+              <Input
+                type="password"
+                parameter="confirmPassword"
+                value={this.state.confirmPassword}
+                onChange={this.onChangeParameter}
+              >
+              </Input>
   
               <div className="loginButtons">
                 <button>

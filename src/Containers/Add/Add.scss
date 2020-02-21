@@ -73,11 +73,12 @@ $montserrat: 'Montserrat', sans-serif;
             .add-form {
                 form {
                     .info-line {
-                        margin-top: 28px;
+                        margin-top: 20px;
                         color: rgba(52, 70, 82, 0.5);
                         font-family: $montserrat;
                         font-size: 12px;
                         line-height: 12px;
+                        
                         label {
                             font-family: $montserrat;
                             font-size: 12px;
@@ -99,6 +100,9 @@ $montserrat: 'Montserrat', sans-serif;
                             resize: none;
                             outline: none;
                         }
+                }
+                .elem {
+                    margin-bottom: 5px;
                 }
                 .submit-wrapper {
                     padding: 12px 0px;

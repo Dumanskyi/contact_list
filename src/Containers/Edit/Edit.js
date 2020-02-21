@@ -9,6 +9,7 @@ import moment from 'moment';
 import Input from '../../Components/UI/input/input';
 import { fetchEditSuccess, fetchReadSuccess } from '../../store/actions/contacts'
 import Select from 'react-select';
+import Button from '../../Components/UI/button/button.js'
 
 class Edit extends Component {
   constructor(props) {
@@ -32,8 +33,8 @@ class Edit extends Component {
 
     this.onChangeParameter = this.onChangeParameter.bind(this);
     this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
-    this.submitFunction = this.submitFunction.bind(this);
-    this.onChangeCategory = this.onChangeCategory.bind(this);  
+    this.onChangeCategory = this.onChangeCategory.bind(this);
+    this.submitFunction = this.submitFunction.bind(this);  
   }
 
   componentDidMount() {
@@ -59,12 +60,6 @@ class Edit extends Component {
     }  
   }
 
-  onChangeCategory = (category) => {
-    let changedUser = this.state.userInfo;
-    changedUser.category = category;
-    this.setState({ userInfo: changedUser });
-  }
-
   onChangeParameter(event) {
     let changedUser = this.state.userInfo;
     if (event.target.name !== 'phone') {
@@ -75,10 +70,18 @@ class Edit extends Component {
     this.setState({ userInfo: changedUser });
   }
 
+  //  ---TODO
+
   onChangeDatePicker(date){
     let changedUser = this.state.userInfo;
     changedUser.bornDate = date;
     this.setState({userInfo: changedUser});
+  }
+
+  onChangeCategory = (category) => {
+    let changedUser = this.state.userInfo;
+    changedUser.category = category;
+    this.setState({ userInfo: changedUser });
   }
 
   fetchPut(url, user) {
@@ -146,6 +149,7 @@ class Edit extends Component {
           const category = options.find(el => el._id === userInfo.category)
           userInfo.category = category
         }
+        console.log(userInfo)
         this.setState({ userInfo: userInfo });
         this.props.fetchReadSuccess(userInfo); 
       })
@@ -162,10 +166,6 @@ class Edit extends Component {
 
     return (
       <>
-        <div className="photo">
-          <img src={require("../../img/picture.jpg")} alt="user-some-alt" />
-        </div>
-
         <div className="add-form">
           <form onSubmit={this.submitFunction}>
             <Input
@@ -200,7 +200,7 @@ class Edit extends Component {
             >
             </Input>
 
-            <div className='info-line'>Birthday date</div>
+            <div className='info-line elem'>Birthday date</div>
             <div className='info-birthday'>
               <DatePicker 
                 selected={this.state.userInfo.bornDate}
@@ -208,7 +208,7 @@ class Edit extends Component {
               />
             </div>
 
-            <div className='info-line'>Category</div>
+            <div className='info-line elem'>Category</div>
             <Select
                 getOptionLabel={option => option.name}
                 getOptionValue={option => option._id}
@@ -238,10 +238,12 @@ class Edit extends Component {
                 onChange={this.onChangeParameter}
               />
             </div>
-
-            <div className="submit">
-              <input className="submit-button" type="submit" value="Change" />
+            
+            <div className="submit-wrapper">
+              <Button purpose="form-submit" type="submit">Save</Button> 
             </div>
+            
+
           </form>
         </div>
       </>

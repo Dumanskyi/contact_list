@@ -9,7 +9,7 @@ $montserrat: 'Montserrat', sans-serif;
     padding-top: 100px;
     .registrationBlock {
         width: 300px;
-        height: 390px;
+        height: 330px;
         background-color: $lightgrey;
         margin: 0 auto;
         border-radius: 10px;
@@ -19,6 +19,7 @@ $montserrat: 'Montserrat', sans-serif;
         align-items: center;
         padding: auto;
         form {
+            width: 85%;
             .info-line {
                 margin-top: 15px;
                 label {
@@ -41,8 +42,15 @@ $montserrat: 'Montserrat', sans-serif;
                     width: 100%;
                     outline: none;
                 }
-                input:focus, input:active {
+                input:focus, input:hover {
                     background-color: rgb(219, 188, 134);
+                }
+
+                input:-webkit-autofill,
+                input:-webkit-autofill:hover, 
+                input:-webkit-autofill:focus, 
+                input:-webkit-autofill:active  {
+                    -webkit-box-shadow: 0 0 0 30px rgb(219, 188, 134) inset !important;
                 }
             }
             .loginButtons {

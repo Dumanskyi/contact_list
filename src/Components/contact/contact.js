@@ -7,15 +7,15 @@ const Contact = props => {
     return (
         <div
         className="contact">
-        <div className="photo">
-          <img alt=""></img>
+        <div className="icon">
+          <i className="far fa-address-book"></i>
         </div>
         <div
           className="data"
           onClick={() => props.readContact(props.contact._id)}
         >
-          {props.contact.name} {props.contact.surname}
-          <br></br>
+          {props.contact.name} <br></br> {props.contact.surname}
+          
         </div>
 
         <div className="menu active">

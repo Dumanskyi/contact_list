@@ -1,6 +1,7 @@
 import {
     OPEN, 
-    CLOSE, 
+    CLOSE,
+     
 } from '../actions/actionTypes.js'
 
 const initialState = {

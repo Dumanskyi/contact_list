@@ -4,7 +4,8 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from '../../Components/UI/loader/loader'
 import moment from 'moment';
-import { fetchReadSuccess } from '../../store/actions/contacts'
+import { fetchReadSuccess } from '../../store/actions/contacts';
+import { fetchCategories } from '../../store/actions/categories';
 
 class User extends Component {
   constructor(props) {
@@ -28,17 +29,15 @@ class User extends Component {
         })
         .then((response) => response.json())
         .then((userInfo) => {
-          
           userInfo.phoneNumber = userInfo.phone[0].value;
           userInfo.email = userInfo.email[0];
           userInfo.bornDate = moment(userInfo.bornDate).format('DD-MM-YYYY')
-          console.log(this.props.myCategories)
           
           if (userInfo.category) {
             const category = this.props.myCategories.find(el => el._id === userInfo.category)
             userInfo.category = category
           }
-          console.log(userInfo)
+      
           this.setState({ userInfo: userInfo })
           this.props.fetchReadSuccess(userInfo) 
         })
@@ -46,10 +45,15 @@ class User extends Component {
   }
 
   componentDidMount() {
+    if (this.props.myCategories.length === 0){
+      this.props.fetchCategories()
+    }
+
     const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
     if (index !== -1) {
       let obj = this.props.myContactsFull[index]
       obj.phoneNumber = obj.phone[0].value
+      obj.bornDate = moment(obj.bornDate).format('YYYY-MM-DD')
 
       if (!obj.category.hasOwnProperty('_id')){
         const options = this.props.myCategories
@@ -67,10 +71,6 @@ class User extends Component {
   renderUser() {
         return (
           <>
-            <div className="photo">
-                <img src={ require('../../img/photo.jpg') } alt="some-alt" />
-            </div>
-
             <div className="title">
               <p className="name">{this.state.userInfo.name} {this.state.userInfo.surname}</p>
               <p className="info">{this.state.userInfo.information}</p>
@@ -111,7 +111,6 @@ class User extends Component {
                   : null
             }
             
-
             <div className="block">
               <p className="tag">Position</p>
               <p className="data">{this.state.userInfo.position}</p>
@@ -155,17 +154,15 @@ function mapStateToProps(state) {
   return {
     myContacts: state.contacts.myContacts,
     myContactsFull: state.contacts.myContactsFull,
-
-    loading: state.categories.categoreisIsLoading,
     myCategories: state.categories.myCategories,
-    error: state.categories.error
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     closeSideBar: () => dispatch({type: 'CLOSE'}),
-    fetchReadSuccess: user => dispatch(fetchReadSuccess(user))
+    fetchReadSuccess: user => dispatch(fetchReadSuccess(user)),
+    fetchCategories: () => dispatch(fetchCategories()),
   }
 }
 

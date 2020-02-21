@@ -3,13 +3,16 @@ import "./Category.scss";
 import { connect } from "react-redux";
 import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts';
 import Contact from '../../Components/contact/contact';
-import Loader from '../../Components/UI/loader/loader'
+import Loader from '../../Components/UI/loader/loader';
+import Search from '../../Components/UI/search/search'
 
 
 class Category extends Component {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      text: ''
+    };
     this.delete = this.delete.bind(this);
     this.readContact = this.readContact.bind(this);
     this.editContact = this.editContact.bind(this)
@@ -33,8 +36,24 @@ class Category extends Component {
     this.props.history.push(`/layout/edit/${userID}`);
   }
 
+  onSearchChange = (text) => {
+    this.setState({ text })
+  }
+
+  search = (users, text) => {
+    if (text.length === 0) {
+      return users
+    }
+
+    return users.filter( (user) => {
+      return ( (user.surname.toLowerCase().includes(text.toLowerCase())) || (user.name.toLowerCase().includes(text.toLowerCase()))   )    
+    })
+  }
+
   renderContacts() {
-    return this.props.myContacts.map(contact => {
+
+    const visibleUsers = this.search(this.props.myContacts, this.state.text)
+    return visibleUsers.map(contact => {
         if (contact.category.hasOwnProperty('_id')) {
           contact.category = contact.category._id
         }
@@ -73,15 +92,19 @@ class Category extends Component {
               </div>
             </div>
 
-            <div className="content">
-                {
-                  this.props.loading
-                  ? 
-                  <Loader />
-                  :  this.renderContacts()      
-                }              
-                      
-            </div>
+            {
+              this.props.loading
+              ? <Loader />
+              :  
+                <div className="content">
+                <Search
+                  onSearchChange={this.onSearchChange}
+                />
+                <div className="users">
+                  {this.renderContacts()}
+                </div>
+                </div>      
+            }   
         </div>
     );
   }

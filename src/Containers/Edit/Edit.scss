@@ -9,6 +9,8 @@ $montserrat: 'Montserrat', sans-serif;
     flex-direction: column;
     font-display: column;
     transition: 0.5s;
+    background-color: $white;
+    height: 100vh;
     .header {
         background-color: $gold;
         height: 60px;
@@ -52,7 +54,6 @@ $montserrat: 'Montserrat', sans-serif;
     .content {
         background-color: #EFEBE4;
         padding: 0px 16px;
-        min-height: 100vh;
         .photo {
             display: flex;
             justify-content: center;
@@ -67,7 +68,7 @@ $montserrat: 'Montserrat', sans-serif;
         .add-form {
             form {
                 .info-line {
-                    margin-top: 28px;
+                    margin-top: 20px;
                     label {
                         font-family: $montserrat;
                         font-size: 12px;
@@ -91,21 +92,14 @@ $montserrat: 'Montserrat', sans-serif;
                     }
                 }
 
-                .submit {
-                    padding: 32px 0px;
+                .elem {
+                    margin-bottom: 5px;
+                }
+
+                .submit-wrapper {
+                    padding: 12px 0px;
                     display: flex;
                     justify-content: center;
-                    .submit-button {
-                        background: $gold;
-                        padding: 6px 47px;
-                        font-family: $montserrat;
-                        font-size: 16px;
-                        line-height: 20px;
-                        color: #101F2A;
-                        box-sizing: border-box;
-                        border: 1px solid black;
-                        border-radius: 56px;
-                    }
                 } 
             }
         }
