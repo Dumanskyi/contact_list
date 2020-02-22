@@ -18,7 +18,7 @@ export default class Search extends Component {
     render () {
         return (
             <div className='searchBlock'>
-                <span><i class="fas fa-search"></i></span>
+                <span><i className="fas fa-search"></i></span>
                 <input 
                     type="text"
                     className='form'

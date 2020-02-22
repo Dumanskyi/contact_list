@@ -15,6 +15,7 @@ export function fetchContacts() {
 
         try {
             const response = await axios.get("http://localhost:3000/phonebook")
+            console.log(response)
             dispatch(fetchContactsSuccess(response.data))
 
         } catch (e) {
@@ -22,6 +23,15 @@ export function fetchContacts() {
         }    
     }
 }
+
+// const getContact = async (url) => {
+//     const res = await fetch(url);
+//     const body = await res.json();
+    
+//     return body
+// }
+
+// getContact("http://localhost:3000/phonebook").then((body) => {console.log(body)} )
 
 export function fetchDeleteContact(userID) {
     return async dispatch => {
@@ -101,5 +111,7 @@ export function fetchEditSuccess(user) {
         user: user
    } 
 }
+
+
 
 
