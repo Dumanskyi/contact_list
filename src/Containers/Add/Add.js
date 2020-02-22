@@ -6,7 +6,6 @@ import { fetchAddContact } from '../../store/actions/contacts';
 
 import moment from 'moment';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Input from '../../Components/UI/input/input';
 import Select from 'react-select';
 
@@ -61,6 +60,7 @@ class Add extends Component {
       user.category = this.state.category._id
     }
 
+    console.log(user)
     this.props.fetchAddContact(user)
     this.props.history.push("/layout/contacts")
 

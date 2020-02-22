@@ -1,4 +1,5 @@
-export function helper(url, method, start, success, error, data = undefined) {
+
+export function helper(url, method, start, success, error, data = undefined, id = undefined, transormData = undefined) {
     return async dispatch => {
 
         dispatch(start())
@@ -12,43 +13,24 @@ export function helper(url, method, start, success, error, data = undefined) {
                 ...(data ? { body: JSON.stringify(data) } : {})
               });
               const response = await request.json();
-              dispatch(success(response))
 
-              // if (response.code === 401) {
-              //   // TODO: route -> /login
-              // } else {
-              //   console.log(response)
-              //   dispatch(success(response))
-              // }
-        } catch (e) {
-            dispatch(error(e))
-        }    
-    }
-}
-
-
-export function helper_ID(url, method, start, success, error, user_ID, data = undefined) {
-    return async dispatch => {
-
-        dispatch(start())
-
-        try {
-            const request = await fetch(`http://localhost:3000/${url}`, {
-                method,
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                ...(data ? { body: JSON.stringify(data) } : {})
-              });
-              const response = await request.json();
-              if (response.code === 401) {
-                // TODO: route -> /login
+              if (id !== undefined) {
+                dispatch(success(id)) 
               } else {
-                dispatch(success(user_ID))
+            
+                if (transormData) {
+                  let obj = transormData(response, data)
+                  dispatch(success(obj)) 
+                } else {
+                  dispatch(success(response))
+                }
               }
-
+    
         } catch (e) {
             dispatch(error(e))
         }    
     }
 }
+
+
+

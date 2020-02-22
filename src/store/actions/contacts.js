@@ -7,61 +7,19 @@ import {
     FETCH_READ_SUCCESS,
     FETCH_EDIT_SUCCESS
 } from './actionTypes'
-import axios from 'axios'
+
+import { helper } from './helper';
 
 export function fetchContacts() {
-    return async dispatch => {
-        dispatch(fetchContactsStart())
-
-        try {
-            const response = await axios.get("http://localhost:3000/phonebook")
-            console.log(response)
-            dispatch(fetchContactsSuccess(response.data))
-
-        } catch (e) {
-            dispatch(fetchContactsError(e))
-        }    
-    }
+    return helper("phonebook", "GET", fetchContactsStart, fetchContactsSuccess, fetchContactsError)
 }
 
-// const getContact = async (url) => {
-//     const res = await fetch(url);
-//     const body = await res.json();
-    
-//     return body
-// }
-
-// getContact("http://localhost:3000/phonebook").then((body) => {console.log(body)} )
-
 export function fetchDeleteContact(userID) {
-    return async dispatch => {
-        dispatch(fetchContactsStart())
-
-        try {
-            await axios.delete(`http://localhost:3000/phonebook/${userID}`)
-            dispatch(fetchDeleteSuccess(userID))
-
-        } catch (e) {
-            dispatch(fetchContactsError(e))
-        }    
-    }
+    return helper(`phonebook/${userID}`, "DELETE", fetchContactsStart, fetchDeleteSuccess, fetchContactsError, null, userID )
 }
 
 export function fetchAddContact(newUser) {
-    return async dispatch => {
-        dispatch(fetchContactsStart())
-
-        try {
-            const response = await axios.post(`http://localhost:3000/phonebook/`, newUser)
-            newUser._id = response.data.id
-            console.log(newUser)
-            dispatch(fetchAddSuccess(newUser))
-
-            
-        } catch (e) {
-            dispatch(fetchContactsError(e))
-        }    
-    }
+    return helper("phonebook", "POST", fetchContactsStart, fetchAddSuccess, fetchContactsError, newUser, undefined, transformDataAdd)
 }
 
 export function fetchContactsStart() {
@@ -111,6 +69,14 @@ export function fetchEditSuccess(user) {
         user: user
    } 
 }
+
+function transformDataAdd(response, data) {
+    data._id = response.id
+    return data
+  }
+
+
+
 
 
 

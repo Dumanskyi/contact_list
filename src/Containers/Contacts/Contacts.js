@@ -52,7 +52,6 @@ class Contacts extends Component {
   }
 
   renderContacts() {
-    
     const visibleUsers = this.search(this.props.myContacts, this.state.text)
     return visibleUsers.map(contact => {
         return (
