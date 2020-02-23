@@ -8,7 +8,10 @@ import {
     FETCH_EDIT_SUCCESS
 } from './actionTypes'
 
+import moment from 'moment';
 import { helper } from './helper';
+// import { transformDataRead } from '../../Containers/User/User';
+
 
 export function fetchContacts() {
     return helper("phonebook", "GET", fetchContactsStart, fetchContactsSuccess, fetchContactsError)
@@ -20,6 +23,11 @@ export function fetchDeleteContact(userID) {
 
 export function fetchAddContact(newUser) {
     return helper("phonebook", "POST", fetchContactsStart, fetchAddSuccess, fetchContactsError, newUser, undefined, transformDataAdd)
+}
+
+export function fetchReadFullContact(userID, categories) {
+    console.log(categories)
+    return helper(`phonebook/${userID}`, "GET", fetchContactsStart, fetchReadSuccess, fetchContactsError, null, userID, transformDataRead, categories)
 }
 
 export function fetchContactsStart() {
@@ -57,6 +65,7 @@ export function fetchContactsError(e) {
 }
 
 export function fetchReadSuccess(user) {
+    console.log(user)
     return {
         type: FETCH_READ_SUCCESS,
         user: user
@@ -74,6 +83,22 @@ function transformDataAdd(response, data) {
     data._id = response.id
     return data
   }
+
+function transformDataRead(response, data, categories) {
+    response.phoneNumber = response.phone[0].value;
+    response.email = response.email[0];
+    response.bornDate = moment(response.bornDate).format("DD-MM-YYYY");
+
+    if (response.category) {
+        const category = categories.find(
+            el => el._id === response.category
+        );
+        response.category = category;
+    }
+    return response
+}
+
+  
 
 
 

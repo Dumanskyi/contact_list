@@ -21,6 +21,7 @@ class Contacts extends Component {
     if (this.props.myContacts.length === 0){
       this.props.fetchContacts()
     }
+    console.log(this.props.myContacts)
   }
 
   delete(userID) {

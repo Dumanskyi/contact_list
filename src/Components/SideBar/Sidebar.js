@@ -70,7 +70,7 @@ class Sidebar extends Component {
                   </NavLink>
 
                   {
-                    this.props.loading && this.props.myCategories !== 0
+                    this.props.loadingCategories && this.props.myCategories !== 0
                     ? <Loader />
                     :  this.renderCategories()      
                   }  
@@ -93,7 +93,7 @@ class Sidebar extends Component {
 function mapStateToProps(state) {
   return {
     sideBarIsOpen: state.other.sideBarIsOpen,
-    loading: state.categories.categoreisIsLoading,
+    loadingCategories: state.categories.categoreisIsLoading,
     myCategories: state.categories.myCategories,
     error: state.categories.error
   }

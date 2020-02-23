@@ -7,9 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import Input from '../../Components/UI/input/input';
-import { fetchEditSuccess, fetchReadSuccess } from '../../store/actions/contacts'
+import { fetchEditSuccess, fetchReadSuccess } from '../../store/actions/contacts';
 import Select from 'react-select';
 import Button from '../../Components/UI/button/button.js'
+import { fetchCategories } from '../../store/actions/categories';
 
 class Edit extends Component {
   constructor(props) {
@@ -37,9 +38,12 @@ class Edit extends Component {
     this.submitFunction = this.submitFunction.bind(this);  
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (this.props.myCategories.length === 0) {
+      await this.props.fetchCategories();
+    }
+    
     const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
-
     if (index !== -1) {
       const userInfo = this.props.myContactsFull[index]
 
@@ -56,7 +60,7 @@ class Edit extends Component {
       this.setState({ userInfo: userInfo })
     } else {
       const userID = this.props.match.params.id
-      this.fetchData(`http://localhost:3000/phonebook/${userID}`)
+      await this.fetchData(`http://localhost:3000/phonebook/${userID}`)
     }  
   }
 
@@ -288,7 +292,8 @@ function mapDispatchToProps(dispatch) {
     openSideBar: () => dispatch({ type: "OPEN" }),
     closeSideBar: () => dispatch({ type: "CLOSE" }),
     fetchReadSuccess: user => dispatch(fetchReadSuccess(user)),
-    fetchEditSuccess: user => dispatch(fetchEditSuccess(user))
+    fetchEditSuccess: user => dispatch(fetchEditSuccess(user)),
+    fetchCategories: () => dispatch(fetchCategories())
   };
 }
 

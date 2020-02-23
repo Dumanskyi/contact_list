@@ -3,20 +3,10 @@ import {
     FETCH_CATEGORIES_SUCCESS, 
     FETCH_CATEGORIES_ERROR,
 } from './actionTypes'
-import axios from 'axios'
-
+import { helper } from './helper';
 
 export function fetchCategories() {
-    return async dispatch => {
-        dispatch(fetchCategoriesStart())
-
-        try {
-            const response = await axios.get("http://localhost:3000/categories")
-            dispatch(fetchCategoriesSuccess(response.data))
-        } catch (e) {
-            dispatch(fetchCategoriesError(e))
-        }    
-    }
+    return helper("categories", "GET", fetchCategoriesStart, fetchCategoriesSuccess, fetchCategoriesError)
 }
 
 export function fetchCategoriesStart() {

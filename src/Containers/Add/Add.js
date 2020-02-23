@@ -60,7 +60,6 @@ class Add extends Component {
       user.category = this.state.category._id
     }
 
-    console.log(user)
     this.props.fetchAddContact(user)
     this.props.history.push("/layout/contacts")
 
