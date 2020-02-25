@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import Loader from "../../Components/UI/loader/loader";
 import moment from "moment";
-import { fetchReadSuccess, fetchReadFullContact } from '../../store/actions/contacts';
+import { fetchReadFullContact } from '../../store/actions/contacts';
 import { fetchCategories } from "../../store/actions/categories";
 
 
@@ -16,36 +16,6 @@ class User extends Component {
       userInfo: {}
     };
   }
-
-  // fetchData(url) {
-  //   this.setState({ isLoading: true });
-
-  //   fetch(url)
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw Error(response.statusText);
-  //       }
-  //       this.setState({ isLoading: false });
-  //       return response;
-  //     })
-  //     .then(response => response.json())
-  //     .then(userInfo => {
-  //       userInfo.phoneNumber = userInfo.phone[0].value;
-  //       userInfo.email = userInfo.email[0];
-  //       userInfo.bornDate = moment(userInfo.bornDate).format("DD-MM-YYYY");
-
-  //       if (userInfo.category) {
-  //         const category = this.props.myCategories.find(
-  //           el => el._id === userInfo.category
-  //         );
-  //         userInfo.category = category;
-  //       }
-
-  //       this.setState({ userInfo: userInfo });
-  //       this.props.fetchReadSuccess(userInfo);
-  //     })
-  //     .catch(() => this.setState({ hasErrored: true }));
-  // }
 
   async componentDidMount() {
     if (this.props.myCategories.length === 0) {
@@ -69,12 +39,7 @@ class User extends Component {
       this.setState({ userInfo: obj });
     } else {
       const userID = this.props.match.params.id;
-
-      // await this.fetchData(`http://localhost:3000/phonebook/${userID}`);
       const categories = this.props.myCategories
-      // const categories = 'cococo'
-      console.log(userID)
-      console.log(categories)
 
       await this.props.fetchReadFullContact(userID, categories).then((res) => this.setState({ userInfo: res }))
     }
@@ -148,8 +113,7 @@ class User extends Component {
         </div>
 
         <div className="user-info">
-          {this.state.isLoading ? <Loader /> : this.renderUser()}
-          {/* { this.props.loading ? <Loader /> : this.renderUser() }  */}
+          { this.props.loading ? <Loader /> : this.renderUser() } 
         </div>
 
       </div>
@@ -163,7 +127,6 @@ function mapStateToProps(state) {
     myContacts: state.contacts.myContacts,
     myContactsFull: state.contacts.myContactsFull,
     myCategories: state.categories.myCategories,
-
     loadingCategories: state.categories.categoreisIsLoading,
   };
 }
@@ -171,7 +134,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     closeSideBar: () => dispatch({ type: "CLOSE" }),
-    fetchReadSuccess: user => dispatch(fetchReadSuccess(user)),
     fetchReadFullContact: (user, categories) => dispatch(fetchReadFullContact(user, categories)),
     fetchCategories: () => dispatch(fetchCategories())
   };

@@ -1,7 +1,6 @@
 
 export function helper(url, method, start, success, error, data = undefined, id = undefined, transormData = undefined, categories) {
     return async dispatch => {
-        console.log(categories)
         dispatch(start())
 
         try {
@@ -13,19 +12,16 @@ export function helper(url, method, start, success, error, data = undefined, id 
                 ...(data ? { body: JSON.stringify(data) } : {})
               });
               const response = await request.json();
-              console.log(`resonse - ${response}`)
               if (method === "DELETE") {
                 dispatch(success(id)) 
+              } else if (method === "PUT") {
+                dispatch(success(data))
               } else {
-            
                 if (transormData) {
-                  console.log('cocococ')
                   let obj = transormData(response, data, categories)
-                  console.log(obj)
                   dispatch(success(obj))
                   return obj 
                 } else {
-                  console.log(response)
                   dispatch(success(response))
                 }
               }
@@ -35,6 +31,9 @@ export function helper(url, method, start, success, error, data = undefined, id 
         }    
     }
 }
+
+
+
 
 
 

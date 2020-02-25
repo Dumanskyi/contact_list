@@ -15,7 +15,6 @@ export const fetch_request = async function(url, method, data = undefined, start
       return response;
     }
   } catch (e) {
-    console.error(e);
   }
 };
 

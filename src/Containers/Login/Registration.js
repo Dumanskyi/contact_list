@@ -18,6 +18,7 @@ class Registration extends Component {
 
     onChangeParameter = (event) => {
       this.setState({[event.target.name]: event.target.value})
+      console.log(this.state)
     }
   
     registrationFunction = (event) => {

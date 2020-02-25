@@ -10,7 +10,6 @@ import {
 
 import moment from 'moment';
 import { helper } from './helper';
-// import { transformDataRead } from '../../Containers/User/User';
 
 
 export function fetchContacts() {
@@ -26,8 +25,16 @@ export function fetchAddContact(newUser) {
 }
 
 export function fetchReadFullContact(userID, categories) {
-    console.log(categories)
     return helper(`phonebook/${userID}`, "GET", fetchContactsStart, fetchReadSuccess, fetchContactsError, null, userID, transformDataRead, categories)
+}
+
+export function fetchEditFullContact(userID, categories) {
+    return helper(`phonebook/${userID}`, "GET", fetchContactsStart, fetchReadSuccess, fetchContactsError, null, userID, transformDataEdit, categories)
+}
+
+export function fetchEditContact(userID, user){
+    console.log('cococo')
+    return helper(`phonebook/${userID}`, "PUT", fetchContactsStart, fetchEditSuccess, fetchContactsError, user, userID, transformDataRead)
 }
 
 export function fetchContactsStart() {
@@ -65,7 +72,6 @@ export function fetchContactsError(e) {
 }
 
 export function fetchReadSuccess(user) {
-    console.log(user)
     return {
         type: FETCH_READ_SUCCESS,
         user: user
@@ -73,6 +79,7 @@ export function fetchReadSuccess(user) {
 }
 
 export function fetchEditSuccess(user) {
+    console.log(user)
     return {
         type: FETCH_EDIT_SUCCESS,
         user: user
@@ -97,6 +104,27 @@ function transformDataRead(response, data, categories) {
     }
     return response
 }
+
+
+function transformDataEdit(response, data, categories) {
+    response.phoneNumber = response.phone[0].value;
+    response.email = response.email[0];
+    response.bornDate = moment(response.bornDate).toDate()
+    if (response.category) {
+        const options = categories
+        const category = options.find(el => el._id === response.category)
+        response.category = category
+    }
+    return response
+}
+
+
+
+
+
+
+
+
 
   
 

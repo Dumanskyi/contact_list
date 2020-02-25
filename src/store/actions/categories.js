@@ -15,8 +15,6 @@ export function fetchCategoriesStart() {
     }
 }
 
-
-
 export function fetchCategoriesError(e) {
     return {
         type: FETCH_CATEGORIES_ERROR,

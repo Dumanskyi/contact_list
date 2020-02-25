@@ -7,7 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import Input from '../../Components/UI/input/input';
-import { fetchEditSuccess, fetchReadSuccess } from '../../store/actions/contacts';
+import {
+    fetchEditFullContact,
+    fetchEditContact
+} from '../../store/actions/contacts';
 import Select from 'react-select';
 import Button from '../../Components/UI/button/button.js'
 import { fetchCategories } from '../../store/actions/categories';
@@ -47,20 +50,24 @@ class Edit extends Component {
     if (index !== -1) {
       const userInfo = this.props.myContactsFull[index]
 
+      // let date = new Date(userInfo.bornDate)
       userInfo.bornDate = moment(userInfo).toDate()
+      // userInfo.borndate = date;
+
       if (userInfo.category) {
         if (userInfo.category.hasOwnProperty('_id')){
           userInfo.category = userInfo.category._id
         }
-        const options = this.props.myCategories
-        const category = options.find(el => el._id === userInfo.category)
+        const category = this.props.myCategories.find(el => el._id === userInfo.category)
         userInfo.category = category
       }
-
       this.setState({ userInfo: userInfo })
     } else {
       const userID = this.props.match.params.id
-      await this.fetchData(`http://localhost:3000/phonebook/${userID}`)
+      const categories = this.props.myCategories
+      await this.props.fetchEditFullContact(userID, categories).then((res) => {
+        this.setState({ userInfo: res })
+      })
     }  
   }
 
@@ -74,8 +81,6 @@ class Edit extends Component {
     this.setState({ userInfo: changedUser });
   }
 
-  //  ---TODO
-
   onChangeDatePicker(date){
     let changedUser = this.state.userInfo;
     changedUser.bornDate = date;
@@ -88,39 +93,13 @@ class Edit extends Component {
     this.setState({ userInfo: changedUser });
   }
 
-  fetchPut(url, user) {
-    let prop = this.props;
-    this.setState({ isLoading: true });
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        this.setState({ isLoading: false });
-        this.props.fetchEditSuccess(user);
-        prop.history.push("/layout/contacts");
-        
-        return response;
-      })
-
-      .catch(() => this.setState({ hasErrored: true }));
-  }
-
-
   submitFunction(event) {
     event.preventDefault();
     const user = {
       name: this.state.userInfo.name,
       surname: this.state.userInfo.surname,
       phone: this.state.userInfo.phone,
-      email: [this.state.userInfo.email],
+      email: Array.isArray(this.state.userInfo.email) ? this.state.userInfo.email : [this.state.userInfo.email],
       bornDate: moment(this.state.userInfo.bornDate).format('YYYY-MM-DD'),
       position: this.state.userInfo.position,
       information: this.state.userInfo.information,
@@ -129,44 +108,17 @@ class Edit extends Component {
 
     const userID = this.props.match.params.id;
     user._id = userID;
-    this.fetchPut(`http://localhost:3000/phonebook/${userID}`, user);
+
+    this.props.fetchEditContact(userID, user)
+    this.props.history.push("/layout/contacts")
     
   }
 
-  fetchData(url) {
-    this.setState({ isLoading: true });
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        this.setState({ isLoading: false });
-        return response;
-      })
-      .then(response => response.json())
-      .then(userInfo => {
-        userInfo.phoneNumber = userInfo.phone[0].value;
-        userInfo.email = userInfo.email[0];
-        userInfo.bornDate = moment(userInfo.bornDate).toDate()
-        if (userInfo.category) {
-          const options = this.props.myCategories
-          const category = options.find(el => el._id === userInfo.category)
-          userInfo.category = category
-        }
-        console.log(userInfo)
-        this.setState({ userInfo: userInfo });
-        this.props.fetchReadSuccess(userInfo); 
-      })
-      .catch(() => this.setState({ hasErrored: true }));
-  }
-
-
-  
-
   renderUser() {
 
-    const category = this.state.userInfo.category
     const options = this.props.myCategories
+    const category = this.state.userInfo.category
+    
 
     return (
       <>
@@ -246,8 +198,6 @@ class Edit extends Component {
             <div className="submit-wrapper">
               <Button purpose="form-submit" type="submit">Save</Button> 
             </div>
-            
-
           </form>
         </div>
       </>
@@ -268,7 +218,7 @@ class Edit extends Component {
         </div>
 
         <div className="content">
-          {this.state.isLoading ? <Loader /> : this.renderUser()}
+          {this.props.loading ? <Loader /> : this.renderUser()}
         </div>
       </div>
     );
@@ -281,7 +231,7 @@ function mapStateToProps(state) {
     myContacts: state.contacts.myContacts,
     myContactsFull: state.contacts.myContactsFull,
 
-    loading: state.categories.categoreisIsLoading,
+    loading: state.contacts.loading,
     myCategories: state.categories.myCategories,
     error: state.categories.error
   };
@@ -291,8 +241,8 @@ function mapDispatchToProps(dispatch) {
   return {
     openSideBar: () => dispatch({ type: "OPEN" }),
     closeSideBar: () => dispatch({ type: "CLOSE" }),
-    fetchReadSuccess: user => dispatch(fetchReadSuccess(user)),
-    fetchEditSuccess: user => dispatch(fetchEditSuccess(user)),
+    fetchEditFullContact: (user, categories) => dispatch(fetchEditFullContact(user, categories)),
+    fetchEditContact: (userID, user) => dispatch(fetchEditContact(userID, user)),
     fetchCategories: () => dispatch(fetchCategories())
   };
 }

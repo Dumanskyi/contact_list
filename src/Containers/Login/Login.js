@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./Login.scss";
 import { fetch_request } from "../../common/helpers";
 import Input from '../../Components/UI/input/input';
+import { connect } from 'react-redux';
 
 class Login extends Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class Login extends Component {
 
   async loginFunction(event) {
     event.preventDefault();
-    const urlLogin = "users/login";
     const prop = this.props;
 
     let loginData = {
@@ -30,17 +30,16 @@ class Login extends Component {
     };
 
     try {
-      const login_data = await fetch_request(urlLogin, "POST", loginData);
+      const login_data = await fetch_request("/users/login", "POST", loginData);
+
       if (login_data) {
         if (login_data.cookie) {
           document.cookie = `${login_data.cookie.name}=${login_data.cookie.value};path=/`;
         }
-        console.log(login_data.message);
         prop.history.push("/layout/contacts");
         
       }
     } catch (e) {
-      console.error(e);
       prop.history.push("/");
     }
   }
@@ -82,5 +81,13 @@ class Login extends Component {
   }
 }
 
-export default Login
+function mapStateToProps(state) {
+  return {
+    loading: state.contacts.loading,
+  };
+}
+
+// export default Login
+
+export default connect(mapStateToProps)(Login);
 

@@ -65,11 +65,12 @@ const initialState = {
             );
             usersList = [ ...usersList, action.user];
             usersListFull = [...usersListFull, action.user]
+            console.log(action.user)
+            console.log(usersList)
+            console.log(usersListFull)
             return { ...state, loading: false, myContacts: usersList, myContactsFull: usersListFull };
 
         case CLEAR_CONTACTS:
-            console.log(usersList)
-            console.log(usersListFull)
             return { ...state, myContacts: usersList, myContactsFull: usersListFull}
   
         default: 
