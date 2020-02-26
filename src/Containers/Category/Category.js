@@ -13,9 +13,6 @@ class Category extends Component {
     this.state = {
       text: ''
     };
-    this.delete = this.delete.bind(this);
-    this.readContact = this.readContact.bind(this);
-    this.editContact = this.editContact.bind(this)
   }
 
   componentDidMount() {
@@ -24,15 +21,15 @@ class Category extends Component {
     }
   }
 
-  delete(userID) {
+  delete = (userID) => {
     this.props.fetchDeleteContact(userID)
   }
 
-  readContact(userID) {
+  readContact = (userID) => {
     this.props.history.push(`/layout/user/${userID}`);
   }
 
-  editContact(userID) {
+  editContact = (userID) => {
     this.props.history.push(`/layout/edit/${userID}`);
   }
 

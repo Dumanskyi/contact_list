@@ -12,28 +12,24 @@ class Contacts extends Component {
     this.state = {
       text: ''
     };
-    this.delete = this.delete.bind(this);
-    this.readContact = this.readContact.bind(this);
-    this.editContact = this.editContact.bind(this)
   }
 
   componentDidMount() {
     if (this.props.myContacts.length === 0){
       this.props.fetchContacts()
     }
-    console.log(this.props.myContacts)
   }
 
-  delete(userID) {
+  delete = (userID) => {
     this.props.fetchDeleteContact(userID)
   }
 
-  readContact(userID) {
+  readContact = (userID) => {
     const prop = this.props;
     prop.history.push(`/layout/user/${userID}`);
   }
 
-  editContact(userID) {
+  editContact = (userID) => {
     const prop = this.props;
     prop.history.push(`/layout/edit/${userID}`);
   }

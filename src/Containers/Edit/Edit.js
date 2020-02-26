@@ -35,10 +35,6 @@ class Edit extends Component {
       },
     };
 
-    this.onChangeParameter = this.onChangeParameter.bind(this);
-    this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
-    this.onChangeCategory = this.onChangeCategory.bind(this);
-    this.submitFunction = this.submitFunction.bind(this);  
   }
 
   async componentDidMount() {
@@ -49,10 +45,7 @@ class Edit extends Component {
     const index = this.props.myContactsFull.findIndex((user) => user._id === this.props.match.params.id)
     if (index !== -1) {
       const userInfo = this.props.myContactsFull[index]
-
-      // let date = new Date(userInfo.bornDate)
-      userInfo.bornDate = moment(userInfo).toDate()
-      // userInfo.borndate = date;
+      userInfo.bornDate = moment(userInfo.bornDate).toDate()
 
       if (userInfo.category) {
         if (userInfo.category.hasOwnProperty('_id')){
@@ -61,7 +54,7 @@ class Edit extends Component {
         const category = this.props.myCategories.find(el => el._id === userInfo.category)
         userInfo.category = category
       }
-      this.setState({ userInfo: userInfo })
+      this.setState({ userInfo })
     } else {
       const userID = this.props.match.params.id
       const categories = this.props.myCategories
@@ -71,7 +64,7 @@ class Edit extends Component {
     }  
   }
 
-  onChangeParameter(event) {
+  onChangeParameter = (event) => {
     let changedUser = this.state.userInfo;
     if (event.target.name !== 'phone') {
       changedUser[event.target.name] = event.target.value;
@@ -81,7 +74,7 @@ class Edit extends Component {
     this.setState({ userInfo: changedUser });
   }
 
-  onChangeDatePicker(date){
+  onChangeDatePicker = (date) => {
     let changedUser = this.state.userInfo;
     changedUser.bornDate = date;
     this.setState({userInfo: changedUser});
@@ -93,17 +86,19 @@ class Edit extends Component {
     this.setState({ userInfo: changedUser });
   }
 
-  submitFunction(event) {
+  submitFunction = (event) => {
     event.preventDefault();
+    const {surname, name, phone, email, bornDate, category, position, information} = this.state.userInfo
+    
     const user = {
-      name: this.state.userInfo.name,
-      surname: this.state.userInfo.surname,
-      phone: this.state.userInfo.phone,
-      email: Array.isArray(this.state.userInfo.email) ? this.state.userInfo.email : [this.state.userInfo.email],
-      bornDate: moment(this.state.userInfo.bornDate).format('YYYY-MM-DD'),
-      position: this.state.userInfo.position,
-      information: this.state.userInfo.information,
-      category: this.state.userInfo.category._id
+      name,
+      surname,
+      phone,
+      email: Array.isArray(email) ? email : [email],
+      bornDate: moment(bornDate).format('YYYY-MM-DD'),
+      position,
+      information,
+      category: category._id
     };
 
     const userID = this.props.match.params.id;
@@ -117,8 +112,7 @@ class Edit extends Component {
   renderUser() {
 
     const options = this.props.myCategories
-    const category = this.state.userInfo.category
-    
+    const {surname, name, phone, email, bornDate, category, position, information} = this.state.userInfo
 
     return (
       <>
@@ -127,7 +121,7 @@ class Edit extends Component {
             <Input
               type="text"
               parameter="name"
-              value={this.state.userInfo.name}
+              value={name}
               onChange={this.onChangeParameter}
             >
             </Input>
@@ -135,7 +129,7 @@ class Edit extends Component {
             <Input
               type="text"
               parameter="surname"
-              value={this.state.userInfo.surname}
+              value={surname}
               onChange={this.onChangeParameter}
             >
             </Input>
@@ -143,7 +137,7 @@ class Edit extends Component {
             <Input
               type="text"
               parameter="phone"
-              value={ !this.state.userInfo.phone.length ? this.state.userInfo.phone : this.state.userInfo.phone[0]['value'] }
+              value={ !phone.length ? phone : phone[0]['value'] }
               onChange={this.onChangeParameter}
             >
             </Input>
@@ -151,7 +145,7 @@ class Edit extends Component {
             <Input
               type="email"
               parameter="email"
-              value={this.state.userInfo.email}
+              value={email}
               onChange={this.onChangeParameter}
             >
             </Input>
@@ -159,7 +153,7 @@ class Edit extends Component {
             <div className='info-line elem'>Birthday date</div>
             <div className='info-birthday'>
               <DatePicker 
-                selected={this.state.userInfo.bornDate}
+                selected={bornDate}
                 onChange={this.onChangeDatePicker}
               />
             </div>
@@ -169,7 +163,7 @@ class Edit extends Component {
                 getOptionLabel={option => option.name}
                 getOptionValue={option => option._id}
                 value={category}
-                defaultValue={ this.state.userInfo.category }
+                defaultValue={ category }
                 onChange={this.onChangeCategory}
                 options={options}
             />
@@ -177,7 +171,7 @@ class Edit extends Component {
             <Input
               type="text"
               parameter="position"
-              value={this.state.userInfo.position}
+              value={position}
               onChange={this.onChangeParameter}
             >
             </Input>
@@ -190,7 +184,7 @@ class Edit extends Component {
                 name="information"
                 placeholder="Type some notes"
                 rows="4"
-                value={this.state.userInfo.information}
+                value={information}
                 onChange={this.onChangeParameter}
               />
             </div>

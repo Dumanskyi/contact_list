@@ -24,13 +24,10 @@ class Registration extends Component {
     registrationFunction = (event) => {
       event.preventDefault();
       const urlRegistration = "users/register";
+
+      const {email, name, surname, password} = this.state
   
-      let registrationData = {
-        email: this.state.email,
-        name: this.state.name,
-        surname: this.state.surname,
-        password: this.state.password,
-      };
+      let registrationData = {email, name, surname, password};
       
       if (this.state.password === this.state.confirmPassword) {
         let prop = this.props
@@ -124,4 +121,5 @@ class Registration extends Component {
   }
   
   export default Registration;
+
   

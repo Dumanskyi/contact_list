@@ -46,50 +46,52 @@ class User extends Component {
   }
 
   renderUser() {
+    const {surname, name, phoneNumber, email, bornDate, category, position, information} = this.state.userInfo
+
     return (
       <>
         <div className="title">
           <p className="name">
-            {this.state.userInfo.name} {this.state.userInfo.surname}
+            {name} {surname}
           </p>
-          <p className="info">{this.state.userInfo.information}</p>
+          <p className="info">{information}</p>
         </div>
 
         <div className="block">
           <p className="tag">Name</p>
-          <p className="data">{this.state.userInfo.name}</p>
+          <p className="data">{name}</p>
         </div>
 
         <div className="block">
           <p className="tag">Surname</p>
-          <p className="data">{this.state.userInfo.surname}</p>
+          <p className="data">{surname}</p>
         </div>
 
         <div className="block">
           <p className="tag">Phone</p>
-          <p className="data">{this.state.userInfo.phoneNumber}</p>
+          <p className="data">{phoneNumber}</p>
         </div>
 
         <div className="block">
           <p className="tag">Email</p>
-          <p className="data">{this.state.userInfo.email}</p>
+          <p className="data">{email}</p>
         </div>
 
         <div className="block">
           <p className="tag">Birthday</p>
-          <p className="data">{this.state.userInfo.bornDate}</p>
+          <p className="data">{bornDate}</p>
         </div>
 
-        {this.state.userInfo.category ? (
+        {category ? (
           <div className="block">
             <p className="tag">Category</p>
-            <p className="data">{this.state.userInfo.category.name}</p>
+            <p className="data">{category.name}</p>
           </div>
         ) : null}
 
         <div className="block">
           <p className="tag">Position</p>
-          <p className="data">{this.state.userInfo.position}</p>
+          <p className="data">{position}</p>
         </div>
       </>
     );
