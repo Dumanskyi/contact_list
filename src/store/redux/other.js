@@ -1,17 +1,16 @@
 import {
     OPEN, 
-    CLOSE,
-     
+    CLOSE, 
 } from '../actions/actionTypes.js'
 
-const initialState = {
+export const initialState = {
     loading: false,
     sideBarIsOpen: false,
     myContacts: [],
     myFullContacts: []
   };
 
-export default function other(state = initialState, action) {
+ const other = (state = initialState, action) => {
     switch (action.type) {
       case OPEN:
         return { ...state, sideBarIsOpen: true };
@@ -23,3 +22,5 @@ export default function other(state = initialState, action) {
         return state;
     }
   }
+
+  export default other

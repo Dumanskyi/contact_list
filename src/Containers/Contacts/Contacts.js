@@ -1,61 +1,61 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./Contacts.scss";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts';
+import { closeSideBar } from '../../store/actions/other';
 import Contact from '../../Components/contact/contact';
 import Loader from '../../Components/UI/loader/loader'
 import Search from '../../Components/UI/search/search'
 
-class Contacts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: ''
-    };
+const Contacts = props => {
+
+  const [text, setText] = useState('');
+
+  const loader = useSelector(state => state.contacts.loading)
+  const myContacts = useSelector(state => state.contacts.myContacts)
+
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    if (myContacts.length === 0){
+          dispatch(fetchContacts())
+        }
+  })
+
+  const deleteContact = userID => {
+    dispatch(fetchDeleteContact(userID))
   }
 
-  componentDidMount() {
-    if (this.props.myContacts.length === 0){
-      this.props.fetchContacts()
-    }
+  const readContact = userID => {
+    props.history.push(`/layout/user/${userID}`);
   }
 
-  delete = (userID) => {
-    this.props.fetchDeleteContact(userID)
+  const editContact = userID => {
+    props.history.push(`/layout/edit/${userID}`);
   }
 
-  readContact = (userID) => {
-    const prop = this.props;
-    prop.history.push(`/layout/user/${userID}`);
+  const onSearchChange = text => {
+     setText(text)
   }
 
-  editContact = (userID) => {
-    const prop = this.props;
-    prop.history.push(`/layout/edit/${userID}`);
-  }
-
-  onSearchChange = (text) => {
-    this.setState({ text })
-  }
-
-  search = (users, text) => {
-    if (text.length === 0) {
+  const search = (users, text) => {
+  if (text.length === 0) {
       return users
-    }
-
-    return users.filter( (user) => {
-      return ( (user.surname.toLowerCase().includes(text.toLowerCase())) || (user.name.toLowerCase().includes(text.toLowerCase()))   )    
-    })
   }
 
-  renderContacts() {
-    const visibleUsers = this.search(this.props.myContacts, this.state.text)
+    return users.filter( user => {
+      return  (user.surname.toLowerCase().includes(text.toLowerCase())) || (user.name.toLowerCase().includes(text.toLowerCase())) 
+        })
+  }
+
+  const renderContacts = () => {
+    const visibleUsers = search(myContacts, text)
     return visibleUsers.map(contact => {
         return (
           <Contact
-            readContact={this.readContact}
-            editContact={this.editContact}
-            delete={this.delete}
+            readContact={readContact}
+            editContact={editContact}
+            delete={deleteContact}
             contact={contact}
             key={contact._id}
           />
@@ -63,56 +63,37 @@ class Contacts extends Component {
       })
   }
 
-  render() {
-    return (
-        <div className="Contacts">
+  return (
+    <div className="Contacts">
 
-            <div className="header">
-              <div className="burger">
-                <button>
-                  <i
-                    className="fas fa-bars"
-                    onClick={this.props.closeSideBar}
-                  ></i>
-                </button>
-              </div>
-              <div className="center">All contacts</div>
-              <div className="option">
-              </div>
+    <div className="header">
+      <div className="burger">
+        <button>
+          <i
+            className="fas fa-bars"
+            onClick={() => dispatch(closeSideBar())}
+          ></i>
+        </button>
+      </div>
+      <div className="center">All contacts</div>
+      <div className="option">
+      </div>
+      </div>
+        {
+          loader
+          ? <Loader />
+          :  
+            <div className="content">
+            <Search
+              onSearchChange={onSearchChange}
+            />
+            <div className="users">
+              {renderContacts()}
             </div>
-                {
-                  this.props.loading
-                  ? <Loader />
-                  :  
-                    <div className="content">
-                    <Search
-                      onSearchChange={this.onSearchChange}
-                    />
-                    <div className="users">
-                      {this.renderContacts()}
-                    </div>
-                    </div>      
-                }                 
-        </div>
-    );
-  }
+            </div>      
+        }                 
+    </div>
+  )
 }
 
-function mapStateToProps(state) {
-  return {
-    loading: state.contacts.loading,
-    myContacts: state.contacts.myContacts,
-    myContactsFull: state.contacts.myContactsFull,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    openSideBar: () => dispatch({ type: "OPEN" }),
-    closeSideBar: () => dispatch({ type: "CLOSE" }),
-    fetchContacts: () => dispatch(fetchContacts()),
-    fetchDeleteContact: userID => dispatch(fetchDeleteContact(userID)), 
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default Contacts;
