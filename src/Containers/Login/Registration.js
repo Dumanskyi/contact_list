@@ -68,6 +68,7 @@ class Registration extends Component {
               <Input
                 type="email"
                 parameter="email"
+                required={true}
                 value={this.state.email}
                 onChange={this.onChangeParameter}
               >
@@ -76,6 +77,8 @@ class Registration extends Component {
               <Input
                 type="name"
                 parameter="name"
+                required={true}
+                pattern={"[A-Za-z0-9]{4,16}"}
                 value={this.state.name}
                 onChange={this.onChangeParameter}
               >
@@ -84,6 +87,8 @@ class Registration extends Component {
               <Input
                 type="surname"
                 parameter="surname"
+                required={true}
+                pattern={"[A-Za-z0-9]{4,16}"}
                 value={this.state.surname}
                 onChange={this.onChangeParameter}
               >
@@ -92,6 +97,8 @@ class Registration extends Component {
               <Input
                 type="password"
                 parameter="password"
+                required={true}
+                pattern={"[A-Za-z0-9]{6,16}"}
                 value={this.state.password}
                 onChange={this.onChangeParameter}
               >
@@ -100,6 +107,8 @@ class Registration extends Component {
               <Input
                 type="password"
                 parameter="confirmPassword"
+                required={true}
+                pattern={"[A-Za-z0-9]{6,16}"}
                 value={this.state.confirmPassword}
                 onChange={this.onChangeParameter}
               >

@@ -14,6 +14,8 @@ const Input = props => {
               value={props.value}
               onChange={props.onChange}
               rows={props.rows}
+              pattern={props.pattern}
+              required={props.required}
             />
         </div>
     )
