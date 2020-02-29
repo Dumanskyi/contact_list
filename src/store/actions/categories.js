@@ -23,6 +23,7 @@ export function fetchCategoriesError(e) {
 }
 
 export function fetchCategoriesSuccess(myCategories) {
+    console.log(myCategories)
     return {
         type: FETCH_CATEGORIES_SUCCESS,
         myCategories: myCategories

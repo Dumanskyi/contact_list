@@ -1,44 +1,44 @@
-import React, { Component } from 'react';
-import './Sidebar.scss';
-import {NavLink} from 'react-router-dom';
-import {connect} from 'react-redux';
-import { fetchCategories } from '../../store/actions/categories';
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux"
+import {NavLink} from 'react-router-dom'
+import { fetchCategories } from '../../store/actions/categories'
+import { clearContacts } from '../../store/actions/contacts'
+import { openSideBar } from '../../store/actions/other'
 import Loader from '../../Components/UI/loader/loader'
+import './Sidebar.scss'
 
-class Sidebar extends Component {
+const Sidebar = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = {}
+  const loadingCategories = useSelector(state => state.categories.loadingCategories)
+  const myCategories = useSelector(state => state.categories.myCategories)
+  const dispatch = useDispatch();
 
-    this.logout = this.logout.bind(this); 
-  }
+  useEffect(() => {
+    dispatch(fetchCategories()).then((res) => console.log(res))
+  }, [])
 
-  componentDidMount() {
-    this.props.fetchCategories()
-  }
+  console.log(myCategories)
 
-  logout () {
-    this.props.clearContacts()
+  const logout = () => {
+    dispatch(clearContacts())
     document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
   }
 
-  renderCategories() {
-      return this.props.myCategories.map( (category, index) => {
+  const renderCategories = () => {
+      return myCategories.map( (category, index) => {
           return (
             <NavLink
               key={index}  
               to={`/layout/category/${category._id}`}
-              onClick={this.props.openSideBar}
+              onClick={() => dispatch(openSideBar())}
             >
               <li>{category.name}</li>
             </NavLink>          
           )
     })
   }
- 
-  render(){
-    return (
+   
+  return (
       <div className="Sidebar">
 
             <div className="header">
@@ -53,7 +53,7 @@ class Sidebar extends Component {
                 <div className="name">Your contacts</div>
                 <div className="log-out">
                   <button>
-                    <NavLink to="/"  onClick={this.logout}>Log out</NavLink>
+                    <NavLink to="/"  onClick={logout}>Log out</NavLink>
                   </button>
                 </div>   
               </div>
@@ -64,49 +64,31 @@ class Sidebar extends Component {
               <ul>
                   <NavLink 
                     to="/layout/contacts"
-                    onClick={this.props.openSideBar}
+                    onClick={() => dispatch(openSideBar())}
                   >
                     <li>All contacts</li>
                   </NavLink>
 
                   {
-                    this.props.loadingCategories && this.props.myCategories !== 0
+                    loadingCategories && myCategories !== 0
                     ? <Loader />
-                    :  this.renderCategories()      
+                    :  renderCategories()      
                   }  
               </ul>
             </div>
 
             <div className="add-user">
               <button className="add-button">
-                <NavLink to="/layout/add" onClick={this.props.openSideBar}>
+                <NavLink to="/layout/add" onClick={() => dispatch(openSideBar())}>
                   <i className="fas fa-plus-circle"></i> Add contact
                 </NavLink>
-                
               </button>
             </div>
-
       </div>
-    )}
+  )
 };
 
-function mapStateToProps(state) {
-  return {
-    sideBarIsOpen: state.other.sideBarIsOpen,
-    loadingCategories: state.categories.categoreisIsLoading,
-    myCategories: state.categories.myCategories,
-    error: state.categories.error
-  }
-}
+export default Sidebar;
 
-function mapDispatchToProps(dispatch){
-  return {
-    openSideBar: () => dispatch({type: 'OPEN'}),
-    closeSideBar: () => dispatch({type: 'CLOSE'}),
-    clearContacts: () => dispatch({type: 'CLEAR_CONTACTS'}),
-    fetchCategories: () => dispatch(fetchCategories()),
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
 

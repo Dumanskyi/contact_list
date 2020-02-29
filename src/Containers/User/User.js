@@ -7,14 +7,10 @@ import moment from "moment";
 import { fetchReadFullContact } from '../../store/actions/contacts';
 import { fetchCategories } from "../../store/actions/categories";
 
-
 class User extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: false,
-      userInfo: {}
-    };
+    this.state = {};
   }
 
   async componentDidMount() {
@@ -36,17 +32,17 @@ class User extends Component {
         obj.category = category;
       }
 
-      this.setState({ userInfo: obj });
+      this.setState( obj );
     } else {
       const userID = this.props.match.params.id;
       const categories = this.props.myCategories
 
-      await this.props.fetchReadFullContact(userID, categories).then((res) => this.setState({ userInfo: res }))
+      await this.props.fetchReadFullContact(userID, categories).then((userInfo) => this.setState( userInfo ))
     }
   }
 
   renderUser() {
-    const {surname, name, phoneNumber, email, bornDate, category, position, information} = this.state.userInfo
+    const {surname, name, phoneNumber, email, bornDate, category, position, information} = this.state
 
     return (
       <>

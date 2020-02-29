@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import "./Contacts.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts';
-import { closeSideBar } from '../../store/actions/other';
-import Contact from '../../Components/contact/contact';
+import React, { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { fetchContacts, fetchDeleteContact } from '../../store/actions/contacts'
+import { closeSideBar } from '../../store/actions/other'
+import Contact from '../../Components/contact/contact'
 import Loader from '../../Components/UI/loader/loader'
 import Search from '../../Components/UI/search/search'
+import "./Contacts.scss"
 
 const Contacts = props => {
 
@@ -20,18 +20,18 @@ const Contacts = props => {
     if (myContacts.length === 0){
           dispatch(fetchContacts())
         }
-  })
+  }, [])
 
   const deleteContact = userID => {
     dispatch(fetchDeleteContact(userID))
   }
 
   const readContact = userID => {
-    props.history.push(`/layout/user/${userID}`);
+    props.history.push(`/layout/user/${userID}`)
   }
 
   const editContact = userID => {
-    props.history.push(`/layout/edit/${userID}`);
+    props.history.push(`/layout/edit/${userID}`)
   }
 
   const onSearchChange = text => {
@@ -43,9 +43,9 @@ const Contacts = props => {
       return users
   }
 
-    return users.filter( user => {
-      return  (user.surname.toLowerCase().includes(text.toLowerCase())) || (user.name.toLowerCase().includes(text.toLowerCase())) 
-        })
+  return users.filter( user => {
+    return  (user.surname.toLowerCase().includes(text.toLowerCase())) || (user.name.toLowerCase().includes(text.toLowerCase())) 
+      })
   }
 
   const renderContacts = () => {

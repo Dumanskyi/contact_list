@@ -1,28 +1,21 @@
 import React, { Component } from "react";
-import "./Edit.scss";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import Loader from "../../Components/UI/loader/loader";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 import Input from '../../Components/UI/input/input';
-import {
-    fetchEditFullContact,
-    fetchEditContact
-} from '../../store/actions/contacts';
+import { fetchEditFullContact, fetchEditContact } from '../../store/actions/contacts';
 import Select from 'react-select';
 import Button from '../../Components/UI/button/button.js'
 import { fetchCategories } from '../../store/actions/categories';
+import "react-datepicker/dist/react-datepicker.css";
+import "./Edit.scss";
 
 class Edit extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      hasErrored: false,
-      isLoading: false,
-      userInfo: {
         _id: "",
         email: [],
         name: "",
@@ -32,9 +25,7 @@ class Edit extends Component {
         position: "",
         information: "",
         category: {},
-      },
     };
-
   }
 
   async componentDidMount() {
@@ -54,41 +45,29 @@ class Edit extends Component {
         const category = this.props.myCategories.find(el => el._id === userInfo.category)
         userInfo.category = category
       }
-      this.setState({ userInfo })
+      this.setState(userInfo)
     } else {
-      const userID = this.props.match.params.id
-      const categories = this.props.myCategories
-      await this.props.fetchEditFullContact(userID, categories).then((res) => {
-        this.setState({ userInfo: res })
+      await this.props.fetchEditFullContact(this.props.match.params.id, this.props.myCategories).then((userInfo) => {
+        this.setState(userInfo)
       })
     }  
   }
 
-  onChangeParameter = (event) => {
-    let changedUser = this.state.userInfo;
-    if (event.target.name !== 'phone') {
-      changedUser[event.target.name] = event.target.value;
-    } else {
-      changedUser[event.target.name] = [{ value: event.target.value }];
-    }
-    this.setState({ userInfo: changedUser });
+  onChangeCategory = category => {
+    this.setState({ category });
   }
 
-  onChangeDatePicker = (date) => {
-    let changedUser = this.state.userInfo;
-    changedUser.bornDate = date;
-    this.setState({userInfo: changedUser});
+  onChangeParameter = event => {
+    this.setState({[event.target.name]: event.target.value})
   }
 
-  onChangeCategory = (category) => {
-    let changedUser = this.state.userInfo;
-    changedUser.category = category;
-    this.setState({ userInfo: changedUser });
+  onChangeDatePicker = bornDate => {
+    this.setState({ bornDate });
   }
 
   submitFunction = (event) => {
     event.preventDefault();
-    const {surname, name, phone, email, bornDate, category, position, information} = this.state.userInfo
+    const {surname, name, phone, email, bornDate, category, position, information} = this.state
     
     const user = {
       name,
@@ -112,7 +91,7 @@ class Edit extends Component {
   renderUser() {
 
     const options = this.props.myCategories
-    const {surname, name, phone, email, bornDate, category, position, information} = this.state.userInfo
+    const {surname, name, phone, email, bornDate, category, position, information} = this.state
 
     return (
       <>
@@ -227,7 +206,6 @@ function mapStateToProps(state) {
 
     loading: state.contacts.loading,
     myCategories: state.categories.myCategories,
-    error: state.categories.error
   };
 }
 
@@ -242,3 +220,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit);
+
+

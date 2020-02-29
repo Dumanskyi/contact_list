@@ -1,72 +1,65 @@
-import React, {Component} from 'react';
-import './Add.scss';
-import {connect} from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../Components/UI/button/button.js'
 import { fetchAddContact } from '../../store/actions/contacts';
-
+import { closeSideBar } from '../../store/actions/other';
 import moment from 'moment';
 import DatePicker from "react-datepicker";
 import Input from '../../Components/UI/input/input';
 import Select from 'react-select';
+import './Add.scss';
 
-class Add extends Component {
+const Add = props =>  {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '', 
-      surname: '', 
-      phone: '', 
-      email: '', 
-      bornDate: '', 
-      position: '', 
-      information: '',
-      date: new Date(),
-      category: ''
-    };
+  const [userInfo, setUserInfo] = useState({
+    name: '', 
+    surname: '', 
+    phone: '', 
+    email: '', 
+    bornDate: '', 
+    position: '', 
+    information: '',
+    date: '',
+    category: ''
+  })
 
-    this.onChangeParameter = this.onChangeParameter.bind(this);
-    this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
-    this.onChangeCategory = this.onChangeCategory.bind(this);
-    this.submitFunction = this.submitFunction.bind(this);   
-  };
+  const myCategories = useSelector(state => state.categories.myCategories)
+  const dispatch = useDispatch();
 
-  onChangeCategory = (category) => {
-    this.setState({ category });
+  const {surname, name, phone, email, date, category, position, information} = userInfo
+
+  const onChangeParameter = event => {
+    setUserInfo({...userInfo, [event.target.name]: event.target.value})
   }
 
-  onChangeParameter(event){
-    this.setState({[event.target.name]: event.target.value})
+  const onChangeCategory = category => {
+    setUserInfo({...userInfo, category})
   }
 
-  onChangeDatePicker(date){
-    this.setState({date: date});
+  const onChangeDatePicker = date => {
+    setUserInfo({...userInfo, date})
   }
 
-  submitFunction(event){
+  const submitFunction = event => {
     event.preventDefault();
-  
+
     const user = {
-      name: this.state.name, 
-      surname: this.state.surname, 
-      phone: [{ value: this.state.phone }], 
-      email: [this.state.email],
-      bornDate: (moment(this.state.date).format('YYYY-MM-DD')), 
-      position: this.state.position, 
-      information: this.state.information,
+      name: name, 
+      surname: surname, 
+      phone: [{ value: phone }], 
+      email: [email],
+      bornDate: (moment(date).format('YYYY-MM-DD')), 
+      position: position, 
+      information: information,
     };
 
-    if (this.state.category){
-      user.category = this.state.category._id
+    if (category) {
+      user.category = category._id
     }
 
-    this.props.fetchAddContact(user)
-    this.props.history.push("/layout/contacts")
-
+    dispatch(fetchAddContact(user))
+    props.history.push("/layout/contacts")
   }
-
-  render() {
-    const { category } = this.state.category;
   
     return (
 
@@ -75,7 +68,7 @@ class Add extends Component {
               <div className="header">
                 <div className="burger">
                   <button>
-                    <i className="fas fa-bars" onClick={this.props.closeSideBar}></i>
+                    <i className="fas fa-bars" onClick={() => dispatch(closeSideBar())}></i>
                   </button>
                 </div>
                 <div className="center">
@@ -86,45 +79,46 @@ class Add extends Component {
               <div className="content">
   
                   <div className='add-form'>
-                    <form onSubmit={this.submitFunction}>
+                    <form onSubmit={submitFunction}>
 
                       <Input
                         type="text"
                         parameter="name"
-                        value={this.state.name}
-                        onChange={this.onChangeParameter}
+                        value={name}
+                        onChange={onChangeParameter}
                       >
                       </Input>
 
                       <Input
                         type="text"
                         parameter="surname"
-                        value={this.state.surname}
-                        onChange={this.onChangeParameter}
+                        value={surname}
+                        onChange={onChangeParameter}
                       >
                       </Input>
 
                       <Input
                         type="text"
                         parameter="phone"
-                        value={this.state.phone}
-                        onChange={this.onChangeParameter}
+                        value={phone}
+                        onChange={onChangeParameter}
                       >
                       </Input>
 
                       <Input
                         type="email"
                         parameter="email"
-                        value={this.state.email}
-                        onChange={this.onChangeParameter}
+                        value={email}
+                        onChange={onChangeParameter}
                       >
                       </Input>
 
                       <div className='info-line elem'>Birthday date</div>
                       <div className='info-birthday'>
-                        <DatePicker 
-                          selected={this.state.date}
-                          onChange={this.onChangeDatePicker}
+                        <DatePicker
+                          placeholderText={" select date ..."}
+                          selected={date}
+                          onChange={onChangeDatePicker}
                         />
                       </div>
 
@@ -133,15 +127,15 @@ class Add extends Component {
                         getOptionLabel={option => option.name}
                         getOptionValue={option => option._id}
                         value={category}
-                        onChange={this.onChangeCategory}
-                        options={this.props.myCategories}
+                        onChange={onChangeCategory}
+                        options={myCategories}
                       />
                       
                       <Input
                         type="text"
                         parameter="position"
-                        value={this.state.position}
-                        onChange={this.onChangeParameter}
+                        value={position}
+                        onChange={onChangeParameter}
                       >
                       </Input>
 
@@ -152,8 +146,8 @@ class Add extends Component {
                           name="information" 
                           placeholder="Type some notes" 
                           rows="4"
-                          value={this.state.information}
-                          onChange={this.onChangeParameter}
+                          value={information}
+                          onChange={onChangeParameter}
                         />
                       </div>
 
@@ -167,27 +161,6 @@ class Add extends Component {
               </div>
         </div>
       )
-    }
 };
 
-function mapStateToProps(state) {
-  return {
-    sideBarIsOpen: state.sideBarIsOpen,
-    myContacts: state.contacts.myContacts,
-    myContactsFull: state.contacts.myContactsFull,
-
-    loading: state.categories.categoreisIsLoading,
-    myCategories: state.categories.myCategories,
-    error: state.categories.error
-  }
-}
-
-function mapDispatchToProps(dispatch){
-  return {
-    openSideBar: () => dispatch({type: 'OPEN'}),
-    closeSideBar: () => dispatch({type: 'CLOSE'}),
-    fetchAddContact: (newUser) => dispatch(fetchAddContact(newUser))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Add);
+export default Add;

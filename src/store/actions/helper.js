@@ -22,6 +22,7 @@ export function helper(url, method, start, success, error, data = undefined, id 
                   dispatch(success(obj))
                   return obj 
                 } else {
+                  console.log(response)
                   dispatch(success(response))
                 }
               }

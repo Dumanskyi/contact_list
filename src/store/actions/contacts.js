@@ -5,12 +5,12 @@ import {
     FETCH_DELETE_SUCCESS,
     FETCH_ADD_SUCCESS,
     FETCH_READ_SUCCESS,
-    FETCH_EDIT_SUCCESS
+    FETCH_EDIT_SUCCESS,
+    CLEAR_CONTACTS
 } from './actionTypes'
-
+ 
 import moment from 'moment';
 import { helper } from './helper';
-
 
 export function fetchContacts() {
     return helper("phonebook", "GET", fetchContactsStart, fetchContactsSuccess, fetchContactsError)
@@ -33,7 +33,6 @@ export function fetchEditFullContact(userID, categories) {
 }
 
 export function fetchEditContact(userID, user){
-    console.log('cococo')
     return helper(`phonebook/${userID}`, "PUT", fetchContactsStart, fetchEditSuccess, fetchContactsError, user, userID, transformDataRead)
 }
 
@@ -79,12 +78,19 @@ export function fetchReadSuccess(user) {
 }
 
 export function fetchEditSuccess(user) {
-    console.log(user)
     return {
         type: FETCH_EDIT_SUCCESS,
         user: user
    } 
 }
+
+export function clearContacts() {
+    return {
+         type: CLEAR_CONTACTS
+    }
+}
+
+// data-converter functions
 
 function transformDataAdd(response, data) {
     data._id = response.id
@@ -104,7 +110,6 @@ function transformDataRead(response, data, categories) {
     }
     return response
 }
-
 
 function transformDataEdit(response, data, categories) {
     response.phoneNumber = response.phone[0].value;

@@ -1,7 +1,6 @@
 import React from "react";
 import "./contact.scss";
 
-
 const Contact = props => {
   
     return (
@@ -51,7 +50,5 @@ const Contact = props => {
     );
   
 }
-
-
 
 export default Contact;
