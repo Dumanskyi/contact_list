@@ -53,6 +53,7 @@ class Login extends Component {
             <Input
                 type="email"
                 parameter="login"
+                required={true}
                 value={this.state.login}
                 onChange={this.onChangeParameter}
               >
@@ -61,6 +62,8 @@ class Login extends Component {
             <Input
                 type="password"
                 parameter="password"
+                required={true}
+                pattern={"[A-Za-z0-9]{6,16}"}
                 value={this.state.password}
                 onChange={this.onChangeParameter}
               >
